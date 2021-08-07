@@ -1,38 +1,162 @@
+@import url("https://kaaliui.netlify.app/kaali.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
 .App {
+  font-family: sans-serif;
   text-align: center;
+  height: 100vh;
+  overflow-x: hidden;
+}
+.navbar {
+  justify-content: flex-start;
+  background-color: whitesmoke;
+  width: 100%;
+  position: fixed;
+  z-index: 5;
+  height: 4rem;
+  box-shadow: 0 3px 20px rgb(0 0 0 / 20%);
+  /* see the classNames for if you feel some properties are missing */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.fas.fa-store,
+.fas.fa-sign-in-alt,
+.far.fa-heart {
+  font-size: 1.6rem;
+  position: relative;
+}
+.fas.fa-shopping-cart {
+  font-size: 1.6rem;
+  width: 45px;
+}
+.far.fa-heart {
+  width: 45px;
+}
+.notification-count {
+  width: 28px;
+  left: 45%;
+}
+.nav-menu {
+  height: 100%;
+  width: 100%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.nav-menu-items {
+  height: 100%;
+}
+
+.nav-menu-item {
+  height: 100%;
+  padding: 0.5rem 1rem;
+}
+.nav-menu-link {
+  /* display: flex; */
+}
+
+.nav-menu-link > .font-sm {
+  margin-top: 5px;
+  text-align: left;
+}
+.brand-logo-amplify {
+  width: 180px;
+  height: 80%;
+  margin-left: 10px;
+}
+.fas.fa-bars.hamburger {
+  display: none;
+}
+
+.nav-mob-menu {
+  display: none;
+}
+
+.container-amplify {
+  margin-top: 5rem;
+  height: calc(100vh - 5rem);
+  overflow-y: auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .fas.fa-bars.hamburger {
+    display: block;
+    padding: 0;
+    padding-left: 10px;
+  }
+  .navbar > .fas.fa-bars.hamburger,
+  .icon-close {
+    color: black;
+    font-size: x-large;
+  }
+
+  .nav-mob-menu {
+    background-color: white;
+    width: 250px;
+    height: 100vh;
+    box-shadow: 0 3px 20px 20px rgb(0 0 0 / 20%);
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    z-index: 5;
+    top: 0;
+    left: -100%;
+    transition: 850ms;
+  }
+
+  .nav-mob-menu.active {
+    left: 0;
+    transition: 350px;
+  }
+
+  .nav-mob-menu-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 0px 8px 16px;
+    height: 60px;
+
+    color: black;
+  }
+  .nav-mob-menu-item a {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    width: 90%;
+    padding-left: 10px;
+  }
+
+  .nav-mob-menu-items {
+    width: 100%;
+  }
+
+  .icon-close-wrapper {
+    width: 100%;
+    display: flex;
+
+    justify-content: flex-end;
+    position: relative;
+    right: 10px;
+  }
+  .nav-mob-menu-item > .icon-close {
+    font-size: 2rem;
+    cursor: pointer;
+  }
+
+  .nav-mob-menu-item i {
+    margin-right: 10px;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@media only screen and (max-width: 480px) {
+  .brand-logo-amplify {
+    width: 80px;
+    height: auto;
   }
-  to {
-    transform: rotate(360deg);
+
+  .cart-count {
+    font-size: 12px;
+    left: 42%;
+  }
+  .notification-count {
+    left: 40%;
+    font-size: 12px;
   }
 }
