@@ -12,6 +12,7 @@ import {
   Slides,
 } from "../components/carousel";
 import { slides } from "../components/carousel/slides/slides";
+import { Header } from "../components/Header";
 
 import { reducerCallbackFunction } from "../reducer/carousel";
 
@@ -36,7 +37,6 @@ const Home = () => {
     <>
       <Navbar />
       <div className="container-amplify">
-        <h1>lets begin.this is the home page</h1>
         <Carousel timerObj={{ timer, setTimer, handleStartTimer }}>
           <Slides>
             {slides.map((image, index) => {
@@ -81,6 +81,7 @@ const Home = () => {
             />
           </Controls>
         </Carousel>
+        <Header />
       </div>
     </>
   );

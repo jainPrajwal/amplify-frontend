@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BrandLogo } from "./BrandLogo";
 import { HamburgerMenu } from "./HamburgerMenu";
 import { NavMenu } from "./NavMenu";
+import { SearchBar } from "./searchbar/searchBar";
 
 const Navbar = () => {
   const [mobileSideBar, setMobileSideBar] = useState(false);
@@ -10,7 +11,11 @@ const Navbar = () => {
       <div className="navbar d-flex ai-center pt-small pb-small">
         <HamburgerMenu status={{ mobileSideBar, setMobileSideBar }} />
         <BrandLogo />
-        <nav className="nav-menu d-flex ai-center px-1 jc-end f-direction-row">
+
+        <nav className="nav-menu d-flex ai-center px-1 jc-space-between f-direction-row">
+          <div className="wrapper-search">
+            <SearchBar />
+          </div>
           <ul className="nav-menu-items d-flex ai-center f-direction-row">
             <li className="nav-menu-item">
               <a href="true" className="nav-menu-link">
