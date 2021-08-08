@@ -1,17 +1,29 @@
-const NavMenu = ({ status: { mobileSideBar, setMobileSideBar } }) => {
+const NavMenu = ({
+  status: {
+    mobileView: { isSideBarHidden, isSearchBarHidden },
+    setMobileView,
+  },
+}) => {
   return (
     <>
       <div
         className={`${
-          mobileSideBar === true ? "modal-bg  modal-bg-active" : ""
+          isSideBarHidden === false ? "modal-bg  modal-bg-active" : ""
         }`}
       >
-        <nav className={`nav-mob-menu ${mobileSideBar ? "active" : ""}`}>
+        <nav className={`nav-mob-menu ${isSideBarHidden ? "" : "active"}`}>
           <ul className="nav-mob-menu-items">
             <li className="icon-close-wrapper nav-mob-menu-item">
               <span
                 className="icon-close"
-                onClick={() => setMobileSideBar(false)}
+                onClick={() =>
+                  setMobileView((prevState) => {
+                    return {
+                      ...prevState,
+                      isSideBarHidden: !prevState.isSideBarHidden,
+                    };
+                  })
+                }
               >
                 &times;
               </span>

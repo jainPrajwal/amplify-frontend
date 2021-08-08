@@ -1,8 +1,12 @@
-const HamburgerMenu = ({ status: { setMobileSideBar } }) => {
+const HamburgerMenu = ({ status: { setMobileView } }) => {
   return (
     <i
       className="fas fa-bars hamburger"
-      onClick={() => setMobileSideBar(true)}
+      onClick={() =>
+        setMobileView((prevState) => {
+          return { ...prevState, isSideBarHidden: !prevState.isSideBarHidden };
+        })
+      }
     ></i>
   );
 };

@@ -1,5 +1,5 @@
-@import url("https://kaaliui.netlify.app/kaali.css");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://kaaliui.netlify.app/kaali.css");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
 .App {
   font-family: sans-serif;
@@ -50,6 +50,9 @@
 
 .nav-menu-items {
   height: 100%;
+}
+.nav-menu-items .nav-menu-item:hover {
+  cursor: pointer;
 }
 
 .brand-logo-amplify {
@@ -123,6 +126,7 @@
   border-radius: 20px;
   border: 2px solid black;
   height: 100%;
+  width: 100%;
 }
 .search-box:focus {
   border-color: #0366d6;
@@ -136,9 +140,7 @@
   width: 100%;
   height: 100%;
 }
-.search-box {
-  width: 100%;
-}
+
 .autocomplete-items {
   position: absolute;
   border: 1px solid #d4d4d4;
@@ -162,6 +164,9 @@
   width: 50%;
   margin: 0 auto;
   height: 60%;
+}
+.fas.fa-arrow-left {
+  display: none;
 }
 .carousel:hover {
   cursor: pointer;
@@ -273,6 +278,37 @@
   }
   .wrapper-search {
     display: none;
+  }
+
+  .wrapper-search.wrapper-search-active {
+    all: unset;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    z-index: 12;
+  }
+  .wrapper-search.wrapper-search-active > .fas.fa-arrow-left {
+    display: block;
+    position: absolute;
+    z-index: 13;
+    font-size: 1.4rem;
+    left: 10px;
+    top: 20px;
+  }
+  .wrapper-search.wrapper-search-active > .fas.fa-arrow-left:hover {
+    cursor: pointer;
+  }
+
+  .search-box {
+    border: none;
+    padding-left: 55px;
+  }
+
+  .search-box:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
   }
   .cart-count {
     font-size: 12px;

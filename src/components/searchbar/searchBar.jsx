@@ -1,4 +1,9 @@
-const SearchBar = () => {
+const SearchBar = ({
+  status: {
+    mobileView: { isSearchBarHidden },
+    setmobileView,
+  },
+}) => {
   return (
     <>
       <div className="autocomplete">
@@ -7,10 +12,7 @@ const SearchBar = () => {
           className={`search-box`}
           placeholder="Search by name"
         />
-        <div className="autocomplete-items">
-          {/* <div>helo</div>
-          <div>hi</div> */}
-        </div>
+        <div className="autocomplete-items"></div>
       </div>
     </>
   );
