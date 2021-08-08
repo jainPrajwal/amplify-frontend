@@ -25,7 +25,7 @@ const NavMenu = ({ status: { mobileSideBar, setMobileSideBar } }) => {
             <hr style={{ overflow: "hidden" }} />
             <li className="icon-wishlist nav-mob-menu-item">
               <a href="true">
-                <i className="fas fa-store"></i>
+                <i className="far fa-heart"></i>
                 My WishList
               </a>
             </li>
