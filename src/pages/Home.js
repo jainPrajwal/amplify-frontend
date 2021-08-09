@@ -35,54 +35,51 @@ const Home = () => {
   }, []);
   return (
     <>
-      <Navbar />
-      <div className="container-amplify">
-        <Carousel timerObj={{ timer, setTimer, handleStartTimer }}>
-          <Slides>
-            {slides.map((image, index) => {
-              return (
-                <Slide
-                  key={index}
-                  id={`image-${index}`}
-                  image={image.img}
-                  title={image.title}
-                  isCurrent={index === state.currentIndex}
-                  takeFocus={state.takeFocus}
-                  children={image.content}
-                />
-              );
-            })}
-          </Slides>
+      <Carousel timerObj={{ timer, setTimer, handleStartTimer }}>
+        <Slides>
+          {slides.map((image, index) => {
+            return (
+              <Slide
+                key={index}
+                id={`image-${index}`}
+                image={image.img}
+                title={image.title}
+                isCurrent={index === state.currentIndex}
+                takeFocus={state.takeFocus}
+                children={image.content}
+              />
+            );
+          })}
+        </Slides>
 
-          <SlideNav>
-            {slides.map((image, index) => {
-              return (
-                <SlideNavItem
-                  key={index}
-                  isCurrent={index === state.currentIndex}
-                  onClick={() => {
-                    dispatch({ type: "GOTO", payload: index });
-                  }}
-                />
-              );
-            })}
-          </SlideNav>
+        <SlideNav>
+          {slides.map((image, index) => {
+            return (
+              <SlideNavItem
+                key={index}
+                isCurrent={index === state.currentIndex}
+                onClick={() => {
+                  dispatch({ type: "GOTO", payload: index });
+                }}
+              />
+            );
+          })}
+        </SlideNav>
 
-          <Controls>
-            <IconButton
-              arial-label="Previous Slide"
-              children={<LeftArrowImage className="carousel-button-left" />}
-              onClick={() => dispatch({ type: "PREV" })}
-            />
-            <IconButton
-              arial-label="Next Slide"
-              children={<RightArrowImage className="carousel-button-right" />}
-              onClick={() => dispatch({ type: "NEXT" })}
-            />
-          </Controls>
-        </Carousel>
-        <Header />
-      </div>
+        <Controls>
+          <IconButton
+            arial-label="Previous Slide"
+            children={<LeftArrowImage className="carousel-button-left" />}
+            onClick={() => dispatch({ type: "PREV" })}
+          />
+          <IconButton
+            arial-label="Next Slide"
+            children={<RightArrowImage className="carousel-button-right" />}
+            onClick={() => dispatch({ type: "NEXT" })}
+          />
+        </Controls>
+      </Carousel>
+      <Header />
     </>
   );
 };

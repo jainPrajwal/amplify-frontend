@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router";
+
 const Header = ({ title, subtitle }) => {
+  let navigate = useNavigate();
   return (
     <div>
       <div className="wrapper-header">
@@ -6,7 +9,12 @@ const Header = ({ title, subtitle }) => {
           <div>There is music...</div>
           <div> And then there is muuuusic...</div>
           <div> Experience the muuuusic with boAts' powerful Amplifiers!</div>
-          <button className="btn btn-secondary">Shop now!</button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => navigate("/store")}
+          >
+            Shop now!
+          </button>
         </div>
         <div className="wrapper-image">
           <img

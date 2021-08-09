@@ -7,6 +7,13 @@
   height: 100vh;
   overflow-x: hidden;
 }
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  color: black;
+}
 .navbar {
   justify-content: space-between;
   background-color: whitesmoke;
@@ -182,6 +189,22 @@
   z-index: -1;
 }
 
+/* Desktop SideBar */
+.grid-sidebar {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+}
+.sidebar {
+  position: fixed;
+  width: 280px;
+  box-shadow: 0 3px 20px rgb(0 0 0 / 20%);
+  height: 100vh;
+  overflow-x: hidden;
+  top: 4rem;
+  overflow-y: auto;
+  z-index: 6;
+}
+
 @media only screen and (max-width: 768px) {
   .fas.fa-bars.hamburger {
     display: block;
@@ -250,6 +273,13 @@
 
   .nav-mob-menu-item i {
     margin-right: 10px;
+  }
+
+  .container-sidebar-desktop {
+    display: none;
+  }
+  .grid-sidebar {
+    display: block;
   }
 }
 
