@@ -22,7 +22,7 @@ const Navbar = () => {
             }`}
           >
             <i
-              class={`fas fa-arrow-left ${
+              className={`fas fa-arrow-left ${
                 mobileView.isSearchBarHidden ? "hide" : ""
               }`}
               onClick={() => {

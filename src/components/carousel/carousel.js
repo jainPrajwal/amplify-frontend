@@ -1,4 +1,4 @@
-import { slides } from "../components/carousel/slides/slides";
+import { slides } from "./slides/slides";
 
 const reducerCallbackFunction = (state, action) => {
   switch (action.type) {

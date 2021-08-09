@@ -5,12 +5,12 @@ const Header = ({ title, subtitle }) => {
   return (
     <div>
       <div className="wrapper-header">
-        <div className="header header-primary">
+        <div className="header header-primary text-white">
           <div>There is music...</div>
           <div> And then there is muuuusic...</div>
           <div> Experience the muuuusic with boAts' powerful Amplifiers!</div>
           <button
-            className="btn btn-secondary"
+            className="btn btn-secondary text-primary"
             onClick={() => navigate("/store")}
           >
             Shop now!

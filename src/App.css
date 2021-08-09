@@ -42,6 +42,9 @@
   font-size: 1.6rem;
   position: relative;
 }
+.text-white {
+  color: var(--font-color);
+}
 .notification-count {
   width: 28px;
   left: 45%;
@@ -119,9 +122,10 @@
   padding: 2rem;
   margin: 0;
 }
-.header.header-primary > * {
+.header.header-primary > div {
   font-family: "Montserrat", sans-serif;
   white-space: pre-line;
+  color: var(--font-color);
 }
 
 .autocomplete-items div:hover {
@@ -203,8 +207,38 @@
   top: 4rem;
   overflow-y: auto;
   z-index: 6;
+
+  /* Card */
+}
+.card.card-ecommerce .card-image-wrapper {
+  background: #cdcdcd;
+}
+.card-ecommerce .fa-heart {
+  background-color: #eee;
+}
+.product-price-details {
+  height: 32px;
+}
+.card-ecommerce .tag.tag-bestSeller {
+  background-color: var(--red);
+}
+.card-ecommerce:hover {
+  cursor: pointer;
 }
 
+.card-ecommerce .btn.btn-primary {
+  width: 100%;
+  margin: 0;
+}
+
+.card-ecommerce .header,
+.card-title {
+  margin-bottom: 0;
+}
+
+.card-ecommerce .card-subtitle {
+  font-size: 1rem;
+}
 @media only screen and (max-width: 768px) {
   .fas.fa-bars.hamburger {
     display: block;
@@ -283,10 +317,10 @@
   }
 }
 
-@media only screen and (max-width: 480px) {
-}
-
 @media only screen and (max-width: 768px) {
+  .container-main {
+    padding: 0;
+  }
   .carousel-button-right {
     right: 10px;
   }

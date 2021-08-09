@@ -11,10 +11,9 @@ import {
   SlideNavItem,
   Slides,
 } from "../components/carousel";
+import { reducerCallbackFunction } from "../components/carousel/carousel";
 import { slides } from "../components/carousel/slides/slides";
 import { Header } from "../components/Header";
-
-import { reducerCallbackFunction } from "../reducer/carousel";
 
 const Home = () => {
   const [timer, setTimer] = useState(null);
