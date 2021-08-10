@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { BrandLogo } from "./BrandLogo";
 import { HamburgerMenu } from "./HamburgerMenu";
 import { NavMenu } from "./NavMenu";
@@ -9,6 +10,9 @@ const Navbar = () => {
     isSideBarHidden: true,
     isSearchBarHidden: true,
   });
+
+  let navigate = useNavigate();
+
   return (
     <>
       <div className="navbar d-flex">
@@ -61,7 +65,10 @@ const Navbar = () => {
             </li>
             <li className="nav-menu-item">
               {" "}
-              <a href="true" className="nav-menu-link wishlist">
+              <a
+                onClick={() => navigate("/wishlist")}
+                className="nav-menu-link wishlist"
+              >
                 <i className="far fa-heart">
                     <span className="notification-count">10</span>
                 </i>
@@ -71,7 +78,10 @@ const Navbar = () => {
             </li>
             <li className="nav-menu-item">
               {" "}
-              <div className="nav-menu-link cart">
+              <div
+                className="nav-menu-link cart"
+                onClick={() => navigate("/cart")}
+              >
                 <i className="fas fa-shopping-cart">
                      <span className="cart-count">10</span>
                 </i>

@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useProducts } from "../../contexts/useProducts";
-import { Badge } from "./Badge";
 import { CardItemInStore } from "./CardItemInStore";
 
 const CardProduct = () => {
@@ -10,13 +9,9 @@ const CardProduct = () => {
       dispatch({ type: "LOAD_PRODUCTS" });
     }, 3000);
   }, []);
-  console.log("products", state.store);
-  return state.store.map((product) => {
-    return (
-      <>
-        <CardItemInStore product={product} />
-      </>
-    );
+
+  return state.store.map((product, index, store) => {
+    return <CardItemInStore product={product} key={product.id} store={store} />;
   });
 };
 

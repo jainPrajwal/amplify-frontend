@@ -11,6 +11,8 @@ const getItemsInStore = () => {
     inStock: faker.datatype.boolean(),
     fastDelivery: faker.datatype.boolean(),
     quantity: 0,
+    category: faker.random.arrayElement(["headphones", "earphones", "airbuds"]),
+    subcategory: faker.random.arrayElement(["wired", "wireless"]),
     ratings: faker.random.arrayElement([1, 2, 3, 4, 5]),
     offer: faker.random.arrayElement([
       "Save 50",

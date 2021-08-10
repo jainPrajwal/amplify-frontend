@@ -1,7 +1,6 @@
-import { useEffect, useReducer } from "react";
 import { CardProduct } from "../../components";
 import { ContainerEcommerce } from "../../components";
-import { useProducts } from "../../contexts/useProducts";
+
 const Store = () => {
   return (
     <>
