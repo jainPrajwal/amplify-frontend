@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router";
 import { useCart } from "../../contexts/useCart";
-import { useWishlist } from "../../contexts/useWishlist";
+import { useProducts } from "../../contexts/useProducts";
 import { Badge } from "./Badge";
-import { WishListIcon } from "./WishListIcon";
 
-const CardItemInStore = ({
-  product: {
+const CardItemInWishlist = ({
+  wishlistedItem: {
     id,
     image,
     name,
@@ -18,20 +17,20 @@ const CardItemInStore = ({
     subcategory,
     price,
   },
-  store,
 }) => {
+  let navigate = useNavigate();
   const { state: cart, dispatch: cartDispatch } = useCart();
 
-  const getProductById = (id) => {
-    return store.find((itemInCart) => itemInCart.id === id);
-  };
+  const { state: storeObj } = useProducts();
 
-  let navigate = useNavigate();
+  const getProductById = (id) => {
+    return storeObj.store.find((itemInCart) => itemInCart.id === id);
+  };
 
   return (
     <div className="card card-ecommerce">
       <Badge fastDelivery={fastDelivery} />
-      <WishListIcon product={getProductById(id)} />
+
       <div onClick={() => navigate(`/products/${id}`)}>
         <div className="card-image-wrapper">
           <img
@@ -86,4 +85,4 @@ const CardItemInStore = ({
   );
 };
 
-export { CardItemInStore };
+export { CardItemInWishlist };

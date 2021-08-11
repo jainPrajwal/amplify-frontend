@@ -1,17 +1,18 @@
 import { useEffect, useReducer, useState } from "react";
-import { Navbar } from "../components";
+
 import {
   Carousel,
   Controls,
   IconButton,
   LeftArrowImage,
+  reducerCallbackFunction,
   RightArrowImage,
   Slide,
   SlideNav,
   SlideNavItem,
   Slides,
 } from "../components/carousel";
-import { reducerCallbackFunction } from "../components/carousel/carousel";
+
 import { slides } from "../components/carousel/slides/slides";
 import { Header } from "../components/Header";
 
@@ -32,6 +33,7 @@ const Home = () => {
   useEffect(() => {
     handleStartTimer();
   }, []);
+  useEffect(() => () => clearInterval(timer), [timer]);
   return (
     <>
       <Carousel timerObj={{ timer, setTimer, handleStartTimer }}>

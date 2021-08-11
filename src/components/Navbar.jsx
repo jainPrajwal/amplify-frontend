@@ -65,16 +65,16 @@ const Navbar = () => {
             </li>
             <li className="nav-menu-item">
               {" "}
-              <a
+              <div
                 onClick={() => navigate("/wishlist")}
                 className="nav-menu-link wishlist"
               >
                 <i className="far fa-heart">
-                    <span className="notification-count">10</span>
+                  <span className="cart-count">10</span>
                 </i>
                 <div></div>
                 <span className="font-sm">wishlist</span>
-              </a>
+              </div>
             </li>
             <li className="nav-menu-item">
               {" "}
@@ -83,7 +83,7 @@ const Navbar = () => {
                 onClick={() => navigate("/cart")}
               >
                 <i className="fas fa-shopping-cart">
-                     <span className="cart-count">10</span>
+                       <span className="notification-count">10</span>
                 </i>
                 <div></div> <span className="font-sm">cart</span>
               </div>

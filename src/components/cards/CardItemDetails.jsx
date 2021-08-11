@@ -1,21 +1,15 @@
-import { WishListIcon } from "./WishListIcon";
+import { useParams } from "react-router";
+import { useProducts } from "../../contexts/useProducts";
 
-const CardItemInCart = ({
-  itemInCart: {
-    id,
-    image,
-    name,
-    brand,
-    offer,
-    inStock,
-    fastDelivery,
-    color,
-    category,
-    subcategory,
-    price,
-  },
-  cart,
-}) => {
+const CardItemDetails = () => {
+  let { productId } = useParams();
+  console.log("productId from detials page", productId);
+  const { state } = useProducts();
+  const getProductById = (id) => {
+    return state.store.find((itemInCart) => itemInCart.id === id);
+  };
+  let { name, image, brand, category, subcategory, offer, price, color } =
+    getProductById(productId);
   return (
     <>
       <div className="card-image-wrapper">
@@ -35,7 +29,7 @@ const CardItemInCart = ({
           <div className="badge-rating mb-extra-large">
             4.7
             <i
-              class="fas fa-star text-white ml-small"
+              className="fas fa-star text-white ml-small"
               style={{ fontSize: "small" }}
             ></i>
             <span className="text-white">
@@ -114,4 +108,4 @@ const CardItemInCart = ({
   );
 };
 
-export { CardItemInCart };
+export { CardItemDetails };

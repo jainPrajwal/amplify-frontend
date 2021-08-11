@@ -2,7 +2,8 @@ import "./App.css";
 import { Cart, Home, Store, Wishlist } from "./pages";
 
 import { Routes, Route } from "react-router-dom";
-import { Navbar } from "./components";
+import { CardItemDetails, Navbar } from "./components";
+import { ProductDetail } from "./pages/ProductDetail";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/store" element={<Store />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/products/:productId" element={<ProductDetail />} />
           {/* <Route path="/productDetail" element={<ProductDetail />} /> */}
         </Routes>
       </div>

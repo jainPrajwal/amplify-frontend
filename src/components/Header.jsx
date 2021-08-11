@@ -20,6 +20,7 @@ const Header = ({ title, subtitle }) => {
           <img
             src="https://cdn.shopify.com/s/files/1/0057/8938/4802/files/Kartik_720x.jpg?v=1606303019"
             className="image-ad"
+            alt="boat-buds"
           />
         </div>
       </div>
