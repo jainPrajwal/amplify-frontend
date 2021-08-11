@@ -7,17 +7,20 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ProductsProvider } from "./contexts/products-context";
 import { CartProvider } from "./contexts/cart-context";
 import { WishlistProvider } from "./contexts/wishlist-context";
+import { NotificationProvider } from "./contexts/notification-context";
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <WishlistProvider>
-        <CartProvider>
-          <ProductsProvider>
-            <App />
-          </ProductsProvider>
-        </CartProvider>
-      </WishlistProvider>
+      <NotificationProvider>
+        <WishlistProvider>
+          <CartProvider>
+            <ProductsProvider>
+              <App />
+            </ProductsProvider>
+          </CartProvider>
+        </WishlistProvider>
+      </NotificationProvider>
     </Router>
   </React.StrictMode>,
   document.getElementById("root")

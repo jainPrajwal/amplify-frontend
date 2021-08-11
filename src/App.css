@@ -439,6 +439,52 @@
   }
 }
 
+/* Snackbar */
+
+.alert-wrapper {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 400px;
+  z-index: 15;
+}
+.alert-content {
+  animation: SlideLeft 0.4s;
+  animation-fill-mode: forwards;
+}
+
+.alert-content.exit {
+  animation: SlideRight 0.4s;
+  animation-fill-mode: forwards;
+}
+.sparkle-green {
+  color: var(--status-available-background);
+}
+@keyframes SlideLeft {
+  0% {
+    margin-left: 120%;
+  }
+  100% {
+    margin-left: 0;
+  }
+}
+
+@keyframes SlideRight {
+  0% {
+    margin-left: 0;
+  }
+  100% {
+    margin-left: 120%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .alert-wrapper {
+    right: 0;
+    width: 100%;
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .container-main {
     padding: 0;

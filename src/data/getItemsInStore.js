@@ -2,7 +2,7 @@ import faker from "faker";
 faker.seed(123);
 
 const getItemsInStore = () => {
-  const data = [...Array(50)].map((item) => ({
+  const data = [...Array(10)].map((item) => ({
     id: faker.datatype.uuid(),
     name: faker.commerce.productName(),
     image: faker.random.image(),

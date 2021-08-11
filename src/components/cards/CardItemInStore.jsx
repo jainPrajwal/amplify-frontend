@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router";
 import { useCart } from "../../contexts/useCart";
-import { useWishlist } from "../../contexts/useWishlist";
+import { useNotifications } from "../../contexts/useNotifications";
+
 import { Badge } from "./Badge";
 import { WishListIcon } from "./WishListIcon";
+import { v4 } from "uuid";
 
 const CardItemInStore = ({
   product: {
@@ -21,6 +23,7 @@ const CardItemInStore = ({
   store,
 }) => {
   const { state: cart, dispatch: cartDispatch } = useCart();
+  const { dispatch: notificationDispatch } = useNotifications();
 
   const getProductById = (id) => {
     return store.find((itemInCart) => itemInCart.id === id);
@@ -31,6 +34,7 @@ const CardItemInStore = ({
   return (
     <div className="card card-ecommerce">
       <Badge fastDelivery={fastDelivery} />
+
       <WishListIcon product={getProductById(id)} />
       <div onClick={() => navigate(`/products/${id}`)}>
         <div className="card-image-wrapper">
@@ -75,9 +79,18 @@ const CardItemInStore = ({
       <div className="px-1">
         <button
           className="btn btn-primary"
-          onClick={() =>
-            cartDispatch({ type: "ADD_TO_CART", payload: getProductById(id) })
-          }
+          onClick={() => {
+            console.log("clied");
+            cartDispatch({ type: "ADD_TO_CART", payload: getProductById(id) });
+            notificationDispatch({
+              type: "ADD_NOTIFICATION",
+              payload: {
+                id: v4(),
+                type: "SUCCESS",
+                message: "Item Added to Cart",
+              },
+            });
+          }}
         >
           {`${"Add to Cart".toUpperCase()}`}
         </button>
