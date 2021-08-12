@@ -1,7 +1,11 @@
 import { useNavigate } from "react-router";
+import { v4 } from "uuid";
 import { useCart } from "../../contexts/useCart";
+import { useNotifications } from "../../contexts/useNotifications";
 import { useProducts } from "../../contexts/useProducts";
+import { checkIfItemIsAlreadyPresentInArray } from "../../pages/wishlist/ReducerWishlist";
 import { Badge } from "./Badge";
+import { WishListIcon } from "./WishListIcon";
 
 const CardItemInWishlist = ({
   wishlistedItem: {
@@ -20,6 +24,7 @@ const CardItemInWishlist = ({
 }) => {
   let navigate = useNavigate();
   const { state: cart, dispatch: cartDispatch } = useCart();
+  const { dispatch: notificationDispatch } = useNotifications();
 
   const { state: storeObj } = useProducts();
 
@@ -27,10 +32,15 @@ const CardItemInWishlist = ({
     return storeObj.store.find((itemInCart) => itemInCart.id === id);
   };
 
+  const IsAlreadyPresentInArray = checkIfItemIsAlreadyPresentInArray(
+    cart,
+    getProductById(id)
+  );
+
   return (
     <div className="card card-ecommerce">
       <Badge fastDelivery={fastDelivery} />
-
+      <WishListIcon product={getProductById(id)} />
       <div onClick={() => navigate(`/products/${id}`)}>
         <div className="card-image-wrapper">
           <img
@@ -55,31 +65,39 @@ const CardItemInWishlist = ({
             {`Color : ${color}`} {`${inStock ? "In Stock" : "Out of Stock"}`}
           </div>
           <hr />
-          <div className="product-price-details">
-            <div className="product-price">
-              <strong>
-                ₹{" "}
-                {`${
-                  offer === "70% bonanza"
-                    ? parseInt(price - (price / 100) * 70)
-                    : "699"
-                }`}
-              </strong>
-            </div>
-            <div className="product-mrp">₹{price}</div>
-            <div className="product-discount">({offer})</div>
-          </div>
         </div>
       </div>
       <div className="px-1">
-        <button
-          className="btn btn-primary"
-          onClick={() =>
-            cartDispatch({ type: "ADD_TO_CART", payload: getProductById(id) })
-          }
-        >
-          {`${"Add to Cart".toUpperCase()}`}
-        </button>
+        {IsAlreadyPresentInArray ? (
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              navigate("/cart");
+            }}
+          >
+            {`${"goto Cart".toUpperCase()}`}
+          </button>
+        ) : (
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              cartDispatch({
+                type: "ADD_TO_CART",
+                payload: getProductById(id),
+              });
+              notificationDispatch({
+                type: "ADD_NOTIFICATION",
+                payload: {
+                  id: v4(),
+                  type: "SUCCESS",
+                  message: "Item Added to Cart",
+                },
+              });
+            }}
+          >
+            {`${"Add to Cart".toUpperCase()}`}
+          </button>
+        )}
       </div>
     </div>
   );

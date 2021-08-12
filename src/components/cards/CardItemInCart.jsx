@@ -1,5 +1,3 @@
-import { WishListIcon } from "./WishListIcon";
-
 const CardItemInCart = ({
   itemInCart: {
     id,
@@ -13,101 +11,50 @@ const CardItemInCart = ({
     category,
     subcategory,
     price,
+    quantity,
   },
   cart,
 }) => {
   return (
     <>
-      <div className="card-image-wrapper">
-        <img src={image} className="card-image-ecommerce" alt={name} />
-      </div>
-      <div className="card-content-ecommerce-product-detials">
-        <div className="card-title header header-primary">
-          <strong>{brand}</strong>
+      <div className="card-itemCart-container d-flex mt-extra-large">
+        <span className="btn-remove-from-cart header-secondary">&times;</span>
+        <div className="card-itemCart-image-wrapper">
+          <img src={image} alt={name} className="w-100 h-100" />
         </div>
-        <div className="header header-tertiary">
-          <span className="card-subtitle text-black ">{category}</span>
-          <span className="card-subtitle text-black ml-small">
-            ({subcategory})
-          </span>
-        </div>
-        <div className="ratings-cart">
-          <div className="badge-rating mb-extra-large">
-            4.7
-            <i
-              class="fas fa-star text-white ml-small"
-              style={{ fontSize: "small" }}
-            ></i>
-            <span className="text-white">
-              <span className="text-white mx-1">|</span>
-              <span className="text-white ">20 Ratings</span>
-            </span>
+        <div className="card-itemCart-content ml-medium w-100 py-small">
+          <div className="card-itemCart-title text-primary fs-2 mb-small">
+            {brand}
           </div>
-        </div>
-        <div className="header header-tertiary text-black">
-          {`Color : ${color}`}
-        </div>
-
-        <div className="product-price-details-in-cart mb-extra-large">
-          <div className="product-price ">
-            <strong className="header header-tertiary text-black">
-              ₹
-              {`${
-                offer === "70% bonanza"
-                  ? parseInt(price - (price / 100) * 70)
-                  : "699"
-              }`}
-            </strong>
-            <span className="product-mrp ml-medium  fs-2">₹{price}</span>
-            <span className="product-discount fs-2 ml-medium">({offer})</span>
-            <div className="text-primary green fs-2">
-              inclusive of all taxes
+          <div className="card-itemCart-subtitle text-small">{name}</div>
+          <div className="card-itemCart-quantity-details mt-medium">
+            <div className="card-itemCart-quantity d-flex ai-center fs-1">
+              Quantity :
+              <button className="btn-round">
+                <span className="fs-1">+</span>
+              </button>
+              <span className="text-primary mx-1">{quantity}</span>
+              <button className="btn-round">
+                <div className="fs-1 sign-minus"></div>
+              </button>
             </div>
           </div>
-          <div className="features-product d-flex jc-space-evenly mt-extra-large f-wrap">
-            <div className="wrapper-free-delivery">
-              <div className="wrapper-image-free-delivery">
-                <img
-                  src="https://img.icons8.com/ios-filled/50/fa314a/free-shipping.png"
-                  className="image-free-delivery"
-                />
-              </div>
-              <div className="fs-2 ml-medium red text-primary">
-                Free Delivery
-              </div>
+          <div className="itemCart-price-details d-flex mt-medium">
+            <div className="itemCart-price mr-small">
+              <strong>
+                ₹
+                {`${
+                  offer === "70% bonanza"
+                    ? parseInt(price - (price / 100) * 70)
+                    : offer === "Save 50"
+                    ? parseInt(price - 50)
+                    : parseInt(price - 22)
+                }`}
+              </strong>
             </div>
-
-            <div className="wrapper-free-delivery">
-              <div className="wrapper-image-free-delivery">
-                <img
-                  src="https://img.icons8.com/material/48/fa314a/security-checked--v1.png"
-                  className="image-free-delivery"
-                />
-              </div>
-              <div className="fs-2 ml-medium red text-primary">
-                Secured Payment
-              </div>
-            </div>
-
-            <div className="wrapper-free-delivery">
-              <div className="wrapper-image-free-delivery">
-                <img
-                  src="https://img.icons8.com/material/48/fa314a/replace.png"
-                  className="image-free-delivery"
-                />
-              </div>
-              <div className="fs-2 ml-medium red text-primary">Easy Return</div>
-            </div>
+            <div className="product-selling-price mr-medium">₹{price}</div>
+            <div className="product-discount">({offer})</div>
           </div>
-        </div>
-
-        <div className="btn-wrapper-cart-detail">
-          <button className="btn btn-danger primary-add-to">
-            {`${"Add to Cart".toUpperCase()}`}{" "}
-          </button>
-          <button className="btn btn-secondary primary-add-to">
-            {`${"Add to Wishlist".toUpperCase()}`}{" "}
-          </button>
         </div>
       </div>
     </>

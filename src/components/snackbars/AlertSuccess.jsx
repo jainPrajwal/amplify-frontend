@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNotifications } from "../../contexts/useNotifications";
 
-const AlertDanger = (props) => {
+const AlertSuccess = (props) => {
   const [exit, setExit] = useState(false);
 
   const { dispatch } = useNotifications();
@@ -28,14 +28,15 @@ const AlertDanger = (props) => {
   }, []);
 
   return (
-    <div className={`alert-content alert-danger ${exit ? "exit" : ""}`}>
+    <div className={`alert-content alert-success ${exit ? "exit" : ""}`}>
       <div>
         <i class="fa fa-check-circle" aria-hidden="true"></i>
         {props.message}
       </div>
+
       <span
         className="btn-dismiss"
-        id="btn-danger-close"
+        id="btn-success-close"
         onClick={() => {
           handleCloseNotification();
         }}
@@ -46,4 +47,4 @@ const AlertDanger = (props) => {
   );
 };
 
-export { AlertDanger };
+export { AlertSuccess };

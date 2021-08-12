@@ -2,8 +2,8 @@ import { CardItemDetails } from "../components";
 
 const ProductDetail = () => {
   return (
-    <div className="container-cart-details">
-      <div className="container-cart-details-grid">
+    <div className="container-prod-details">
+      <div className="container-prod-details-grid">
         <CardItemDetails />
       </div>
     </div>

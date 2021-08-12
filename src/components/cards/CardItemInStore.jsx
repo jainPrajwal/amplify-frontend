@@ -5,6 +5,7 @@ import { useNotifications } from "../../contexts/useNotifications";
 import { Badge } from "./Badge";
 import { WishListIcon } from "./WishListIcon";
 import { v4 } from "uuid";
+import { checkIfItemIsAlreadyPresentInArray } from "../../pages/wishlist/ReducerWishlist";
 
 const CardItemInStore = ({
   product: {
@@ -28,6 +29,10 @@ const CardItemInStore = ({
   const getProductById = (id) => {
     return store.find((itemInCart) => itemInCart.id === id);
   };
+  const IsAlreadyPresentInArray = checkIfItemIsAlreadyPresentInArray(
+    cart,
+    getProductById(id)
+  );
 
   let navigate = useNavigate();
 
@@ -67,7 +72,9 @@ const CardItemInStore = ({
                 {`${
                   offer === "70% bonanza"
                     ? parseInt(price - (price / 100) * 70)
-                    : "699"
+                    : offer === "Save 50"
+                    ? parseInt(price - 50)
+                    : parseInt(price - 22)
                 }`}
               </strong>
             </div>
@@ -77,23 +84,36 @@ const CardItemInStore = ({
         </div>
       </div>
       <div className="px-1">
-        <button
-          className="btn btn-primary"
-          onClick={() => {
-            console.log("clied");
-            cartDispatch({ type: "ADD_TO_CART", payload: getProductById(id) });
-            notificationDispatch({
-              type: "ADD_NOTIFICATION",
-              payload: {
-                id: v4(),
-                type: "SUCCESS",
-                message: "Item Added to Cart",
-              },
-            });
-          }}
-        >
-          {`${"Add to Cart".toUpperCase()}`}
-        </button>
+        {IsAlreadyPresentInArray ? (
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              navigate("/cart");
+            }}
+          >
+            {`${"goto Cart".toUpperCase()}`}
+          </button>
+        ) : (
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              cartDispatch({
+                type: "ADD_TO_CART",
+                payload: getProductById(id),
+              });
+              notificationDispatch({
+                type: "ADD_NOTIFICATION",
+                payload: {
+                  id: v4(),
+                  type: "SUCCESS",
+                  message: "Item Added to Cart",
+                },
+              });
+            }}
+          >
+            {`${"Add to Cart".toUpperCase()}`}
+          </button>
+        )}
       </div>
     </div>
   );

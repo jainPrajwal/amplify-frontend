@@ -10,6 +10,7 @@ const Navbar = () => {
     isSideBarHidden: true,
     isSearchBarHidden: true,
   });
+  const [isPageActive, setPageActive] = useState("");
 
   let navigate = useNavigate();
 
@@ -42,8 +43,11 @@ const Navbar = () => {
         <nav className="nav-menu d-flex ai-center px-1 jc-space-between f-direction-row">
           <ul className="nav-menu-items d-flex ai-center f-direction-row">
             <li
-              className="nav-menu-item"
+              className={`nav-menu-item item-search ${
+                isPageActive === "search" ? "nav-menu-item-active" : ""
+              }`}
               onClick={() => {
+                setPageActive("search");
                 setMobileView((prevState) => ({
                   ...prevState,
                   isSearchBarHidden: !prevState.isSearchBarHidden,
@@ -51,22 +55,57 @@ const Navbar = () => {
               }}
             >
               {" "}
-              <a className="nav-menu-link search">
+              <div className="nav-menu-link search">
                 <i className="fa fa-search" aria-hidden="true"></i> 
                 <span className="font-sm">search</span>
-              </a>
+              </div>
             </li>
-            <li className="nav-menu-item">
-              <a href="true" className="nav-menu-link login">
-                <i className="fas fa-sign-in-alt"></i>
-                <div></div>
-                <span className="font-sm">login</span>
-              </a>
+
+            {/*  */}
+            <li
+              className={`nav-menu-item item-store ${
+                isPageActive === "store" ? "nav-menu-item-active" : ""
+              }`}
+              onClick={() => {
+                setPageActive("store");
+                navigate("/store");
+              }}
+            >
+              {" "}
+              <div className="nav-menu-link store">
+                <i className="fas fa-store" aria-hidden="true"></i> 
+                <span className="font-sm">store</span>
+              </div>
             </li>
-            <li className="nav-menu-item">
+
+            <li
+              className={`nav-menu-item item-login ${
+                isPageActive === "login" ? "nav-menu-item-active" : ""
+              }`}
+            >
+              <div className="nav-menu-link login">
+                <div
+                  onClick={() => {
+                    setPageActive("login");
+                  }}
+                >
+                  <i className="fas fa-sign-in-alt"></i>
+                  <div></div>
+                  <span className="font-sm">login</span>
+                </div>
+              </div>
+            </li>
+            <li
+              className={`nav-menu-item item-wishlist ${
+                isPageActive === "wishlist" ? "nav-menu-item-active" : ""
+              }`}
+            >
               {" "}
               <div
-                onClick={() => navigate("/wishlist")}
+                onClick={() => {
+                  setPageActive("wishlist");
+                  navigate("/wishlist");
+                }}
                 className="nav-menu-link wishlist"
               >
                 <i className="far fa-heart">
@@ -76,16 +115,26 @@ const Navbar = () => {
                 <span className="font-sm">wishlist</span>
               </div>
             </li>
-            <li className="nav-menu-item">
+            <li
+              className={`nav-menu-item item-cart ${
+                isPageActive === "cart" ? "nav-menu-item-active" : ""
+              }`}
+            >
               {" "}
               <div
                 className="nav-menu-link cart"
-                onClick={() => navigate("/cart")}
+                onClick={() => {
+                  setPageActive("cart");
+                  navigate("/cart");
+                }}
               >
                 <i className="fas fa-shopping-cart">
                        <span className="notification-count">10</span>
                 </i>
-                <div></div> <span className="font-sm">cart</span>
+                <div>
+                  <span className="font-sm">cart</span>
+                </div>
+                 
               </div>
             </li>
           </ul>

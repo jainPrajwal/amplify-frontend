@@ -7,14 +7,15 @@ import { HeartSvg } from "./HeartSvg";
 const WishListIcon = ({ product }) => {
   const { state: wishlist, dispatch: wishlistDispatch } = useWishlist();
   const { dispatch: notificationDispatch } = useNotifications();
-  // const checkIfItemIsAlreadyPresentInArray(wishlist, product);
+  const IsAlreadyPresentInArray = checkIfItemIsAlreadyPresentInArray(
+    wishlist,
+    product
+  );
   return (
     <>
       <HeartSvg />
       <i
-        className={`fas fa-heart ${
-          checkIfItemIsAlreadyPresentInArray(wishlist, product) ? "red" : ""
-        }`}
+        className={`fas fa-heart ${IsAlreadyPresentInArray ? "red" : ""}`}
         onClick={() => {
           wishlistDispatch({
             type: "TOGGLE_WISHLIST",
@@ -24,16 +25,16 @@ const WishListIcon = ({ product }) => {
             type: "ADD_NOTIFICATION",
             payload: {
               id: v4(),
-              type: "DANGER",
-              message: "Item Added to Cart",
+              type: IsAlreadyPresentInArray ? "DANGER" : "SUCCESS",
+              message: IsAlreadyPresentInArray
+                ? "Item removed from  Wishlist"
+                : "Item added to Wishlist",
             },
           });
         }}
       ></i>
       <svg
-        className={`icon icon-heart ${
-          checkIfItemIsAlreadyPresentInArray(wishlist, product) ? "like" : ""
-        }`}
+        className={`icon icon-heart ${IsAlreadyPresentInArray ? "like" : ""}`}
       >
         <use xlinkHref="#icon-heart"></use>
       </svg>

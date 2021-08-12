@@ -1,23 +1,34 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { v4 } from "uuid";
+import { useNotifications } from "../../contexts/useNotifications";
 import { useProducts } from "../../contexts/useProducts";
+import { useWishlist } from "../../contexts/useWishlist";
+import { checkIfItemIsAlreadyPresentInArray } from "../../pages/wishlist/ReducerWishlist";
 
 const CardItemDetails = () => {
   let { productId } = useParams();
-  console.log("productId from detials page", productId);
+  const { state: wishlist, dispatch: wishlistDispatch } = useWishlist();
+  const { dispatch: notificationDispatch } = useNotifications();
+  let navigate = useNavigate();
   const { state } = useProducts();
   const getProductById = (id) => {
     return state.store.find((itemInCart) => itemInCart.id === id);
   };
-  let { name, image, brand, category, subcategory, offer, price, color } =
+  let { id, name, image, brand, category, subcategory, offer, price, color } =
     getProductById(productId);
+
+  const IsAlreadyPresentInArray = checkIfItemIsAlreadyPresentInArray(
+    wishlist,
+    getProductById(id)
+  );
   return (
     <>
       <div className="card-image-wrapper">
         <img src={image} className="card-image-ecommerce" alt={name} />
       </div>
-      <div className="card-content-ecommerce-product-detials">
-        <div className="card-title header header-primary">
-          <strong>{brand}</strong>
+      <div className="card-content-ecommerce-product-details">
+        <div className="card-title header header-primary text-black">
+          <span>{brand}</span>
         </div>
         <div className="header header-tertiary">
           <span className="card-subtitle text-black ">{category}</span>
@@ -44,21 +55,25 @@ const CardItemDetails = () => {
 
         <div className="product-price-details-in-cart mb-extra-large">
           <div className="product-price ">
-            <strong className="header header-tertiary text-black">
+            <span className="header header-tertiary text-black">
               ₹
               {`${
                 offer === "70% bonanza"
                   ? parseInt(price - (price / 100) * 70)
-                  : "699"
+                  : offer === "Save 50"
+                  ? parseInt(price - 50)
+                  : parseInt(price - 22)
               }`}
-            </strong>
-            <span className="product-mrp ml-medium  fs-2">₹{price}</span>
+            </span>
+            <span className="product-selling-price ml-medium  fs-2">
+              ₹{price}
+            </span>
             <span className="product-discount fs-2 ml-medium">({offer})</span>
             <div className="text-primary green fs-2">
               inclusive of all taxes
             </div>
           </div>
-          <div className="features-product d-flex jc-space-evenly mt-extra-large f-wrap">
+          <div className="features-product d-flex jc-space-evenly mt-extra-large">
             <div className="wrapper-free-delivery">
               <div className="wrapper-image-free-delivery">
                 <img
@@ -94,14 +109,42 @@ const CardItemDetails = () => {
             </div>
           </div>
         </div>
-
-        <div className="btn-wrapper-cart-detail">
-          <button className="btn btn-danger primary-add-to">
-            {`${"Add to Cart".toUpperCase()}`}{" "}
-          </button>
-          <button className="btn btn-secondary primary-add-to">
-            {`${"Add to Wishlist".toUpperCase()}`}{" "}
-          </button>
+        <div className="btn-outer-wrapper-prod-detail">
+          <div className="btn-wrapper-prod-detail">
+            <button className="btn btn-danger primary-add-to">
+              {`${"buy now".toUpperCase()}`}{" "}
+            </button>
+            {IsAlreadyPresentInArray ? (
+              <button
+                className="btn btn-secondary primary-add-to"
+                onClick={() => {
+                  navigate("/wishlist");
+                }}
+              >
+                {`${"goto Wishlist".toUpperCase()} `}
+              </button>
+            ) : (
+              <button
+                className="btn btn-secondary primary-add-to"
+                onClick={() => {
+                  wishlistDispatch({
+                    type: "TOGGLE_WISHLIST",
+                    payload: getProductById(id),
+                  });
+                  notificationDispatch({
+                    type: "ADD_NOTIFICATION",
+                    payload: {
+                      id: v4(),
+                      type: "SUCCESS",
+                      message: "Item added to Wishlist",
+                    },
+                  });
+                }}
+              >
+                {`${"Add to Wishlist".toUpperCase()} `}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </>
