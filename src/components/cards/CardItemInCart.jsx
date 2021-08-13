@@ -1,3 +1,6 @@
+import { v4 } from "uuid";
+import { useNotifications } from "../../contexts/useNotifications";
+
 const CardItemInCart = ({
   itemInCart: {
     id,
@@ -14,11 +17,35 @@ const CardItemInCart = ({
     quantity,
   },
   cart,
+  cartDispatch,
 }) => {
+  const getProductById = (id) => {
+    return cart.find((itemInCart) => itemInCart.id === id);
+  };
+
+  const { dispatch: notificationDispatch } = useNotifications();
   return (
     <>
       <div className="card-itemCart-container d-flex mt-extra-large">
-        <span className="btn-remove-from-cart header-secondary">&times;</span>
+        <span
+          className="btn-remove-from-cart header-secondary"
+          onClick={() => {
+            cartDispatch({
+              type: "REMOVE_FROM_CART",
+              payload: getProductById(id),
+            });
+            notificationDispatch({
+              type: "ADD_NOTIFICATION",
+              payload: {
+                id: v4(),
+                type: "DANGER",
+                message: `${name} removed from cart`,
+              },
+            });
+          }}
+        >
+          &times;
+        </span>
         <div className="card-itemCart-image-wrapper">
           <img src={image} alt={name} className="w-100 h-100" />
         </div>
@@ -30,11 +57,47 @@ const CardItemInCart = ({
           <div className="card-itemCart-quantity-details mt-medium">
             <div className="card-itemCart-quantity d-flex ai-center fs-1">
               Quantity :
-              <button className="btn-round">
+              <button
+                className="btn-round"
+                onClick={() => {
+                  cartDispatch({
+                    type: "INCREASE_QUANTITY",
+                    payload: getProductById(id),
+                  });
+                  notificationDispatch({
+                    type: "ADD_NOTIFICATION",
+                    payload: {
+                      id: v4(),
+                      type: "SUCCESS",
+                      message: `Quantity increased`,
+                    },
+                  });
+                }}
+              >
                 <span className="fs-1">+</span>
               </button>
               <span className="text-primary mx-1">{quantity}</span>
-              <button className="btn-round">
+              <button
+                className="btn-round"
+                onClick={() => {
+                  cartDispatch({
+                    type: "DECREASE_QUANTITY",
+                    payload: getProductById(id),
+                  });
+                  notificationDispatch({
+                    type: "ADD_NOTIFICATION",
+                    payload: {
+                      id: v4(),
+                      type: "DANGER",
+                      message: `${
+                        quantity > 1
+                          ? "Quantity decreased"
+                          : `${name} removed from cart`
+                      }`,
+                    },
+                  });
+                }}
+              >
                 <div className="fs-1 sign-minus"></div>
               </button>
             </div>

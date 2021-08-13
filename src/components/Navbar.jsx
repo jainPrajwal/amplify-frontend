@@ -99,15 +99,13 @@ const Navbar = () => {
               className={`nav-menu-item item-wishlist ${
                 isPageActive === "wishlist" ? "nav-menu-item-active" : ""
               }`}
+              onClick={() => {
+                setPageActive("wishlist");
+                navigate("/wishlist");
+              }}
             >
               {" "}
-              <div
-                onClick={() => {
-                  setPageActive("wishlist");
-                  navigate("/wishlist");
-                }}
-                className="nav-menu-link wishlist"
-              >
+              <div className="nav-menu-link wishlist">
                 <i className="far fa-heart">
                   <span className="cart-count">10</span>
                 </i>
@@ -119,15 +117,13 @@ const Navbar = () => {
               className={`nav-menu-item item-cart ${
                 isPageActive === "cart" ? "nav-menu-item-active" : ""
               }`}
+              onClick={() => {
+                setPageActive("cart");
+                navigate("/cart");
+              }}
             >
               {" "}
-              <div
-                className="nav-menu-link cart"
-                onClick={() => {
-                  setPageActive("cart");
-                  navigate("/cart");
-                }}
-              >
+              <div className="nav-menu-link cart">
                 <i className="fas fa-shopping-cart">
                        <span className="notification-count">10</span>
                 </i>

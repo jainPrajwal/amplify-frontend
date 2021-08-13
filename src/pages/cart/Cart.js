@@ -2,22 +2,7 @@ import { CardCart } from "../../components/cards/CardCart";
 import { useCart } from "../../contexts/useCart";
 
 const Cart = () => {
-  let {
-    state: {
-      id,
-      image,
-      name,
-      brand,
-      offer,
-      inStock,
-      fastDelivery,
-      color,
-      category,
-      subcategory,
-      price,
-      quantity,
-    },
-  } = useCart();
+  let { state: cart, dispatch: cartDispatch } = useCart();
   return (
     <>
       <div className="header header-secondary text-black text-center">
@@ -50,16 +35,30 @@ const Cart = () => {
 
             <div className="itemCart-priceDetails-wrapper">
               <div className="itemCart-mrp-total-text">Total MRP</div>
-              <div className="itemCart-mrp-total-price">₹{15000}</div>
+              <div className="itemCart-mrp-total-price">
+                ₹
+                {parseInt(
+                  cart.reduce((acc, current) => {
+                    return (acc += current.price * current.quantity);
+                  }, 0)
+                )}
+              </div>
             </div>
             <div className="itemCart-priceDetails-wrapper">
               <div className="itemCart-discount-total-text">Total Discount</div>
-              <div className="itemCart-discount-total-price green">₹{50}</div>
+              <div className="itemCart-discount-total-price green">₹{0}</div>
             </div>
             <hr className="my-1" />
             <div className="itemCart-priceDetails-wrapper text-primary">
               <div className="itemCart-mrp-grand-total-text ">Total Amount</div>
-              <div className="itemCart-mrp-grand-total-price ">₹{15000}</div>
+              <div className="itemCart-mrp-grand-total-price ">
+                ₹
+                {parseInt(
+                  cart.reduce((acc, current) => {
+                    return (acc += current.price * current.quantity);
+                  }, 0)
+                )}
+              </div>
             </div>
           </div>
 

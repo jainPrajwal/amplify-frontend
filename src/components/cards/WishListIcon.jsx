@@ -27,8 +27,8 @@ const WishListIcon = ({ product }) => {
               id: v4(),
               type: IsAlreadyPresentInArray ? "DANGER" : "SUCCESS",
               message: IsAlreadyPresentInArray
-                ? "Item removed from  Wishlist"
-                : "Item added to Wishlist",
+                ? `${product.name} removed from  Wishlist`
+                : `${product.name} added to Wishlist`,
             },
           });
         }}

@@ -28,8 +28,8 @@
   width: 100%;
 }
 
-.fas.fa-sign-in-alt,
-.far.fa-heart {
+.navbar .fas.fa-sign-in-alt,
+.navbar .far.fa-heart {
   font-size: 1.6rem;
   position: relative;
   width: 45px;
@@ -294,6 +294,7 @@
   padding-right: 20px;
   border-right: 1px solid var(--red);
   padding-top: 32px;
+  min-height: 250px;
   /* background: red; */
 }
 .wrapper-right-block {
@@ -457,7 +458,212 @@
 .product-selling-price {
   text-decoration: line-through;
 }
-.product-price-details-in-cart {
+
+.avatar-letter {
+  height: 30px;
+  width: 30px;
+}
+
+.shade-red {
+  background-color: var(--red);
+}
+
+/* Checkboxes */
+
+.checkboxBlack-label input:checked ~ .checkmark {
+  background-color: #282c3f;
+  color: var(--font-color);
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+}
+.checkboxBlack-label .checkmark::after {
+  width: 7px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  position: absolute;
+  left: 50%;
+
+  /* transform: translate(-50%); */
+  top: 50%;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.checkboxBlack-label .checkmark {
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  background-color: #282c3f;
+  color: var(--font-color);
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+  outline: none;
+  border: none;
+}
+.checkboxBlack-label:hover input ~ .checkmark {
+  background-color: #101429;
+}
+
+/* green checkbox */
+
+.checkboxGreen-label input:checked ~ .checkmark {
+  background-color: var(--green);
+  color: var(--font-color);
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+}
+.checkboxGreen-label .checkmark::after {
+  width: 7px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  position: absolute;
+  left: 50%;
+
+  /* transform: translate(-50%); */
+  top: 50%;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.checkboxGreen-label .checkmark {
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  background-color: var(--green);
+  color: var(--font-color);
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+  outline: none;
+  border: none;
+}
+.checkboxGreen-label:hover input ~ .checkmark {
+  background-color: darkgreen;
+}
+
+/* red checkbox */
+.checkboxRed-label input:checked ~ .checkmark {
+  background-color: red;
+  color: var(--font-color);
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+}
+.checkboxRed-label .checkmark::after {
+  width: 7px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  position: absolute;
+  left: 50%;
+
+  /* transform: translate(-50%); */
+  top: 50%;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.checkboxRed-label .checkmark {
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  background-color: red;
+  color: var(--font-color);
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+  outline: none;
+  border: none;
+}
+.checkboxRed-label:hover input ~ .checkmark {
+  background-color: rgb(177, 14, 14);
+}
+
+/* blue checkbox */
+.checkboxBlue-label input:checked ~ .checkmark {
+  background-color: var(--blue);
+  color: var(--font-color);
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+}
+.checkboxBlue-label .checkmark::after {
+  width: 7px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  position: absolute;
+  left: 50%;
+
+  /* transform: translate(-50%); */
+  top: 50%;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.checkboxBlue-label .checkmark {
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  background-color: var(--blue);
+  color: var(--font-color);
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+  outline: none;
+  border: none;
+}
+.checkboxBlue-label:hover input ~ .checkmark {
+  background-color: blue;
+}
+
+/* white checkbox */
+
+.checkboxWhite-label input:checked ~ .checkmark {
+  background-color: rgb(133, 133, 133);
+  color: #282c3f;
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+  border: 1px solid rgb(133, 133, 133);
+}
+.checkboxWhite-label .checkmark::after {
+  width: 7px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  position: absolute;
+  left: 50%;
+
+  /* transform: translate(-50%); */
+  top: 50%;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.checkboxWhite-label .checkmark {
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  background-color: white;
+  color: #282c3f;
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+  outline: none;
+  border: 1px solid rgb(133, 133, 133);
+}
+.checkboxWhite-label:hover input ~ .checkmark {
+  background-color: rgb(133, 133, 133);
+}
+
+.color-palette {
+  height: 40px;
 }
 /* Snackbar */
 
@@ -592,6 +798,7 @@
 @media only screen and (max-width: 480px) {
   .alert-wrapper {
     right: 0;
+    top: 4rem;
     width: 100%;
     padding: 1rem;
   }
@@ -616,9 +823,6 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0;
-  }
-  .container-amplify {
-    height: calc(100vh - 8rem);
   }
 }
 
@@ -697,7 +901,7 @@
     /* margin-top: 20px; */
   }
   .nav-menu-item {
-    padding: 0.5rem;
+    padding: 1rem;
   }
 
   .brand-logo-amplify {
@@ -726,6 +930,33 @@
   }
   .btn {
     max-width: none;
+  }
+
+  .wrapper-left-block,
+  .wrapper-right-block {
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+  }
+
+  .wrapper-right-block {
+    margin-top: 1rem;
+  }
+
+  .itemCart-buyNow {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+  }
+  .container-amplify {
+    height: calc(100vh - 8rem);
+  }
+  .container-prod-details-grid {
+    grid-template-columns: 1fr;
+  }
+  .card-content-ecommerce-product-details {
+    padding: 1rem;
   }
 }
 @media only screen and (min-width: 480px) and (max-width: 768px) {

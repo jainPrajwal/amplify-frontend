@@ -52,7 +52,7 @@ const CardItemInStore = ({
         </div>
         <div className="card-content-ecommerce">
           <div className="card-title header header-tertiary">
-            <strong>{brand}</strong>
+            <span className="text-black">{brand}</span>
             <span className="card-subtitle text-black ml-medium">
               {category}
             </span>
@@ -67,7 +67,7 @@ const CardItemInStore = ({
           <hr />
           <div className="product-price-details">
             <div className="product-price">
-              <strong>
+              <span>
                 ₹{" "}
                 {`${
                   offer === "70% bonanza"
@@ -76,7 +76,7 @@ const CardItemInStore = ({
                     ? parseInt(price - 50)
                     : parseInt(price - 22)
                 }`}
-              </strong>
+              </span>
             </div>
             <div className="product-mrp">₹{price}</div>
             <div className="product-discount">({offer})</div>
@@ -106,7 +106,7 @@ const CardItemInStore = ({
                 payload: {
                   id: v4(),
                   type: "SUCCESS",
-                  message: "Item Added to Cart",
+                  message: `${name} Added to Cart`,
                 },
               });
             }}
