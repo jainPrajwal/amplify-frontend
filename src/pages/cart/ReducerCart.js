@@ -10,14 +10,22 @@ const decreaseMaxQuantityOfItemInRespectiveColor = (product) => {
   });
 };
 
-const increaseTotalQuantity = (product, updatedAvailableColors) => {
-  console.log(
-    "increase Total Quantity",
-    updatedAvailableColors.reduce((acc, current) => {
-      console.log("acc", acc);
-      return (acc += current.quantityOfItemInRespectiveColor);
-    }, 0)
-  );
+const increaseMaxQuantityOfItemInRespectiveColor = (product) => {
+  return product.availableColors.map((colorObj) => {
+    return colorObj.color === product.color
+      ? {
+          ...colorObj,
+          maxQuantityOfItemInRespectiveColor:
+            colorObj.maxQuantityOfItemInRespectiveColor + 1,
+        }
+      : colorObj;
+  });
+};
+
+const getProductWithUpdatedQuantityMetrics = (
+  product,
+  updatedAvailableColors
+) => {
   const updatedTotalQuantity = updatedAvailableColors.reduce((acc, current) => {
     return (acc += current.quantityOfItemInRespectiveColor);
   }, 0);
@@ -29,15 +37,11 @@ const increaseTotalQuantity = (product, updatedAvailableColors) => {
   };
 };
 const increaseQuantityOfItemInRespectiveColor = (product) => {
-  const decreased_MaxQuantity_Of_Item_In_Respective_Color =
+  const Decreased_MaxQuantity_Of_Item_In_Respective_Color =
     decreaseMaxQuantityOfItemInRespectiveColor(product);
-  console.log(
-    "kya hai ye sab",
-    decreased_MaxQuantity_Of_Item_In_Respective_Color[0]
-  );
 
   const updatedArrayOfAvailableColors =
-    decreased_MaxQuantity_Of_Item_In_Respective_Color.map((colorObj) => {
+    Decreased_MaxQuantity_Of_Item_In_Respective_Color.map((colorObj) => {
       return colorObj.color === product.color
         ? {
             ...colorObj,
@@ -46,53 +50,63 @@ const increaseQuantityOfItemInRespectiveColor = (product) => {
           }
         : colorObj;
     });
-  console.log(
-    "increaseTotalQuantity(product, updatedArrayOfAvailableColors)",
-    increaseTotalQuantity(product, updatedArrayOfAvailableColors)
+
+  return getProductWithUpdatedQuantityMetrics(
+    product,
+    updatedArrayOfAvailableColors
   );
-  return increaseTotalQuantity(product, updatedArrayOfAvailableColors);
 };
 
 const decreaseQuantityOfItemInRespectiveColor = (product) => {
-  return product.availableColors.map((colorObj) => {
-    return colorObj.color === product.color
+  const Increased_MaxQuantity_Of_Item_In_Respective_Color =
+    increaseMaxQuantityOfItemInRespectiveColor(product);
+
+  const updatedArrayOfAvailableColors =
+    Increased_MaxQuantity_Of_Item_In_Respective_Color.map((colorObj) => {
+      return colorObj.color === product.color
+        ? {
+            ...colorObj,
+            quantityOfItemInRespectiveColor:
+              colorObj.quantityOfItemInRespectiveColor - 1,
+          }
+        : colorObj;
+    });
+
+  return getProductWithUpdatedQuantityMetrics(
+    product,
+    updatedArrayOfAvailableColors
+  );
+};
+
+const increaseQuantity = (state, payload) => {
+  return state.map((itemInCart) => {
+    console.log(
+      " itemInCart.id === payload.id && itemInCart.color === payload.color",
+      itemInCart.id === payload.id && itemInCart.color === payload.color,
+      "itemInCartId",
+      itemInCart,
+      "payloadId",
+      payload.id,
+      "itemInCart Color",
+      itemInCart.color,
+      "PAYLOAD COLOR ",
+      payload.color
+    );
+    return itemInCart.id === payload.id && itemInCart.color === payload.color
       ? {
-          ...colorObj,
-          quantityOfItemInRespectiveColor:
-            colorObj.quantityOfItemInRespectiveColor - 1,
+          ...increaseQuantityOfItemInRespectiveColor(payload),
         }
-      : colorObj;
+      : itemInCart;
   });
 };
 
-// const updateTotalQuantity = (product) => {
-//   return product.availableColors.reduce((acc, current) => {
-//     return (acc += current.quantityOfItemInRespectiveColor);
-//   }, 0);
-// };
-
-const increaseQuantity = (state, payload) => {
-  console.log(
-    "return of ...increaseQuantityOfItemInRespectiveColor(payload)",
-    increaseQuantityOfItemInRespectiveColor(payload)
-  );
-  return state.map((itemInCart) =>
-    itemInCart.id === payload.id
-      ? {
-          ...itemInCart,
-          ...increaseQuantityOfItemInRespectiveColor(payload),
-        }
-      : itemInCart
-  );
-};
-
 const decreaseQuantity = (state, payload) => {
-  if (payload.quantity > 1) {
+  if (payload.totalQuantity > 1) {
     return state.map((itemInCart) =>
-      itemInCart.id === payload.id
+      itemInCart.id === payload.id && itemInCart.color === payload.color
         ? {
             ...itemInCart,
-            quantity: itemInCart.quantity - 1,
+            ...decreaseQuantityOfItemInRespectiveColor(payload),
           }
         : itemInCart
     );
@@ -101,7 +115,11 @@ const decreaseQuantity = (state, payload) => {
 };
 
 const removeFromCart = (state, payload) => {
-  return state?.filter((itemInCart) => itemInCart.id !== payload.id);
+  return state?.filter((itemInCart) =>
+    itemInCart.color === payload.color
+      ? itemInCart.id !== payload.id
+      : itemInCart
+  );
 };
 const reducerCart = (state, { type, payload }) => {
   switch (type) {

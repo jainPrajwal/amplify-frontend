@@ -20,7 +20,6 @@ const NotificationProvider = (props) => {
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case "ADD_NOTIFICATION":
-        console.log("adding notification from switch case reducer");
         return [...state, { ...action.payload }];
 
       case "REMOVE_NOTIFICATION":

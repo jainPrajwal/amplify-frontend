@@ -1,8 +1,9 @@
 import { v4 } from "uuid";
+
 import { useNotifications } from "../../contexts/useNotifications";
 
-const CardItemInCart = ({
-  itemInCart: {
+const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
+  let {
     id,
     image,
     name,
@@ -14,11 +15,8 @@ const CardItemInCart = ({
     category,
     subcategory,
     price,
-    quantity,
-  },
-  cart,
-  cartDispatch,
-}) => {
+    totalQuantity,
+  } = itemInCart;
   const getProductById = (id) => {
     return cart.find((itemInCart) => itemInCart.id === id);
   };
@@ -32,7 +30,7 @@ const CardItemInCart = ({
           onClick={() => {
             cartDispatch({
               type: "REMOVE_FROM_CART",
-              payload: getProductById(id),
+              payload: itemInCart,
             });
             notificationDispatch({
               type: "ADD_NOTIFICATION",
@@ -54,6 +52,9 @@ const CardItemInCart = ({
             {brand}
           </div>
           <div className="card-itemCart-subtitle text-small">{name}</div>
+          <div className="card-itemCart-subtitle text-small mt-small">
+            {color}
+          </div>
           <div className="card-itemCart-quantity-details mt-medium">
             <div className="card-itemCart-quantity d-flex ai-center fs-1">
               Quantity :
@@ -62,7 +63,7 @@ const CardItemInCart = ({
                 onClick={() => {
                   cartDispatch({
                     type: "INCREASE_QUANTITY",
-                    payload: getProductById(id),
+                    payload: itemInCart,
                   });
                   notificationDispatch({
                     type: "ADD_NOTIFICATION",
@@ -76,13 +77,13 @@ const CardItemInCart = ({
               >
                 <span className="fs-1">+</span>
               </button>
-              <span className="text-primary mx-1">{quantity}</span>
+              <span className="text-primary mx-1">{totalQuantity}</span>
               <button
                 className="btn-round"
                 onClick={() => {
                   cartDispatch({
                     type: "DECREASE_QUANTITY",
-                    payload: getProductById(id),
+                    payload: itemInCart,
                   });
                   notificationDispatch({
                     type: "ADD_NOTIFICATION",
@@ -90,7 +91,7 @@ const CardItemInCart = ({
                       id: v4(),
                       type: "DANGER",
                       message: `${
-                        quantity > 1
+                        totalQuantity > 1
                           ? "Quantity decreased"
                           : `${name} removed from cart`
                       }`,

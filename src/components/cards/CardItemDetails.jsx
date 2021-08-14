@@ -1,31 +1,57 @@
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { v4 } from "uuid";
+import { useCart } from "../../contexts/useCart";
+
 import { useNotifications } from "../../contexts/useNotifications";
 import { useProducts } from "../../contexts/useProducts";
 import { useWishlist } from "../../contexts/useWishlist";
 import { checkIfItemIsAlreadyPresentInArray } from "../../pages/wishlist/ReducerWishlist";
-
-import { CheckboxBlack } from "./checkbox/CheckboxBlack";
-import { CheckboxBlue } from "./checkbox/CheckboxBlue";
-import { CheckboxGreen } from "./checkbox/CheckboxGreen";
 import { CheckboxPanel } from "./checkbox/CheckboxPanel";
-import { CheckboxRed } from "./checkbox/CheckboxRed";
 
 const CardItemDetails = () => {
   let { productId } = useParams();
   const { state: wishlist, dispatch: wishlistDispatch } = useWishlist();
+
   const { dispatch: notificationDispatch } = useNotifications();
   let navigate = useNavigate();
   const { state } = useProducts();
+  const { state: cart, dispatch: cartDispatch } = useCart();
+
   const getProductById = (id) => {
     return state.store.find((itemInCart) => itemInCart.id === id);
   };
-  let { id, name, image, brand, category, subcategory, offer, price, color } =
-    getProductById(productId);
 
+  const getProductByIdInCart = (id) => {
+    return cart.find((itemInCart) => itemInCart.id === id);
+  };
+
+  let {
+    id,
+    name,
+    image,
+    brand,
+    category,
+    subcategory,
+    offer,
+    price,
+    color,
+    totalQuantity,
+  } = getProductById(productId);
+  let product = getProductById(id);
+  const [itemColor, setItemColor] = useState(product.color);
   const IsAlreadyPresentInArray = checkIfItemIsAlreadyPresentInArray(
     wishlist,
-    getProductById(id)
+    product
+  );
+  const checkIfItemIsAlreadyPresentInCartWithSameColor = (cart, product) => {
+    return cart.some(
+      (item) => item.id === product.id && item.color === itemColor
+    );
+  };
+  const IsAlreadyPresentInCart = checkIfItemIsAlreadyPresentInCartWithSameColor(
+    cart,
+    product
   );
   return (
     <>
@@ -42,6 +68,7 @@ const CardItemDetails = () => {
             ({subcategory})
           </span>
         </div>
+
         <div className="ratings-cart mt-medium">
           <div className="badge-rating ">
             4.7
@@ -81,15 +108,56 @@ const CardItemDetails = () => {
         <div className="text-primary text-black mt-extra-large">
           {`${`select Color`.toUpperCase()}`}
           <div className="d-flex mt-medium color-palette">
-            <CheckboxPanel product={getProductById(id)} key={id} />
+            <CheckboxPanel
+              product={product}
+              key={id}
+              colorObject={{ itemColor, setItemColor }}
+            />
           </div>{" "}
         </div>
 
         <div className="btn-outer-wrapper-prod-detail mt-extra-large">
           <div className="btn-wrapper-prod-detail">
-            <button className="btn btn-danger primary-add-to">
-              {`${"buy now".toUpperCase()}`}{" "}
-            </button>
+            {!IsAlreadyPresentInCart ? (
+              <button
+                className="btn btn-danger primary-add-to"
+                onClick={() => {
+                  console.log("IsAlreadyPresentInCart", IsAlreadyPresentInCart);
+
+                  !IsAlreadyPresentInCart
+                    ? cartDispatch({
+                        type: "ADD_TO_CART",
+                        payload: { ...product, color: itemColor },
+                      })
+                    : cartDispatch({
+                        type: "INCREASE_QUANTITY",
+                        payload: product,
+                      });
+                  notificationDispatch({
+                    type: "ADD_NOTIFICATION",
+                    payload: {
+                      id: v4(),
+                      type: "SUCCESS",
+                      message: !IsAlreadyPresentInCart
+                        ? `${name} Added to Cart`
+                        : `Quantity Increased`,
+                    },
+                  });
+                }}
+              >
+                {`${"add to cart".toUpperCase()}`}{" "}
+              </button>
+            ) : (
+              <button
+                className="btn btn-danger primary-add-to"
+                onClick={() => {
+                  navigate("/cart");
+                }}
+              >
+                {`${"goto cart".toUpperCase()} `}
+              </button>
+            )}
+
             {IsAlreadyPresentInArray ? (
               <button
                 className="btn btn-secondary primary-add-to"
@@ -105,7 +173,7 @@ const CardItemDetails = () => {
                 onClick={() => {
                   wishlistDispatch({
                     type: "TOGGLE_WISHLIST",
-                    payload: getProductById(id),
+                    payload: product,
                   });
                   notificationDispatch({
                     type: "ADD_NOTIFICATION",

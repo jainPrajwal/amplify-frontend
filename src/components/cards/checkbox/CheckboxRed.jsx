@@ -1,15 +1,13 @@
-import { useState } from "react";
-
-const CheckboxRed = ({ state: { color, setColor } }) => {
+const CheckboxRed = ({ state: { itemColor, setItemColor } }) => {
   return (
     <label className="checkbox-label  checkboxRed-label">
       <input
         type="radio"
-        name="color"
-        checked={color === "red"}
+        name="itemColor"
+        checked={itemColor && itemColor === "red"}
         onChange={() => {
-          console.log("setting color to red");
-          setColor("red");
+          console.log("setting itemColor to red");
+          setItemColor("red");
         }}
       />
       <span className="checkmark"></span>

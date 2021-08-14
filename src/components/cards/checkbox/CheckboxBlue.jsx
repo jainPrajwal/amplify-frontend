@@ -1,14 +1,12 @@
-const CheckboxBlue = ({ state: { color, setColor } }) => {
-  console.log("color from blue", { color });
+const CheckboxBlue = ({ state: { itemColor, setItemColor } }) => {
   return (
     <label className="checkbox-label checkboxBlue-label">
       <input
         type="radio"
-        name="color"
-        checked={color === "blue"}
+        name="itemColor"
+        checked={itemColor === "blue"}
         onChange={() => {
-          console.log("setting color to blue");
-          setColor("blue");
+          setItemColor("blue");
         }}
       />
       <span className="checkmark"></span>

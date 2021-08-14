@@ -24,6 +24,7 @@ const CardItemInStore = ({
   store,
 }) => {
   const { state: cart, dispatch: cartDispatch } = useCart();
+
   const { dispatch: notificationDispatch } = useNotifications();
 
   const getProductById = (id) => {
@@ -41,7 +42,11 @@ const CardItemInStore = ({
       <Badge fastDelivery={fastDelivery} />
 
       <WishListIcon product={getProductById(id)} />
-      <div onClick={() => navigate(`/products/${id}`)}>
+      <div
+        onClick={() => {
+          navigate(`/products/${id}`);
+        }}
+      >
         <div className="card-image-wrapper">
           <img
             src={image}

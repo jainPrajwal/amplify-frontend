@@ -1,17 +1,20 @@
 import faker from "faker";
 import { v4 } from "uuid";
 faker.seed(123);
-
+export const colorsAvailable = ["red", "blue", "white"];
+export const brands = ["Boat", "OnePlus", "Sony", "Bose"];
+export const category = ["headphones", "earphones", "airbuds"];
+export const subcategory = ["wired", "wireless"];
 const getItemsInStore = () => {
   const data = [...Array(10)].map((item) => ({
     id: faker.datatype.uuid(),
     name: faker.commerce.productName(),
     image: faker.random.image(),
     price: faker.commerce.price(),
-    brand: faker.random.arrayElement(["Boat", "OnePlus", "Sony", "Bose"]),
+    brand: faker.random.arrayElement(brands),
     inStock: faker.datatype.boolean(),
     fastDelivery: faker.datatype.boolean(),
-    color: faker.random.arrayElement(["red", "blue", "white"]),
+    color: faker.random.arrayElement(colorsAvailable),
     totalAvailableQuantity: 0,
     totalQuantity: 0,
     availableColors: [
@@ -35,8 +38,8 @@ const getItemsInStore = () => {
       },
     ],
     ratings: faker.random.arrayElement([1, 2, 3, 4, 5]),
-    category: faker.random.arrayElement(["headphones", "earphones", "airbuds"]),
-    subcategory: faker.random.arrayElement(["wired", "wireless"]),
+    category: faker.random.arrayElement([...category]),
+    subcategory: faker.random.arrayElement([...subcategory]),
 
     offer: faker.random.arrayElement([
       "Save 50",
