@@ -1,6 +1,5 @@
 import faker from "faker";
 import { v4 } from "uuid";
-faker.seed(123);
 export const colorsAvailable = ["red", "blue", "white"];
 export const brands = ["Boat", "OnePlus", "Sony", "Bose"];
 export const category = ["headphones", "earphones", "airbuds"];
@@ -10,6 +9,7 @@ const getItemsInStore = () => {
     id: faker.datatype.uuid(),
     name: faker.commerce.productName(),
     image: faker.random.image(),
+    sellingPrice: 0,
     price: faker.commerce.price(),
     brand: faker.random.arrayElement(brands),
     inStock: faker.datatype.boolean(),

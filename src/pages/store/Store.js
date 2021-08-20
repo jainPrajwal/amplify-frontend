@@ -1,24 +1,36 @@
-import { useEffect, useState } from "react";
+import { useReducer } from "react";
+
 import { CardProduct } from "../../components";
 import { ContainerEcommerce } from "../../components";
 import { Checkbox } from "../../components/cards/checkbox/Checkbox";
-import { CheckboxRed } from "../../components/cards/checkbox/CheckboxRed";
+import { ModalSortBy } from "../../components/modal/ModalSortBy";
 
 import { PriceSlider } from "../../components/PriceSlider";
+import { SortByDesktop } from "../../components/SortByDesktop";
+import { useProducts } from "../../contexts/useProducts";
 import { brands, category, subcategory } from "../../data/getItemsInStore";
 
-const Store = () => {
-  const [isHidden, setIsHidden] = useState(true);
-  const [sortBy, setSortBy] = useState("RECOMMENDED");
+const modalReducer = (state, { type }) => {
+  switch (type) {
+    case "OPEN_SORTBY_BY_MODAL":
+      return { ...state, isSortByModalOpen: true };
+    case "OPEN_FILTER_BY_MODAL":
+      return { ...state, isFilterByModalOpen: true };
 
-  useEffect(() => {
-    let timer = 0;
-    if (!isHidden) {
-      console.log("timeout ran");
-      timer = setTimeout(() => setIsHidden(true), 5000);
-    }
-    return () => clearTimeout(timer);
-  }, [isHidden]);
+    case "CLOSE_MODAL":
+      return { ...state, isSortByModalOpen: false, isFilterByModalOpen: false };
+
+    default:
+      return state;
+  }
+};
+
+const Store = () => {
+  const [state, dispatch] = useReducer(modalReducer, {
+    isSortByModalOpen: false,
+    isFilterByModalOpen: false,
+  });
+
   return (
     <>
       <div
@@ -26,50 +38,8 @@ const Store = () => {
         style={{ color: "black" }}
       >
         Welcome to our Store!
-        <div className="container-sort d-flex jc-end mr-extra-large pr-large">
-          <div className="sort-sortBy d-flex ">
-            <div onClick={() => setIsHidden((prevState) => !prevState)}>
-              sort By :
-              <span className="text-primary ml-large">Recommended</span>
-            </div>
-
-            <div
-              className={`wrapper-sortBy-options ${
-                isHidden ? "" : "wrapper-sortBy-options-active"
-              }`}
-            >
-              <label className="checkbox-label  checkboxRoundRadio-label">
-                <input
-                  type="radio"
-                  name="sortBy"
-                  checked={sortBy === "PRICE_LOW_TO_HIGH"}
-                  value={"PRICE_LOW_TO_HIGH"}
-                  onChange={() => {
-                    console.log("setting itemColor to red");
-                    setSortBy("PRICE_LOW_TO_HIGH");
-                  }}
-                />
-                <span className="fs-14">Price Low To High</span>
-                <span className="checkmark"></span>
-              </label>
-              <label className="checkbox-label  checkboxRoundRadio-label">
-                <input
-                  type="radio"
-                  name="sortBy"
-                  checked={sortBy === "PRICE_HIGH_TO_LOW"}
-                  value={"PRICE_HIGH_TO_LOW"}
-                  onChange={() => {
-                    console.log("setting itemColor to red");
-
-                    setSortBy("PRICE_HIGH_TO_LOW");
-                  }}
-                />
-                <span className="fs-14"> Price High To Low</span>
-                <span className="checkmark"></span>
-              </label>
-            </div>
-          </div>
-          <div></div>
+        <div className="d-flex jc-end mr-extra-large pr-large">
+          <SortByDesktop />
         </div>
       </div>
       <div className="grid-sidebar">
@@ -144,6 +114,28 @@ const Store = () => {
           </ContainerEcommerce>
         </div>
       </div>
+      <div className="container-sortBy-mobile">
+        <div className="wrapper-sortBy-mobile">
+          <div>
+            <button
+              className="btn-secondary w-100 px-1 py-1"
+              onClick={() => dispatch({ type: "OPEN_SORTBY_BY_MODAL" })}
+            >
+              Sort By
+            </button>
+          </div>
+          <div>
+            <button className="btn-secondary w-100 px-1 py-1">Filter By</button>
+          </div>
+        </div>
+      </div>
+
+      {state.isSortByModalOpen ? (
+        <ModalSortBy status={{ state, dispatch }} />
+      ) : (
+        <div />
+      )}
+      <div></div>
     </>
   );
 };

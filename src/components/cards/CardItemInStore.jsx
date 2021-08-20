@@ -20,6 +20,7 @@ const CardItemInStore = ({
     category,
     subcategory,
     price,
+    sellingPrice,
   },
   store,
 }) => {
@@ -72,16 +73,7 @@ const CardItemInStore = ({
           <hr />
           <div className="product-price-details">
             <div className="product-price">
-              <span>
-                ₹{" "}
-                {`${
-                  offer === "70% bonanza"
-                    ? parseInt(price - (price / 100) * 70)
-                    : offer === "Save 50"
-                    ? parseInt(price - 50)
-                    : parseInt(price - 22)
-                }`}
-              </span>
+              <span>₹{sellingPrice}</span>
             </div>
             <div className="product-mrp">₹{price}</div>
             <div className="product-discount">({offer})</div>
