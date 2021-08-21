@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useCart } from "../contexts/useCart";
+import { useWishlist } from "../contexts/useWishlist";
 import { BrandLogo } from "./BrandLogo";
 import { HamburgerMenu } from "./HamburgerMenu";
 import { NavMenu } from "./NavMenu";
@@ -11,6 +13,8 @@ const Navbar = () => {
     isSearchBarHidden: true,
   });
   const [isPageActive, setPageActive] = useState("");
+  const { state: wishlist } = useWishlist();
+  const { state: cart } = useCart();
 
   let navigate = useNavigate();
 
@@ -107,7 +111,7 @@ const Navbar = () => {
               {" "}
               <div className="nav-menu-link wishlist">
                 <i className="far fa-heart">
-                  <span className="cart-count">10</span>
+                  <span className="cart-count">{wishlist.length}</span>
                 </i>
                 <div></div>
                 <span className="font-sm">wishlist</span>
@@ -125,7 +129,12 @@ const Navbar = () => {
               {" "}
               <div className="nav-menu-link cart">
                 <i className="fas fa-shopping-cart">
-                       <span className="notification-count">10</span>
+                       
+                  <span className="notification-count">
+                    {cart.reduce((acc, current) => {
+                      return (acc += current.totalQuantity);
+                    }, 0)}
+                  </span>
                 </i>
                 <div>
                   <span className="font-sm">cart</span>
