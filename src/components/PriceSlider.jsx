@@ -4,8 +4,9 @@ import { useProducts } from "../contexts/useProducts";
 const PriceSlider = () => {
   const slider = createRef();
   const silderValue = createRef();
+
   const [price, setPrice] = useState({
-    priceInputValue: "1",
+    priceInputValue: "3",
     priceInput: {
       0: "100",
       1: "500",
@@ -22,13 +23,14 @@ const PriceSlider = () => {
     );
   }, [slider, price]);
 
-  const { dispatch } = useProducts();
+  const { dispatch: storeDispatch } = useProducts();
   const handlePriceChange = (event) => {
+    console.log("handle Price Vhange");
     setPrice((prevState) => ({
       ...prevState,
       priceInputValue: event.target.value,
     }));
-    dispatch({
+    storeDispatch({
       type: "PRICE_RANGE",
       payload: getPricingData(price.priceInput),
     });

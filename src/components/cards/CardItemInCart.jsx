@@ -1,6 +1,7 @@
 import { v4 } from "uuid";
 
 import { useNotifications } from "../../contexts/useNotifications";
+import { isItemOutOfStockInRespectiveColor } from "../../pages/store/ReducerStore";
 
 const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
   let {
@@ -17,9 +18,6 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
     price,
     totalQuantity,
   } = itemInCart;
-  const getProductById = (id) => {
-    return cart.find((itemInCart) => itemInCart.id === id);
-  };
 
   const { dispatch: notificationDispatch } = useNotifications();
   return (
@@ -47,6 +45,7 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
         <div className="card-itemCart-image-wrapper">
           <img src={image} alt={name} className="w-100 h-100" />
         </div>
+
         <div className="card-itemCart-content ml-medium w-100 py-small">
           <div className="card-itemCart-title text-primary fs-2 mb-small">
             {brand}
@@ -55,22 +54,29 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
           <div className="card-itemCart-subtitle text-small mt-small">
             {color}
           </div>
+
           <div className="card-itemCart-quantity-details mt-medium">
             <div className="card-itemCart-quantity d-flex ai-center fs-1">
               Quantity :
               <button
                 className="btn-round"
+                disabled={!inStock}
                 onClick={() => {
-                  cartDispatch({
-                    type: "INCREASE_QUANTITY",
-                    payload: itemInCart,
-                  });
+                  if (!isItemOutOfStockInRespectiveColor(itemInCart)) {
+                    cartDispatch({
+                      type: "INCREASE_QUANTITY",
+                      payload: itemInCart,
+                    });
+                  }
+
                   notificationDispatch({
                     type: "ADD_NOTIFICATION",
                     payload: {
                       id: v4(),
                       type: "SUCCESS",
-                      message: `Quantity increased`,
+                      message: isItemOutOfStockInRespectiveColor(itemInCart)
+                        ? `item is OUT OF STOCK!`
+                        : `Quantity increased`,
                     },
                   });
                 }}
@@ -85,6 +91,7 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
                     type: "DECREASE_QUANTITY",
                     payload: itemInCart,
                   });
+
                   notificationDispatch({
                     type: "ADD_NOTIFICATION",
                     payload: {
@@ -103,6 +110,7 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
               </button>
             </div>
           </div>
+
           <div className="itemCart-price-details d-flex mt-medium">
             <div className="itemCart-price mr-small">
               <strong>

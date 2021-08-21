@@ -748,7 +748,7 @@
   appearance: none;
   width: 15px;
   height: 15px;
-  background-color: #1e3a8a;
+  background-color: var(--red);
   border-radius: 50%;
 }
 
@@ -791,6 +791,11 @@
 
 .container-sortBy-mobile {
   display: none;
+}
+/* out of stock */
+.out-of-stock {
+  opacity: 0.5;
+  pointer-events: none;
 }
 @media only screen and (max-width: 768px) {
   .fas.fa-bars.hamburger {

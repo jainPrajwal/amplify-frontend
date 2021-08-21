@@ -2,7 +2,9 @@ import { useReducer } from "react";
 
 import { CardProduct } from "../../components";
 import { ContainerEcommerce } from "../../components";
-import { Checkbox } from "../../components/cards/checkbox/Checkbox";
+import { CheckboxBrand } from "../../components/cards/checkbox/CheckboxBrand";
+import { CheckboxCategory } from "../../components/cards/checkbox/CheckboxCategory";
+import { CheckboxSubCategory } from "../../components/cards/CheckboxSubCategory";
 import { ModalSortBy } from "../../components/modal/ModalSortBy";
 
 import { PriceSlider } from "../../components/PriceSlider";
@@ -30,6 +32,8 @@ const Store = () => {
     isSortByModalOpen: false,
     isFilterByModalOpen: false,
   });
+
+  const { state: store, dispatch: storeDispatch } = useProducts();
 
   return (
     <>
@@ -59,7 +63,11 @@ const Store = () => {
                       key={brand}
                       className="category-list-item d-flex mt-small ai-center "
                     >
-                      <Checkbox /> {brand}
+                      <CheckboxBrand
+                        value={{ store, storeDispatch }}
+                        brand={brand}
+                      />{" "}
+                      {brand}
                     </li>
                   ))}
                 </ul>
@@ -75,7 +83,11 @@ const Store = () => {
                       key={category}
                       className="category-list-item d-flex mt-small ai-center"
                     >
-                      <Checkbox /> {category}
+                      <CheckboxCategory
+                        value={{ store, storeDispatch }}
+                        category={category}
+                      />
+                      {category}
                     </li>
                   ))}
                 </ul>
@@ -91,7 +103,11 @@ const Store = () => {
                       key={subcategory}
                       className="category-list-item d-flex mt-small ai-center"
                     >
-                      <Checkbox /> {subcategory}
+                      <CheckboxSubCategory
+                        value={{ store, storeDispatch }}
+                        subcategory={subcategory}
+                      />{" "}
+                      {subcategory}
                     </li>
                   ))}
                 </ul>
@@ -102,7 +118,7 @@ const Store = () => {
                   <span>select price range</span>
                 </div>
 
-                <PriceSlider />
+                <PriceSlider value={{ store, storeDispatch }} />
               </li>
               <hr />
             </ul>

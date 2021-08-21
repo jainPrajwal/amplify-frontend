@@ -6,6 +6,7 @@ import { Badge } from "./Badge";
 import { WishListIcon } from "./WishListIcon";
 import { v4 } from "uuid";
 import { checkIfItemIsAlreadyPresentInArray } from "../../pages/wishlist/ReducerWishlist";
+import { isItemOutOfStockInRespectiveColor } from "../../pages/store/ReducerStore";
 
 const CardItemInStore = ({
   product: {
@@ -39,7 +40,18 @@ const CardItemInStore = ({
   let navigate = useNavigate();
 
   return (
-    <div className="card card-ecommerce">
+    <div
+      className={`card card-ecommerce ${
+        cart
+          .map((itemInCart) => {
+            if (itemInCart.id === id) {
+              if (!itemInCart.inStock) return "out-of-stock";
+              return null;
+            }
+          })
+          .filter((item) => item !== null)[0]
+      }`}
+    >
       <Badge fastDelivery={fastDelivery} />
 
       <WishListIcon product={getProductById(id)} />

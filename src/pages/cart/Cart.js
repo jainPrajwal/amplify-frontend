@@ -49,7 +49,14 @@ const Cart = () => {
                 <div className="itemCart-discount-total-text">
                   Total Discount
                 </div>
-                <div className="itemCart-discount-total-price green">₹{0}</div>
+                <div className="itemCart-discount-total-price green">
+                  ₹{" "}
+                  {parseInt(
+                    cart.reduce((acc, current) => {
+                      return (acc += current.price - current.sellingPrice);
+                    }, 0)
+                  )}
+                </div>
               </div>
               <hr className="my-1" />
               <div className="itemCart-priceDetails-wrapper text-primary">

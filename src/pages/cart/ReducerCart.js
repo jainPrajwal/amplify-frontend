@@ -1,3 +1,8 @@
+import {
+  isItemOutOfStock,
+  isItemOutOfStockInRespectiveColor,
+} from "../store/ReducerStore";
+
 const decreaseMaxQuantityOfItemInRespectiveColor = (product) => {
   return product.availableColors.map((colorObj) => {
     return colorObj.color === product.color
@@ -30,26 +35,35 @@ const getProductWithUpdatedQuantityMetrics = (
     return (acc += current.quantityOfItemInRespectiveColor);
   }, 0);
 
+  const updatedInStock = isItemOutOfStock(product);
   return {
     ...product,
     availableColors: updatedAvailableColors,
     totalQuantity: updatedTotalQuantity,
+    inStock: !updatedInStock,
   };
 };
 const increaseQuantityOfItemInRespectiveColor = (product) => {
-  const Decreased_MaxQuantity_Of_Item_In_Respective_Color =
-    decreaseMaxQuantityOfItemInRespectiveColor(product);
+  // const Decreased_MaxQuantity_Of_Item_In_Respective_Color =
+  //   decreaseMaxQuantityOfItemInRespectiveColor(product);
 
-  const updatedArrayOfAvailableColors =
-    Decreased_MaxQuantity_Of_Item_In_Respective_Color.map((colorObj) => {
-      return colorObj.color === product.color
-        ? {
-            ...colorObj,
-            quantityOfItemInRespectiveColor:
-              colorObj.quantityOfItemInRespectiveColor + 1,
-          }
-        : colorObj;
-    });
+  console.log(
+    "kya product out of stock hai us color me",
+    !isItemOutOfStockInRespectiveColor(product)
+  );
+  const updatedArrayOfAvailableColors = !isItemOutOfStockInRespectiveColor(
+    product
+  )
+    ? product.availableColors.map((colorObj) => {
+        return colorObj.color === product.color
+          ? {
+              ...colorObj,
+              quantityOfItemInRespectiveColor:
+                colorObj.quantityOfItemInRespectiveColor + 1,
+            }
+          : colorObj;
+      })
+    : product.availableColors;
 
   return getProductWithUpdatedQuantityMetrics(
     product,
@@ -58,11 +72,11 @@ const increaseQuantityOfItemInRespectiveColor = (product) => {
 };
 
 const decreaseQuantityOfItemInRespectiveColor = (product) => {
-  const Increased_MaxQuantity_Of_Item_In_Respective_Color =
-    increaseMaxQuantityOfItemInRespectiveColor(product);
+  // const Increased_MaxQuantity_Of_Item_In_Respective_Color =
+  //   increaseMaxQuantityOfItemInRespectiveColor(product);
 
-  const updatedArrayOfAvailableColors =
-    Increased_MaxQuantity_Of_Item_In_Respective_Color.map((colorObj) => {
+  const updatedArrayOfAvailableColors = product.availableColors.map(
+    (colorObj) => {
       return colorObj.color === product.color
         ? {
             ...colorObj,
@@ -70,7 +84,8 @@ const decreaseQuantityOfItemInRespectiveColor = (product) => {
               colorObj.quantityOfItemInRespectiveColor - 1,
           }
         : colorObj;
-    });
+    }
+  );
 
   return getProductWithUpdatedQuantityMetrics(
     product,
@@ -80,18 +95,6 @@ const decreaseQuantityOfItemInRespectiveColor = (product) => {
 
 const increaseQuantity = (state, payload) => {
   return state.map((itemInCart) => {
-    console.log(
-      " itemInCart.id === payload.id && itemInCart.color === payload.color",
-      itemInCart.id === payload.id && itemInCart.color === payload.color,
-      "itemInCartId",
-      itemInCart,
-      "payloadId",
-      payload.id,
-      "itemInCart Color",
-      itemInCart.color,
-      "PAYLOAD COLOR ",
-      payload.color
-    );
     return itemInCart.id === payload.id && itemInCart.color === payload.color
       ? {
           ...increaseQuantityOfItemInRespectiveColor(payload),
