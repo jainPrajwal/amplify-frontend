@@ -5,18 +5,7 @@ import { Notification } from "../components/notification/Notification";
 export const NotificationContext = createContext();
 
 const NotificationProvider = (props) => {
-  const initialState = [
-    {
-      id: v4(),
-      type: "SUCCESS",
-      message: "Successful Message",
-    },
-    {
-      id: v4(),
-      type: "SUCCESS",
-      message: "Success Message 2",
-    },
-  ];
+  const initialState = [];
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case "ADD_NOTIFICATION":
