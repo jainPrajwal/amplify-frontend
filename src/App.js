@@ -2,10 +2,15 @@ import "./App.css";
 import { Cart, Home, Store, Wishlist } from "./pages";
 
 import { Routes, Route } from "react-router-dom";
-import { CardItemDetails, Navbar } from "./components";
+import { Navbar } from "./components";
 import { ProductDetail } from "./pages/ProductDetail";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    document.title = "AMPLIFY-ONLINE ECOMMERCE APP FOR HEADPHONES";
+  }, []);
+
   return (
     <div className="App">
       <link
@@ -15,6 +20,7 @@ function App() {
         crossOrigin="anonymous"
         referrerPolicy="no-referrer"
       />
+
       <Navbar />
       <div className="container-amplify">
         <Routes>
@@ -23,7 +29,6 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
-          {/* <Route path="/productDetail" element={<ProductDetail />} /> */}
         </Routes>
       </div>
     </div>
