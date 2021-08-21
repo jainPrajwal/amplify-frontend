@@ -38,14 +38,8 @@ const Store = () => {
 
   return (
     <>
-      <div
-        className="header header-secondary text-center"
-        style={{ color: "black" }}
-      >
-        Welcome to our Store!
-        <div className="d-flex jc-end mr-extra-large pr-large">
-          <SortByDesktop />
-        </div>
+      <div className="d-flex jc-end mr-extra-large pr-large">
+        <SortByDesktop />
       </div>
       <div className="grid-sidebar">
         <div className="container-sidebar-desktop">
@@ -131,6 +125,9 @@ const Store = () => {
           </div>
         </div>
         <div className="container-main px-1">
+          {/* <div className="text-left text-black">
+            Total {store.store.length} items found..
+          </div> */}
           <ContainerEcommerce>
             <CardProduct />
           </ContainerEcommerce>

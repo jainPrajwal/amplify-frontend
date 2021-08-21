@@ -203,12 +203,14 @@
   cursor: pointer;
 }
 .Slide {
-  /* transition: opacity 200ms ease; */
-  animation: slide-in-right;
-  animation-fill-mode: forwards;
+  transform: translateX(0);
+  transition: opacity 200ms ease, transform 200ms ease-in;
+  /* animation: slide-in-right;
+  animation-fill-mode: forwards; */
 }
 .Slide[aria-hidden="true"] {
   opacity: 0;
+  transform: translateX(100%);
   transition-delay: 200ms;
   z-index: -1;
 }

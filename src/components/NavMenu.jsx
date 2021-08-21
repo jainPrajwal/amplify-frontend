@@ -44,7 +44,10 @@ const NavMenu = ({
             <hr />
             <li className="icon-cart nav-mob-menu-item">
               <a href="true">
-                <i className="fas fa-shopping-cart"></i>
+                <i
+                  className="fas fa-shopping-cart"
+                  style={{ fontSize: "inherit", width: "fit-content" }}
+                ></i>
                 My Cart
               </a>
             </li>
