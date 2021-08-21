@@ -5,6 +5,7 @@ import { ContainerEcommerce } from "../../components";
 import { CheckboxBrand } from "../../components/cards/checkbox/CheckboxBrand";
 import { CheckboxCategory } from "../../components/cards/checkbox/CheckboxCategory";
 import { CheckboxSubCategory } from "../../components/cards/CheckboxSubCategory";
+import { ModalFilterBy } from "../../components/modal/ModalFilterBy";
 import { ModalSortBy } from "../../components/modal/ModalSortBy";
 
 import { PriceSlider } from "../../components/PriceSlider";
@@ -53,7 +54,12 @@ const Store = () => {
               <li className="sidebar-list-items mt-large">
                 <div className="header fs-1 text-black text-upper d-flex jc-space-between">
                   <span>filter by</span>
-                  <span className="red fs-14">clear all</span>
+                  <span
+                    className="red fs-14 clear-all"
+                    onClick={() => storeDispatch({ type: "CLEAR_ALL" })}
+                  >
+                    clear all
+                  </span>
                 </div>
                 <hr />
                 <div className="text-primary fs-14 text-upper my-1">brands</div>
@@ -141,13 +147,24 @@ const Store = () => {
             </button>
           </div>
           <div>
-            <button className="btn-secondary w-100 px-1 py-1">Filter By</button>
+            <button
+              className="btn-secondary w-100 px-1 py-1"
+              onClick={() => dispatch({ type: "OPEN_FILTER_BY_MODAL" })}
+            >
+              Filter By
+            </button>
           </div>
         </div>
       </div>
 
       {state.isSortByModalOpen ? (
         <ModalSortBy status={{ state, dispatch }} />
+      ) : (
+        <div />
+      )}
+
+      {state.isFilterByModalOpen ? (
+        <ModalFilterBy status={{ state, dispatch }} />
       ) : (
         <div />
       )}

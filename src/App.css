@@ -797,6 +797,9 @@
   opacity: 0.5;
   pointer-events: none;
 }
+.clear-all:hover {
+  cursor: pointer;
+}
 @media only screen and (max-width: 768px) {
   .fas.fa-bars.hamburger {
     display: block;

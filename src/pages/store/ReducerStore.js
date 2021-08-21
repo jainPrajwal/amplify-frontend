@@ -71,6 +71,49 @@ const updatedProducts = products.map((item) => {
         : getSellingPriceForRepuublicDaySale(item.price),
   };
 });
+
+const initialStateOfSpecificBrands = [
+  {
+    name: "Boat",
+    filterBy: false,
+  },
+  {
+    name: "OnePlus",
+    filterBy: false,
+  },
+  {
+    name: "Bose",
+    filterBy: false,
+  },
+  {
+    name: "Sony",
+    filterBy: false,
+  },
+];
+const initialStateOfSpecificCategories = [
+  {
+    name: "headphones",
+    filterBy: false,
+  },
+  {
+    name: "earphones",
+    filterBy: false,
+  },
+  {
+    name: "airbuds",
+    filterBy: false,
+  },
+];
+const initialStateOfSpecificSubCategories = [
+  {
+    name: "wired",
+    filterBy: false,
+  },
+  {
+    name: "wireless",
+    filterBy: false,
+  },
+];
 const reducerCallbackFunction = (state, { type, payload }) => {
   switch (type) {
     case "LOAD_PRODUCTS":
@@ -124,6 +167,14 @@ const reducerCallbackFunction = (state, { type, payload }) => {
 
     case "SEARCH":
       return { ...state, searchQuery: payload };
+
+    case "CLEAR_ALL":
+      return {
+        ...state,
+        specificBrand: initialStateOfSpecificBrands,
+        specificCategory: initialStateOfSpecificCategories,
+        specificSubCategory: initialStateOfSpecificSubCategories,
+      };
     default:
       return state;
   }
@@ -133,48 +184,9 @@ const initialState = {
   sortBy: "RECOMMENDED",
   fastDeliveryOnly: false,
   inStockOnly: false,
-  specificBrand: [
-    {
-      name: "Boat",
-      filterBy: false,
-    },
-    {
-      name: "OnePlus",
-      filterBy: false,
-    },
-    {
-      name: "Bose",
-      filterBy: false,
-    },
-    {
-      name: "Sony",
-      filterBy: false,
-    },
-  ],
-  specificCategory: [
-    {
-      name: "headphones",
-      filterBy: false,
-    },
-    {
-      name: "earphones",
-      filterBy: false,
-    },
-    {
-      name: "airbuds",
-      filterBy: false,
-    },
-  ],
-  specificSubCategory: [
-    {
-      name: "wired",
-      filterBy: false,
-    },
-    {
-      name: "wireless",
-      filterBy: false,
-    },
-  ],
+  specificBrand: initialStateOfSpecificBrands,
+  specificCategory: initialStateOfSpecificCategories,
+  specificSubCategory: initialStateOfSpecificSubCategories,
   maxRange: 20000,
   searchQuery: "",
 };

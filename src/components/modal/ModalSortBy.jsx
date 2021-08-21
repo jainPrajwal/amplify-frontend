@@ -42,7 +42,7 @@ const ModalSortBy = ({
               Sort By
             </div>
             <div
-              className="red text-upper fs-2"
+              className="red text-upper fs-2 clear-all"
               onClick={() =>
                 storeDispatch({ type: "SORT", payload: "RECOMMENDED" })
               }
