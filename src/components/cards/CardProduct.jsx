@@ -55,8 +55,6 @@ const getDataWithinAPriceRange = (store, maxRange) => {
   return store.filter((item) => item.sellingPrice <= maxRange);
 };
 
-const getInStockProductsOnly = (store, inStock) => {};
-
 const CardProduct = () => {
   const {
     state: {

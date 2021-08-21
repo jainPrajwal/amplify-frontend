@@ -121,6 +121,9 @@ const reducerCallbackFunction = (state, { type, payload }) => {
     case "PRICE_RANGE":
       console.log("price range", payload);
       return { ...state, maxRange: payload };
+
+    case "SEARCH":
+      return { ...state, searchQuery: payload };
     default:
       return state;
   }
@@ -173,5 +176,6 @@ const initialState = {
     },
   ],
   maxRange: 20000,
+  searchQuery: "",
 };
 export { reducerCallbackFunction, initialState };
