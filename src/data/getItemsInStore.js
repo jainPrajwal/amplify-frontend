@@ -1,9 +1,11 @@
 import faker from "faker";
+
 import { v4 } from "uuid";
 export const colorsAvailable = ["red", "blue", "white"];
 export const brands = ["Boat", "OnePlus", "Sony", "Bose"];
 export const category = ["headphones", "earphones", "airbuds"];
 export const subcategory = ["wired", "wireless"];
+faker.seed(123);
 const getItemsInStore = () => {
   const data = [...Array(10)].map((item) => ({
     id: faker.datatype.uuid(),

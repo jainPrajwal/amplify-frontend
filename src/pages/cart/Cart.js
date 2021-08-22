@@ -83,7 +83,10 @@ const Cart = () => {
     );
   else
     return (
-      <div className="header header-secondary text-black text-center">
+      <div
+        className="header header-secondary text-black text-center"
+        style={{ whiteSpace: "normal" }}
+      >
         An empty cart doesn't look pretty!
       </div>
     );
