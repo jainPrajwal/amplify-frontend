@@ -2,7 +2,7 @@ import { CardCart } from "../../components/cards/CardCart";
 import { useCart } from "../../contexts/useCart";
 
 const Cart = () => {
-  let { state: cart, dispatch: cartDispatch } = useCart();
+  let { state: cart } = useCart();
   if (cart.length > 0)
     return (
       <>

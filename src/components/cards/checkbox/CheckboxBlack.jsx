@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 const CheckboxBlack = ({ state: { itemColor, setItemColor } }) => {
   return (
     <label className="checkbox-label checkboxBlack-label">

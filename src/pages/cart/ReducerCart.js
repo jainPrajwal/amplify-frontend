@@ -3,29 +3,29 @@ import {
   isItemOutOfStockInRespectiveColor,
 } from "../store/ReducerStore";
 
-const decreaseMaxQuantityOfItemInRespectiveColor = (product) => {
-  return product.availableColors.map((colorObj) => {
-    return colorObj.color === product.color
-      ? {
-          ...colorObj,
-          maxQuantityOfItemInRespectiveColor:
-            colorObj.maxQuantityOfItemInRespectiveColor - 1,
-        }
-      : colorObj;
-  });
-};
+// const decreaseMaxQuantityOfItemInRespectiveColor = (product) => {
+//   return product.availableColors.map((colorObj) => {
+//     return colorObj.color === product.color
+//       ? {
+//           ...colorObj,
+//           maxQuantityOfItemInRespectiveColor:
+//             colorObj.maxQuantityOfItemInRespectiveColor - 1,
+//         }
+//       : colorObj;
+//   });
+// };
 
-const increaseMaxQuantityOfItemInRespectiveColor = (product) => {
-  return product.availableColors.map((colorObj) => {
-    return colorObj.color === product.color
-      ? {
-          ...colorObj,
-          maxQuantityOfItemInRespectiveColor:
-            colorObj.maxQuantityOfItemInRespectiveColor + 1,
-        }
-      : colorObj;
-  });
-};
+// const increaseMaxQuantityOfItemInRespectiveColor = (product) => {
+//   return product.availableColors.map((colorObj) => {
+//     return colorObj.color === product.color
+//       ? {
+//           ...colorObj,
+//           maxQuantityOfItemInRespectiveColor:
+//             colorObj.maxQuantityOfItemInRespectiveColor + 1,
+//         }
+//       : colorObj;
+//   });
+// };
 
 const getProductWithUpdatedQuantityMetrics = (
   product,
@@ -47,10 +47,6 @@ const increaseQuantityOfItemInRespectiveColor = (product) => {
   // const Decreased_MaxQuantity_Of_Item_In_Respective_Color =
   //   decreaseMaxQuantityOfItemInRespectiveColor(product);
 
-  console.log(
-    "kya product out of stock hai us color me",
-    !isItemOutOfStockInRespectiveColor(product)
-  );
   const updatedArrayOfAvailableColors = !isItemOutOfStockInRespectiveColor(
     product
   )

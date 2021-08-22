@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { CheckboxBlack } from "./CheckboxBlack";
 import { CheckboxBlue } from "./CheckboxBlue";
 import { CheckboxGreen } from "./CheckboxGreen";

@@ -5,6 +5,9 @@ export const updateWishlist = (state, product, operation) => {
 
     case "ADD_TO_WISHLIST":
       return state.concat(product);
+
+    default:
+      return state;
   }
 };
 export const checkIfItemIsAlreadyPresentInArray = (state, product) => {

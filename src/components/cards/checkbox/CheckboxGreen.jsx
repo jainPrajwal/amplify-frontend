@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 const CheckboxGreen = ({ state: { itemColor, setItemColor } }) => {
   console.log("itemColor from green", { itemColor });
   return (

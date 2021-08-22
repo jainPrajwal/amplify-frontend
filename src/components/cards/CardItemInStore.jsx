@@ -6,7 +6,6 @@ import { Badge } from "./Badge";
 import { WishListIcon } from "./WishListIcon";
 import { v4 } from "uuid";
 import { checkIfItemIsAlreadyPresentInArray } from "../../pages/wishlist/ReducerWishlist";
-import { isItemOutOfStockInRespectiveColor } from "../../pages/store/ReducerStore";
 
 const CardItemInStore = ({
   product: {
@@ -48,6 +47,7 @@ const CardItemInStore = ({
               if (!itemInCart.inStock) return "out-of-stock";
               return null;
             }
+            return null;
           })
           .filter((item) => item !== null)[0]
       }`}

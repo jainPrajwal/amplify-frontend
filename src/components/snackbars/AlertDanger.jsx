@@ -7,7 +7,7 @@ const AlertDanger = (props) => {
   const { dispatch } = useNotifications();
   const handleCloseNotification = () => {
     setExit(true);
-    console.log("close notification called");
+
     setTimeout(() => {
       dispatch({
         type: "REMOVE_NOTIFICATION",
@@ -30,7 +30,7 @@ const AlertDanger = (props) => {
   return (
     <div className={`alert-content alert-danger ${exit ? "exit" : ""}`}>
       <div>
-        <i class="fa fa-check-circle" aria-hidden="true"></i>
+        <i className="fa fa-check-circle" aria-hidden="true"></i>
         {props.message}
       </div>
       <span

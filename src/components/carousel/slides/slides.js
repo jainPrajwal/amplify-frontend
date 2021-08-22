@@ -1,5 +1,3 @@
-import React from "react";
-
 const slides = [
   {
     img: "https://m.media-amazon.com/images/S/aplus-media/vc/10d3d9d7-f319-4005-9173-ead011283566.__CR0,0,970,300_PT0_SX970_V1___.jpg",

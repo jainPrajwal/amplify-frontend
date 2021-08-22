@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useProducts } from "../../contexts/useProducts";
 import { CardItemInStore } from "./CardItemInStore";
+import loadingImage from "../../assets/images/loading.gif";
 
 const getSortedData = (store, sortBy) => {
-  console.log("get sorted data called", store);
   if (sortBy === "RECOMMENDED") return store;
   return [...store].sort((a, b) =>
     sortBy === "PRICE_HIGH_TO_LOW"
@@ -64,12 +64,15 @@ const CardProduct = () => {
       specificCategory,
       specificSubCategory,
       maxRange,
+      status,
     },
-    dispatch,
+    dispatch: storeDispatch,
   } = useProducts();
   useEffect(() => {
+    storeDispatch({ type: "STATUS", payload: "loading" });
     setTimeout(() => {
-      dispatch({ type: "LOAD_PRODUCTS" });
+      storeDispatch({ type: "LOAD_PRODUCTS" });
+      storeDispatch({ type: "STATUS", payload: "idle" });
     }, 3000);
   }, []);
 
@@ -95,9 +98,30 @@ const CardProduct = () => {
     maxRange
   );
 
-  return dataWithinAPriceRange.map((product, index, store) => {
-    return <CardItemInStore product={product} key={product.id} store={store} />;
-  });
+  switch (status) {
+    case "idle":
+      return dataWithinAPriceRange.map((product, index, store) => {
+        return (
+          <CardItemInStore product={product} key={product.id} store={store} />
+        );
+      });
+    case "loading":
+      return (
+        <div className="wrapper-loading">
+          <img src={loadingImage} className="w-100 h-auto" alt="loading" />
+        </div>
+      );
+
+    case "error":
+      return (
+        <h1>
+          opps it seems there was some error!Please try again after some time
+        </h1>
+      );
+
+    default:
+      return <div />;
+  }
 };
 
 export { CardProduct };

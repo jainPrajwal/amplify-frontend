@@ -22,22 +22,8 @@ const CardItemDetails = () => {
     return state.store.find((itemInCart) => itemInCart.id === id);
   };
 
-  const getProductByIdInCart = (id) => {
-    return cart.find((itemInCart) => itemInCart.id === id);
-  };
-
-  let {
-    id,
-    name,
-    image,
-    brand,
-    category,
-    subcategory,
-    offer,
-    price,
-    color,
-    totalQuantity,
-  } = getProductById(productId);
+  let { id, name, image, brand, category, subcategory, offer, price } =
+    getProductById(productId);
   let product = getProductById(id);
   const [itemColor, setItemColor] = useState(product.color);
   const IsAlreadyPresentInArray = checkIfItemIsAlreadyPresentInArray(
@@ -201,6 +187,7 @@ const CardItemDetails = () => {
               <img
                 src="https://img.icons8.com/ios-filled/50/fa314a/free-shipping.png"
                 className="image-free-delivery"
+                alt="free delivery"
               />
             </div>
             <div className="fs-2 ml-medium red text-primary">Free Delivery</div>
@@ -211,6 +198,7 @@ const CardItemDetails = () => {
               <img
                 src="https://img.icons8.com/material/48/fa314a/security-checked--v1.png"
                 className="image-free-delivery"
+                alt="secured delivery"
               />
             </div>
             <div className="fs-2 ml-medium red text-primary">
@@ -223,6 +211,7 @@ const CardItemDetails = () => {
               <img
                 src="https://img.icons8.com/material/48/fa314a/replace.png"
                 className="image-free-delivery"
+                alt="easy replacement"
               />
             </div>
             <div className="fs-2 ml-medium red text-primary">Easy Return</div>

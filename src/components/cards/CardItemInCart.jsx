@@ -5,16 +5,14 @@ import { isItemOutOfStockInRespectiveColor } from "../../pages/store/ReducerStor
 
 const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
   let {
-    id,
     image,
     name,
     brand,
     offer,
     inStock,
-    fastDelivery,
+
     color,
-    category,
-    subcategory,
+
     price,
     totalQuantity,
   } = itemInCart;

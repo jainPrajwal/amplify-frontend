@@ -17,24 +17,6 @@ export const isItemOutOfStock = (item) => {
 };
 
 export const isItemOutOfStockInRespectiveColor = (item) => {
-  console.log(
-    "isItemOutOfStockInRespectiveColor",
-    item.availableColors
-      .map((colorObj) => {
-        if (item.color === colorObj.color) {
-          if (
-            colorObj.quantityOfItemInRespectiveColor >=
-            colorObj.maxQuantityOfItemInRespectiveColor
-          ) {
-            console.log("asndlnamsd");
-            return true;
-          }
-          return false;
-        }
-        return null;
-      })
-      .filter((item) => item !== null)[0]
-  );
   return item.availableColors
     .map((colorObj) => {
       if (item.color === colorObj.color) {
@@ -175,6 +157,9 @@ const reducerCallbackFunction = (state, { type, payload }) => {
         specificCategory: initialStateOfSpecificCategories,
         specificSubCategory: initialStateOfSpecificSubCategories,
       };
+
+    case "STATUS":
+      return { ...state, status: payload };
     default:
       return state;
   }
@@ -189,5 +174,6 @@ const initialState = {
   specificSubCategory: initialStateOfSpecificSubCategories,
   maxRange: 20000,
   searchQuery: "",
+  status: "idle",
 };
 export { reducerCallbackFunction, initialState };
