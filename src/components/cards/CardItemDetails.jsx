@@ -6,6 +6,7 @@ import { useCart } from "../../contexts/useCart";
 import { useNotifications } from "../../contexts/useNotifications";
 import { useProducts } from "../../contexts/useProducts";
 import { useWishlist } from "../../contexts/useWishlist";
+import { isItemOutOfStockInRespectiveColor } from "../../pages/store/ReducerStore";
 import { checkIfItemIsAlreadyPresentInArray } from "../../pages/wishlist/ReducerWishlist";
 import { CheckboxPanel } from "./checkbox/CheckboxPanel";
 
@@ -107,6 +108,7 @@ const CardItemDetails = () => {
             {!IsAlreadyPresentInCart ? (
               <button
                 className="btn btn-danger primary-add-to"
+                disabled={isItemOutOfStockInRespectiveColor(product)}
                 onClick={() => {
                   console.log("IsAlreadyPresentInCart", IsAlreadyPresentInCart);
 

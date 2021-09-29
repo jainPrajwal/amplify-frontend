@@ -14,7 +14,6 @@ const getItemsInStore = () => {
     sellingPrice: 0,
     price: faker.commerce.price(),
     brand: faker.random.arrayElement(brands),
-    inStock: faker.datatype.boolean(),
     fastDelivery: faker.datatype.boolean(),
     color: faker.random.arrayElement(colorsAvailable),
     totalAvailableQuantity: 0,

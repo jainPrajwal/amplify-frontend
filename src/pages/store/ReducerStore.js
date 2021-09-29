@@ -17,18 +17,18 @@ export const isItemOutOfStock = (item) => {
 };
 
 export const isItemOutOfStockInRespectiveColor = (item) => {
-  return item.availableColors
-    .map((colorObj) => {
-      if (item.color === colorObj.color) {
-        if (
-          colorObj.quantityOfItemInRespectiveColor >=
-          colorObj.maxQuantityOfItemInRespectiveColor
-        )
-          return true;
-      }
-      return null;
-    })
-    .filter((item) => item !== null)[0];
+  return item.availableColors.filter((colorObj) => {
+    if (item.color === colorObj.color) {
+      if (
+        colorObj.quantityOfItemInRespectiveColor >=
+        colorObj.maxQuantityOfItemInRespectiveColor
+      ) {
+        console.log("out of stock", item);
+        return true;
+      } else return false;
+    }
+    return false;
+  })[0];
 };
 const products = getItemsInStore().map((itemInStore) => {
   return {

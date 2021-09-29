@@ -273,6 +273,10 @@
   /* transform: translateY(2px); */
 }
 
+.btn-disabled {
+  opacity: 0.5;
+}
+
 .modal-bg,
 .modal-bg-active {
   all: unset;

@@ -6,9 +6,13 @@ import { Badge } from "./Badge";
 import { WishListIcon } from "./WishListIcon";
 import { v4 } from "uuid";
 import { checkIfItemIsAlreadyPresentInArray } from "../../pages/wishlist/ReducerWishlist";
+import { isItemOutOfStockInRespectiveColor } from "../../pages/store/ReducerStore";
 
-const CardItemInStore = ({
-  product: {
+const CardItemInStore = ({ product, store }) => {
+  const { state: cart, dispatch: cartDispatch } = useCart();
+
+  const { dispatch: notificationDispatch } = useNotifications();
+  const {
     id,
     image,
     name,
@@ -21,12 +25,7 @@ const CardItemInStore = ({
     subcategory,
     price,
     sellingPrice,
-  },
-  store,
-}) => {
-  const { state: cart, dispatch: cartDispatch } = useCart();
-
-  const { dispatch: notificationDispatch } = useNotifications();
+  } = product;
 
   const getProductById = (id) => {
     return store.find((itemInCart) => itemInCart.id === id);
@@ -37,7 +36,10 @@ const CardItemInStore = ({
   );
 
   let navigate = useNavigate();
-
+  console.log(
+    "isItemOutOfStockInRespectiveColor(product)",
+    isItemOutOfStockInRespectiveColor(product)
+  );
   return (
     <div
       className={`card card-ecommerce ${
@@ -80,7 +82,12 @@ const CardItemInStore = ({
           </div>
 
           <div>
-            {`Color : ${color}`} {`${inStock ? "In Stock" : "Out of Stock"}`}
+            {`Color : ${color}`}{" "}
+            {`${
+              isItemOutOfStockInRespectiveColor(product)
+                ? "Out of Stock"
+                : "In Stock"
+            }`}
           </div>
           <hr />
           <div className="product-price-details">
@@ -104,7 +111,10 @@ const CardItemInStore = ({
           </button>
         ) : (
           <button
-            className="btn btn-primary"
+            className={`btn btn-primary ${
+              isItemOutOfStockInRespectiveColor(product) ? `btn-disabled` : ``
+            }`}
+            disabled={isItemOutOfStockInRespectiveColor(product)}
             onClick={() => {
               cartDispatch({
                 type: "ADD_TO_CART",
