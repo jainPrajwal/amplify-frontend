@@ -814,6 +814,36 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+/* form */
+.form-title {
+  color: black;
+}
+
+.form .input {
+  color: black;
+}
+.form label {
+  color: gray;
+  border-bottom-color: gray;
+}
+
+.form .input-password {
+  padding-bottom: 2rem;
+}
+.form-container {
+  border: none;
+  padding: 1rem 0rem;
+}
+
+.form-container .btn.btn-primary.btn-input {
+  width: 40%;
+}
+
+.wrapper-login .banner-login {
+  max-width: 480px;
+  height: auto;
+}
 @media only screen and (max-width: 768px) {
   .fas.fa-bars.hamburger {
     display: block;

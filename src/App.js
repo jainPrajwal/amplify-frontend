@@ -5,6 +5,9 @@ import { Routes, Route } from "react-router-dom";
 import { Navbar } from "./components";
 import { ProductDetail } from "./pages/ProductDetail";
 import { useEffect } from "react";
+import { PrivateRoute } from "./PrivateRoute";
+import { Login } from "./pages/login/Login";
+import { SignUp } from "./pages/signup/signup";
 
 function App() {
   useEffect(() => {
@@ -26,9 +29,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/store" element={<Store />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/wishlist" element={<Wishlist />} />
+          <PrivateRoute path="/cart" element={<Cart />} />
+          <PrivateRoute path="/wishlist" element={<Wishlist />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </div>
     </div>
