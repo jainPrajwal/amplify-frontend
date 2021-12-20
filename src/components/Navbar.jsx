@@ -6,6 +6,7 @@ import { BrandLogo } from "./BrandLogo";
 import { HamburgerMenu } from "./HamburgerMenu";
 import { NavMenu } from "./NavMenu";
 import { SearchBar } from "./searchbar/searchBar";
+import { useAuth } from "../contexts/useAuth";
 
 const Navbar = () => {
   const [mobileView, setMobileView] = useState({
@@ -15,6 +16,8 @@ const Navbar = () => {
   const [isPageActive, setPageActive] = useState("");
   const { state: wishlist } = useWishlist();
   const { state: cart } = useCart();
+
+ 
 
   let navigate = useNavigate();
 
@@ -91,6 +94,7 @@ const Navbar = () => {
                 <div
                   onClick={() => {
                     setPageActive("login");
+                    navigate("/login");
                   }}
                 >
                   <i className="fas fa-sign-in-alt"></i>
@@ -129,7 +133,6 @@ const Navbar = () => {
               {" "}
               <div className="nav-menu-link cart">
                 <i className="fas fa-shopping-cart">
-                       
                   <span className="notification-count">
                     {cart.reduce((acc, current) => {
                       return (acc += current.totalQuantity);

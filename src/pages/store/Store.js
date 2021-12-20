@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import { useEffect } from "react/cjs/react.development";
 
 import { CardProduct } from "../../components";
 import { ContainerEcommerce } from "../../components";
@@ -35,6 +36,7 @@ const Store = () => {
   });
 
   const { state: store, dispatch: storeDispatch } = useProducts();
+
 
   return (
     <>

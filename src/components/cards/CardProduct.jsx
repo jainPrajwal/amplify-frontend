@@ -68,13 +68,7 @@ const CardProduct = () => {
     },
     dispatch: storeDispatch,
   } = useProducts();
-  useEffect(() => {
-    storeDispatch({ type: "STATUS", payload: "loading" });
-    setTimeout(() => {
-      storeDispatch({ type: "LOAD_PRODUCTS" });
-      storeDispatch({ type: "STATUS", payload: "idle" });
-    }, 3000);
-  }, []);
+
 
   const sortedData = getSortedData(store, sortBy);
 

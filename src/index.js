@@ -13,8 +13,8 @@ import { AuthProvider } from "./contexts/auth-context";
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <AuthProvider>
-        <NotificationProvider>
+      <NotificationProvider>
+        <AuthProvider>
           <WishlistProvider>
             <CartProvider>
               <ProductsProvider>
@@ -22,8 +22,8 @@ ReactDOM.render(
               </ProductsProvider>
             </CartProvider>
           </WishlistProvider>
-        </NotificationProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </NotificationProvider>
     </Router>
   </React.StrictMode>,
   document.getElementById("root")

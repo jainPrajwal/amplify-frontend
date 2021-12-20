@@ -1,34 +1,19 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/useAuth";
 import BannerLogin from "../../assets/images/Shopping.svg";
 
 const Login = () => {
-  const { loginUserWithCredentials } = useAuth();
-  const [status, setStatus] = useState("idle");
+  const { loginUserWithCredentials, status } = useAuth();
 
   const [userLoginDetails, setUserLoginDetails] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
-  const { state } = useLocation();
-  const navigate = useNavigate();
-
-  const checkCredentials = async () => {
-    setStatus("loading");
-
-    (await loginUserWithCredentials(userLoginDetails))
-      ? setStatus("idle")
-      : setStatus("error");
-    if (state?.from) {
-      navigate(`${state.from}`);
-    } //else navigate("/store");
-  };
-  const LoginHandler = (e) => {
+  const LoginHandler = async (e) => {
     e.preventDefault();
-
-    // checkCredentials();
+    await loginUserWithCredentials(userLoginDetails);
   };
 
   return (
@@ -41,7 +26,7 @@ const Login = () => {
             height="25px"
             width="25px"
           />
-          <p className="ml-medium">{"Invalid Username or Password"}</p>
+          <p className="ml-medium">Invalid Username or Password</p>
         </div>
       )}
       <div className="d-flex f-direction-row jc-space-around wrapper-login">
@@ -59,7 +44,7 @@ const Login = () => {
                   onChange={(event) =>
                     setUserLoginDetails((prevState) => ({
                       ...prevState,
-                      email: event.target.value,
+                      username: event.target.value,
                     }))
                   }
                   required
@@ -89,11 +74,10 @@ const Login = () => {
               </div>
               <div className="d-flex jc-center">
                 <button className="btn btn-primary btn-input">
-                  {}
                   {status === "loading" ? (
                     <>
                       <img
-                        src="https://www.circuit-booking.com/themes/basic/assets/images/dot-progress.gif"
+                        src="https://c.tenor.com/NqKNFHSmbssAAAAi/discord-loading-dots-discord-loading.gif"
                         alt="loading"
                         width="50px"
                         height="12px"
@@ -106,15 +90,17 @@ const Login = () => {
               </div>
             </div>
           </form>
-          <Link to="/signup">
-            <div className="d-flex jc-center ai-center">
-              Not Registered yet?
-              <button className="btn btn-danger">sign up</button>
-            </div>
-          </Link>
+
+          <div className="d-flex jc-center ai-center">
+            Not Registered yet?
+            <button className="btn btn-danger">
+              {" "}
+              <Link to="/signup">sign up</Link>
+            </button>
+          </div>
         </div>
         <div className="d-flex ai-center pt-medium">
-          <img src={BannerLogin} alt="image" className="banner-login" />
+          <img src={BannerLogin} alt="" className="banner-login" />
         </div>
       </div>
     </>

@@ -23,7 +23,6 @@ export const isItemOutOfStockInRespectiveColor = (item) => {
         colorObj.quantityOfItemInRespectiveColor >=
         colorObj.maxQuantityOfItemInRespectiveColor
       ) {
-        console.log("out of stock", item);
         return true;
       } else return false;
     }
@@ -144,7 +143,6 @@ const reducerCallbackFunction = (state, { type, payload }) => {
       };
 
     case "PRICE_RANGE":
-      console.log("price range", payload);
       return { ...state, maxRange: payload };
 
     case "SEARCH":

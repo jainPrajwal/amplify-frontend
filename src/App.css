@@ -844,6 +844,11 @@
   max-width: 480px;
   height: auto;
 }
+
+.loader-top {
+  height: 3px;
+  background-color: var(--red);
+}
 @media only screen and (max-width: 768px) {
   .fas.fa-bars.hamburger {
     display: block;

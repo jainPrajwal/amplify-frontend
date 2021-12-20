@@ -36,10 +36,7 @@ const CardItemInStore = ({ product, store }) => {
   );
 
   let navigate = useNavigate();
-  console.log(
-    "isItemOutOfStockInRespectiveColor(product)",
-    isItemOutOfStockInRespectiveColor(product)
-  );
+ 
   return (
     <div
       className={`card card-ecommerce ${
