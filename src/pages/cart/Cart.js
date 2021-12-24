@@ -3,7 +3,7 @@ import { useCart } from "../../contexts/useCart";
 
 const Cart = () => {
   let { state: cart } = useCart();
-  console.log("cart", cart);
+
   if (cart.length > 0)
     return (
       <>

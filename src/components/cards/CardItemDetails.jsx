@@ -20,12 +20,12 @@ const CardItemDetails = () => {
   const { state: cart, dispatch: cartDispatch } = useCart();
 
   const getProductById = (id) => {
-    return state.store.find((itemInCart) => itemInCart.id === id);
+    return state.store.find((itemInCart) => itemInCart._id === id);
   };
 
-  let { id, name, image, brand, category, subcategory, offer, price } =
+  let { _id, name, image, brand, category, subcategory, offer, price } =
     getProductById(productId);
-  let product = getProductById(id);
+  let product = getProductById(_id);
   const [itemColor, setItemColor] = useState(product.color);
   const IsAlreadyPresentInArray = checkIfItemIsAlreadyPresentInArray(
     wishlist,
@@ -97,7 +97,7 @@ const CardItemDetails = () => {
           <div className="d-flex mt-medium color-palette">
             <CheckboxPanel
               product={product}
-              key={id}
+              key={_id}
               colorObject={{ itemColor, setItemColor }}
             />
           </div>{" "}

@@ -9,6 +9,8 @@ import { PrivateRoute } from "./PrivateRoute";
 import { Login } from "./pages/login/Login";
 import { SignUp } from "./pages/signup/signup";
 import { useProducts } from "./contexts/useProducts";
+import axios from "axios";
+
 
 function App() {
   const { dispatch: storeDispatch } = useProducts();
@@ -23,15 +25,34 @@ function App() {
     }, 100);
     return () => clearInterval(intervalId);
   }, [width]);
+
   useEffect(() => {
     storeDispatch({ type: "STATUS", payload: "loading" });
-    const timeOutId = setTimeout(() => {
-      storeDispatch({ type: "LOAD_PRODUCTS" });
-      storeDispatch({ type: "STATUS", payload: "idle" });
-      setWidth(undefined);
-    }, 3000);
+    const getProducts = async () => {
+      try {
+        const response = await axios.get(
+          "https://amplitude-backend.herokuapp.com/products"
+        );
+        console.log({ response });
 
-    return () => clearTimeout(timeOutId);
+        storeDispatch({
+          type: "LOAD_PRODUCTS",
+          payload: { products: response.data.products },
+        });
+
+        storeDispatch({ type: "STATUS", payload: "idle" });
+        setWidth(undefined);
+      } catch (error) {
+        console.log("error", error.response);
+        storeDispatch({ type: "STATUS", payload: "error" });
+      }
+    };
+
+    getProducts();
+
+    // const timeOutId = setTimeout(() => {}, 3000);
+
+    // return () => clearTimeout(timeOutId);
   }, [storeDispatch]);
 
   return (

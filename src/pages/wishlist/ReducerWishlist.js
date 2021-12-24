@@ -1,7 +1,9 @@
 export const updateWishlist = (state, product, operation) => {
   switch (operation) {
     case "REMOVE_FROM_WISHLIST":
-      return state.filter((iteminWishlist) => iteminWishlist.id !== product.id);
+      return state.filter(
+        (iteminWishlist) => iteminWishlist._id !== product._id
+      );
 
     case "ADD_TO_WISHLIST":
       return state.concat(product);
@@ -11,7 +13,7 @@ export const updateWishlist = (state, product, operation) => {
   }
 };
 export const checkIfItemIsAlreadyPresentInArray = (state, product) => {
-  return state.some((item) => item.id === product.id);
+  return state.some((item) => item._id === product._id);
 };
 const ReducerWishlist = (state, { type, payload }) => {
   switch (type) {

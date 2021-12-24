@@ -12,28 +12,28 @@ const CheckboxPanel = ({
     switch (colorObj.color) {
       case "blue":
         return (
-          <span className="mr-medium" key={colorObj.colorId}>
+          <span className="mr-medium" key={colorObj.color}>
             <CheckboxBlue state={{ itemColor, setItemColor }} />
           </span>
         );
 
       case "red":
         return (
-          <span className="mr-medium" key={colorObj.colorId}>
+          <span className="mr-medium" key={colorObj.color}>
             <CheckboxRed state={{ itemColor, setItemColor }} />
           </span>
         );
 
       case "black":
         return (
-          <span className="mr-medium" key={colorObj.colorId}>
+          <span className="mr-medium" key={colorObj.color}>
             {" "}
             <CheckboxBlack state={(itemColor, setItemColor)} />
           </span>
         );
       case "white":
         return (
-          <span className="mr-medium" key={colorObj.colorId}>
+          <span className="mr-medium" key={colorObj.color}>
             {" "}
             <CheckboxWhite state={{ itemColor, setItemColor }} />
           </span>
@@ -41,14 +41,14 @@ const CheckboxPanel = ({
 
       case "green":
         return (
-          <span className="mr-medium" key={colorObj.colorId}>
+          <span className="mr-medium" key={colorObj.color}>
             {" "}
             <CheckboxGreen state={{ itemColor, setItemColor }} />
           </span>
         );
 
       default:
-        return <div key={colorObj.colorId} />;
+        return <div key={colorObj.color} />;
     }
   });
 };

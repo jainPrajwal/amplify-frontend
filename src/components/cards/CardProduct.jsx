@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+
 import { useProducts } from "../../contexts/useProducts";
 import { CardItemInStore } from "./CardItemInStore";
 import loadingImage from "../../assets/images/loading.gif";
@@ -96,7 +96,7 @@ const CardProduct = () => {
     case "idle":
       return dataWithinAPriceRange.map((product, index, store) => {
         return (
-          <CardItemInStore product={product} key={product.id} store={store} />
+          <CardItemInStore product={product} key={product._id} store={store} />
         );
       });
     case "loading":

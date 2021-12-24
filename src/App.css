@@ -840,6 +840,10 @@
   width: 40%;
 }
 
+.input:invalid {
+  border-bottom: 1px solid var(--red);
+}
+
 .wrapper-login .banner-login {
   max-width: 480px;
   height: auto;

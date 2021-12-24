@@ -1,4 +1,4 @@
-import { getItemsInStore } from "../../data/getItemsInStore";
+// import { getItemsInStore } from "../../data/getItemsInStore";
 
 export const getSellingPriceForSeventyPercentDiscount = (price) => {
   return parseInt(price - (price / 100) * 70);
@@ -29,29 +29,34 @@ export const isItemOutOfStockInRespectiveColor = (item) => {
     return false;
   })[0];
 };
-const products = getItemsInStore().map((itemInStore) => {
-  return {
-    ...itemInStore,
-    totalAvailableQuantity: itemInStore.availableColors.reduce(
-      (acc, current) => {
-        return (acc += current.maxQuantityOfItemInRespectiveColor);
-      },
-      0
-    ),
-  };
-});
 
-const updatedProducts = products.map((item) => {
-  return {
-    ...item,
-    sellingPrice:
-      item.offer === "70% bonanza"
-        ? getSellingPriceForSeventyPercentDiscount(item.price)
-        : item.offer === "Save 50"
-        ? getSellingPriceForSave50(item.price)
-        : getSellingPriceForRepuublicDaySale(item.price),
-  };
-});
+const sanitizeProducts = (products) => {
+  const newProducts = products.map((itemInStore) => {
+    return {
+      ...itemInStore,
+      totalAvailableQuantity: itemInStore.availableColors.reduce(
+        (acc, current) => {
+          return (acc += current.maxQuantityOfItemInRespectiveColor);
+        },
+        0
+      ),
+    };
+  });
+
+  const updatedProducts = newProducts.map((item) => {
+    return {
+      ...item,
+      sellingPrice:
+        item.offer === "70% bonanza"
+          ? getSellingPriceForSeventyPercentDiscount(item.price)
+          : item.offer === "Save 50"
+          ? getSellingPriceForSave50(item.price)
+          : getSellingPriceForRepuublicDaySale(item.price),
+    };
+  });
+
+  return updatedProducts;
+};
 
 const initialStateOfSpecificBrands = [
   {
@@ -98,7 +103,8 @@ const initialStateOfSpecificSubCategories = [
 const reducerCallbackFunction = (state, { type, payload }) => {
   switch (type) {
     case "LOAD_PRODUCTS":
-      return { ...state, store: updatedProducts };
+      const products = sanitizeProducts(payload.products);
+      return { ...state, store: products };
 
     case "SORT":
       return { ...state, sortBy: payload };

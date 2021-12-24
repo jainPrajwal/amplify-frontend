@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useAuth } from "../../contexts/useAuth";
 import BannerLogin from "../../assets/images/Shopping.svg";
 
@@ -10,6 +10,8 @@ const Login = () => {
     username: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const LoginHandler = async (e) => {
     e.preventDefault();
@@ -93,9 +95,11 @@ const Login = () => {
 
           <div className="d-flex jc-center ai-center">
             Not Registered yet?
-            <button className="btn btn-danger">
-              {" "}
-              <Link to="/signup">sign up</Link>
+            <button
+              className="btn btn-danger"
+              onClick={() => navigate("/signup")}
+            >
+              Sign Up
             </button>
           </div>
         </div>

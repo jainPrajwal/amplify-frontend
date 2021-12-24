@@ -17,6 +17,7 @@ const WishListIcon = ({ product }) => {
       <i
         className={`fas fa-heart ${IsAlreadyPresentInArray ? "red" : ""}`}
         onClick={() => {
+          console.log({ product });
           wishlistDispatch({
             type: "TOGGLE_WISHLIST",
             payload: product,

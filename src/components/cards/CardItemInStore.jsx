@@ -13,7 +13,7 @@ const CardItemInStore = ({ product, store }) => {
 
   const { dispatch: notificationDispatch } = useNotifications();
   const {
-    id,
+    _id,
     image,
     name,
     brand,
@@ -28,21 +28,22 @@ const CardItemInStore = ({ product, store }) => {
   } = product;
 
   const getProductById = (id) => {
-    return store.find((itemInCart) => itemInCart.id === id);
+    
+    return store.find((itemInCart) => itemInCart._id === id);
   };
   const IsAlreadyPresentInArray = checkIfItemIsAlreadyPresentInArray(
     cart,
-    getProductById(id)
+    getProductById(_id)
   );
 
   let navigate = useNavigate();
- 
+
   return (
     <div
       className={`card card-ecommerce ${
         cart
           .map((itemInCart) => {
-            if (itemInCart.id === id) {
+            if (itemInCart._id === _id) {
               if (!itemInCart.inStock) return "out-of-stock";
               return null;
             }
@@ -53,10 +54,10 @@ const CardItemInStore = ({ product, store }) => {
     >
       <Badge fastDelivery={fastDelivery} />
 
-      <WishListIcon product={getProductById(id)} />
+      <WishListIcon product={getProductById(_id)} />
       <div
         onClick={() => {
-          navigate(`/products/${id}`);
+          navigate(`/products/${_id}`);
         }}
       >
         <div className="card-image-wrapper">
@@ -115,7 +116,7 @@ const CardItemInStore = ({ product, store }) => {
             onClick={() => {
               cartDispatch({
                 type: "ADD_TO_CART",
-                payload: getProductById(id),
+                payload: getProductById(_id),
               });
               notificationDispatch({
                 type: "ADD_NOTIFICATION",

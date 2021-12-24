@@ -7,7 +7,7 @@ const CardWishlist = () => {
     return (
       <CardItemInWishlist
         wishlistedItem={wishlistedItem}
-        key={wishlistedItem.id}
+        key={wishlistedItem._id}
       />
     );
   });

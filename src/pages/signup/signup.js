@@ -11,16 +11,27 @@ const SignUp = () => {
     password: "",
   });
 
+  const [error, setError] = useState("");
+
   const { signUpUserWithCredentials, status } = useAuth();
 
   const signupUser = async () => {
     await signUpUserWithCredentials(userSignUpDetails);
   };
+
+  const handleValidation = ({ name, username, password }) => {
+    console.log("vaildatin");
+    if (!name) {
+      setError("name field required");
+      return false;
+    }
+  };
   const SignUpHandler = (e) => {
     e.preventDefault();
-
-    signupUser();
+    if (handleValidation(userSignUpDetails)) signupUser();
   };
+  console.log({ error });
+  const navigate = useNavigate();
 
   return (
     <>
@@ -60,9 +71,12 @@ const SignUp = () => {
                   <span className="content-name">Name</span>
                 </label>
               </div>
+              {<div> Heleoo {error}</div>}
               <div className="form-row">
                 <input
                   type="text"
+                  pattern="^([a-zA-Z0-9\.-]+)@([a-zA-Z0-9-]+)(\.[a-z]{2,8})$"
+                  title="Email is Invalid."
                   className="input input-email"
                   id="email"
                   onChange={(event) =>
@@ -117,8 +131,11 @@ const SignUp = () => {
           </form>
           <div className="d-flex jc-center ai-center">
             Already have an account?
-            <button className="btn btn-danger">
-              <Link to="/login">Login</Link>
+            <button
+              className="btn btn-danger"
+              onClick={() => navigate("/login")}
+            >
+              Login
             </button>
           </div>
         </div>
