@@ -1,6 +1,5 @@
-import axios from "axios";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BannerLogin from "../../assets/images/ShoppingBlue.svg";
 import { useAuth } from "../../contexts/useAuth";
 
@@ -25,12 +24,12 @@ const SignUp = () => {
       setError("name field required");
       return false;
     }
+    return true;
   };
   const SignUpHandler = (e) => {
     e.preventDefault();
     if (handleValidation(userSignUpDetails)) signupUser();
   };
-  console.log({ error });
   const navigate = useNavigate();
 
   return (
@@ -50,6 +49,7 @@ const SignUp = () => {
                 <p className="ml-medium">Invalid Username or Password</p>
               </div>
             )}
+
             <div className="form-container">
               <div className="form-title header header-primary text-center">
                 sign up
@@ -82,7 +82,7 @@ const SignUp = () => {
                   onChange={(event) =>
                     setUserSignUpDetails((prevState) => ({
                       ...prevState,
-                      email: event.target.value,
+                      username: event.target.value,
                     }))
                   }
                   required

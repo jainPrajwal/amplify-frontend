@@ -13,7 +13,7 @@ export const getSellingPriceForRepuublicDaySale = (price) => {
 };
 
 export const isItemOutOfStock = (item) => {
-  return item.totalQuantity >= item.totalAvailableQuantity - 1;
+  return item.totalQuantity >= item.totalAvailableQuantity;
 };
 
 export const isItemOutOfStockInRespectiveColor = (item) => {
@@ -104,6 +104,7 @@ const reducerCallbackFunction = (state, { type, payload }) => {
   switch (type) {
     case "LOAD_PRODUCTS":
       const products = sanitizeProducts(payload.products);
+     
       return { ...state, store: products };
 
     case "SORT":

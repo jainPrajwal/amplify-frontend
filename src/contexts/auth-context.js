@@ -3,43 +3,90 @@ import { useState } from "react";
 import { useNotifications } from "../contexts/useNotifications";
 import { v4 } from "uuid";
 import { useLocation, useNavigate } from "react-router";
-import { fakeAuthAPI, fakeSignUpAPI, users } from "../fakeAPI/fakeAuthAPI";
+import axios from "axios";
+import { useEffect } from "react/cjs/react.development";
+import { useCart } from "./useCart";
 
 export const AuthContext = createContext();
 
+export const setupAuthHeaderForServiceCalls = (token) => {
+  if (token) return (axios.defaults.headers.common["Authorization"] = token);
+  return null;
+};
+
+export const setupAuthExceptionHandler = (logout, navigate) => {
+  const UNAUTHORIZED = 401;
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error?.response?.status === UNAUTHORIZED) {
+        logout();
+        navigate("/login");
+        return Promise.reject(error);
+      }
+    }
+  );
+};
+
 const AuthProvider = ({ children }) => {
-  const [login, setLogin] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState({
+    userId: null,
+    token: null,
+  });
   const [status, setStatus] = useState("idle");
   const { dispatch: notificationDispatch } = useNotifications();
   const { state } = useLocation();
+ 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) return;
+    if (user.token) {
+      console.log("bearer token set");
+      const bearerToken = `Bearer ${user.token}`;
+      setupAuthHeaderForServiceCalls(bearerToken);
+      setLoggedInUser(() => ({
+        userId: user.userId,
+        token: user.token,
+      }));
+    }
+  }, []);
+
+  useEffect(() => {
+    setupAuthExceptionHandler(logout, navigate);
+  }, []);
 
   const loginUserWithCredentials = async (userLoginDetails) => {
     setStatus("loading");
     try {
-      const user = await fakeAuthAPI(userLoginDetails);
+      const {
+        data: { success, message, userId, token },
+      } = await axios.post(
+        "http://amplitude-backend.herokuapp.com/login",
+        userLoginDetails
+      );
 
-      if (user) {
-        if (user.password === userLoginDetails.password) {
-          setLogin(true);
-          setStatus("idle");
-          notificationDispatch({
-            type: "ADD_NOTIFICATION",
-            payload: {
-              id: v4(),
-              type: "SUCCESS",
-              message: `Login Successful!`,
-            },
-          });
-          if (state?.from) {
-            navigate(`${state.from}`);
-          } else navigate("/store");
-        } else {
-          setLogin(false);
-          setStatus("error");
-        }
+      if (token && success) {
+        const bearerToken = `Bearer ${token}`;
+        setupAuthHeaderForServiceCalls(bearerToken);
+        localStorage.setItem("user", JSON.stringify({ userId, token }));
+        setLoggedInUser(() => ({
+          userId,
+          token,
+        }));
+        setStatus("idle");
+        notificationDispatch({
+          type: "ADD_NOTIFICATION",
+          payload: {
+            id: v4(),
+            type: "SUCCESS",
+            message,
+          },
+        });
+        // loadCart();
+        state && state?.from ? navigate(`${state.from}`) : navigate("/store");
       } else {
-        setLogin(false);
         setStatus("error");
       }
     } catch (error) {
@@ -51,35 +98,47 @@ const AuthProvider = ({ children }) => {
   const signUpUserWithCredentials = async (userSignUpDetails) => {
     setStatus("loading");
     try {
-      const users = await fakeSignUpAPI(userSignUpDetails);
-      if (users) {
-        setLogin(true);
+      // const users = await fakeSignUpAPI(userSignUpDetails);
+      const {
+        data: { success, user },
+      } = await axios.post(
+        "http://amplitude-backend.herokuapp.com/signup",
+        userSignUpDetails
+      );
+
+      if (success && user) {
         setStatus("idle");
+
         notificationDispatch({
           type: "ADD_NOTIFICATION",
           payload: {
             id: v4(),
             type: "SUCCESS",
-            message: `Sign Up Successful!`,
+            message: `Sign Up Successful!Please Login to Continue :)`,
           },
         });
-        state && state?.from ? navigate(`/${state.form}`) : navigate("/store");
       } else {
         setStatus("error");
-        navigate("/store");
       }
+      navigate("/login");
     } catch (error) {
       setStatus("error");
-      console.error(error);
+      console.error(error.response);
     }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("user");
+    setLoggedInUser(() => ({ userId: null, token: null }));
   };
   return (
     <AuthContext.Provider
       value={{
-        login,
+        loggedInUser,
         loginUserWithCredentials,
         status,
         signUpUserWithCredentials,
+        logout,
       }}
     >
       {children}

@@ -1,15 +1,20 @@
 import { useNavigate } from "react-router";
 import { useCart } from "../../contexts/useCart";
 import { useNotifications } from "../../contexts/useNotifications";
+import axios from "axios";
 
 import { Badge } from "./Badge";
 import { WishListIcon } from "./WishListIcon";
 import { v4 } from "uuid";
 import { checkIfItemIsAlreadyPresentInArray } from "../../pages/wishlist/ReducerWishlist";
 import { isItemOutOfStockInRespectiveColor } from "../../pages/store/ReducerStore";
+import { useAuth } from "../../contexts/useAuth";
+import { useState } from "react";
 
 const CardItemInStore = ({ product, store }) => {
   const { state: cart, dispatch: cartDispatch } = useCart();
+  const { loggedInUser } = useAuth();
+  const [status, setStatus] = useState("idle");
 
   const { dispatch: notificationDispatch } = useNotifications();
   const {
@@ -18,7 +23,7 @@ const CardItemInStore = ({ product, store }) => {
     name,
     brand,
     offer,
-    inStock,
+
     fastDelivery,
     color,
     category,
@@ -28,7 +33,6 @@ const CardItemInStore = ({ product, store }) => {
   } = product;
 
   const getProductById = (id) => {
-    
     return store.find((itemInCart) => itemInCart._id === id);
   };
   const IsAlreadyPresentInArray = checkIfItemIsAlreadyPresentInArray(
@@ -44,7 +48,8 @@ const CardItemInStore = ({ product, store }) => {
         cart
           .map((itemInCart) => {
             if (itemInCart._id === _id) {
-              if (!itemInCart.inStock) return "out-of-stock";
+              if (isItemOutOfStockInRespectiveColor(itemInCart))
+                return "out-of-stock";
               return null;
             }
             return null;
@@ -113,22 +118,63 @@ const CardItemInStore = ({ product, store }) => {
               isItemOutOfStockInRespectiveColor(product) ? `btn-disabled` : ``
             }`}
             disabled={isItemOutOfStockInRespectiveColor(product)}
-            onClick={() => {
-              cartDispatch({
-                type: "ADD_TO_CART",
-                payload: getProductById(_id),
-              });
-              notificationDispatch({
-                type: "ADD_NOTIFICATION",
-                payload: {
-                  id: v4(),
-                  type: "SUCCESS",
-                  message: `${name} Added to Cart`,
-                },
-              });
+            onClick={async () => {
+              const saveItemToServer = async () => {
+                let product = getProductById(_id);
+                product["productId"] = product._id;
+                delete product._id;
+
+                try {
+                  console.log("loggedInUser", loggedInUser);
+                  // setStatus("loading");
+                  const response = await axios.post(
+                    `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}`,
+                    product
+                  );
+                  console.log({ response });
+                  const savedProduct = response?.data?.cartItem;
+                  if (savedProduct) {
+                    // setStatus("idle");
+                    cartDispatch({
+                      type: "ADD_TO_CART",
+                      payload: {
+                        cartItem: savedProduct,
+                      },
+                    });
+                    notificationDispatch({
+                      type: "ADD_NOTIFICATION",
+                      payload: {
+                        id: v4(),
+                        type: "SUCCESS",
+                        message: `${name} Added to Cart`,
+                      },
+                    });
+                  } else {
+                    console.log("yaha error hai");
+                    throw new Error(
+                      "some error occured while saving item to server"
+                    );
+                  }
+                } catch (error) {
+                  setStatus("error");
+                  console.log("error", error?.response?.data?.errorMessage);
+                }
+              };
+              await saveItemToServer();
             }}
           >
-            {`${"Add to Cart".toUpperCase()}`}
+            {status === "loading" ? (
+              <>
+                <img
+                  src="https://c.tenor.com/NqKNFHSmbssAAAAi/discord-loading-dots-discord-loading.gif"
+                  alt="loading"
+                  width="50px"
+                  height="12px"
+                />
+              </>
+            ) : (
+              `${"Add to Cart".toUpperCase()}`
+            )}
           </button>
         )}
       </div>

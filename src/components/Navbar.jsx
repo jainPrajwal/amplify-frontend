@@ -15,9 +15,8 @@ const Navbar = () => {
   });
   const [isPageActive, setPageActive] = useState("");
   const { state: wishlist } = useWishlist();
+  const { loggedInUser, logout } = useAuth();
   const { state: cart } = useCart();
-
- 
 
   let navigate = useNavigate();
 
@@ -61,7 +60,6 @@ const Navbar = () => {
                 }));
               }}
             >
-              {" "}
               <div className="nav-menu-link search">
                 <i className="fa fa-search" aria-hidden="true"></i> 
                 <span className="font-sm">search</span>
@@ -78,31 +76,50 @@ const Navbar = () => {
                 navigate("/store");
               }}
             >
-              {" "}
               <div className="nav-menu-link store">
                 <i className="fas fa-store" aria-hidden="true"></i> 
                 <span className="font-sm">store</span>
               </div>
             </li>
 
-            <li
-              className={`nav-menu-item item-login ${
-                isPageActive === "login" ? "nav-menu-item-active" : ""
-              }`}
-            >
-              <div className="nav-menu-link login">
-                <div
-                  onClick={() => {
-                    setPageActive("login");
-                    navigate("/login");
-                  }}
-                >
-                  <i className="fas fa-sign-in-alt"></i>
-                  <div></div>
-                  <span className="font-sm">login</span>
+            {!loggedInUser.token ? (
+              <li
+                className={`nav-menu-item item-login ${
+                  isPageActive === "login" ? "nav-menu-item-active" : ""
+                }`}
+              >
+                <div className="nav-menu-link login">
+                  <div
+                    onClick={() => {
+                      setPageActive("login");
+                      navigate("/login");
+                    }}
+                  >
+                    <i className="fas fa-sign-in-alt"></i>
+                    <div></div>
+                    <span className="font-sm">login</span>
+                  </div>
                 </div>
-              </div>
-            </li>
+              </li>
+            ) : (
+              <li
+                className={`nav-menu-item item-login ${
+                  isPageActive === "login" ? "nav-menu-item-active" : ""
+                }`}
+              >
+                <div className="nav-menu-link login">
+                  <div
+                    onClick={() => {
+                      logout();
+                    }}
+                  >
+                    <i className="fas fa-sign-in-alt"></i>
+                    <div></div>
+                    <span className="font-sm">logout</span>
+                  </div>
+                </div>
+              </li>
+            )}
             <li
               className={`nav-menu-item item-wishlist ${
                 isPageActive === "wishlist" ? "nav-menu-item-active" : ""
@@ -112,10 +129,11 @@ const Navbar = () => {
                 navigate("/wishlist");
               }}
             >
-              {" "}
               <div className="nav-menu-link wishlist">
                 <i className="far fa-heart">
-                  <span className="cart-count">{wishlist.length}</span>
+                  {loggedInUser.token && (
+                    <span className="cart-count">{wishlist.length}</span>
+                  )}
                 </i>
                 <div></div>
                 <span className="font-sm">wishlist</span>
@@ -130,14 +148,15 @@ const Navbar = () => {
                 navigate("/cart");
               }}
             >
-              {" "}
               <div className="nav-menu-link cart">
                 <i className="fas fa-shopping-cart">
-                  <span className="notification-count">
-                    {cart.reduce((acc, current) => {
-                      return (acc += current.totalQuantity);
-                    }, 0)}
-                  </span>
+                  {loggedInUser.token && (
+                    <span className="notification-count">
+                      {cart?.reduce((acc, current) => {
+                        return (acc += current?.totalQuantity);
+                      }, 0)}
+                    </span>
+                  )}
                 </i>
                 <div>
                   <span className="font-sm">cart</span>

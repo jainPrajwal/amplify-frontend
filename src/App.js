@@ -10,16 +10,21 @@ import { Login } from "./pages/login/Login";
 import { SignUp } from "./pages/signup/signup";
 import { useProducts } from "./contexts/useProducts";
 import axios from "axios";
-
+import { useAuth } from "./contexts/useAuth";
+import { useCart } from "./contexts/useCart";
+import { v4 } from "uuid";
+import { useNotifications } from "./contexts/useNotifications";
 
 function App() {
   const { dispatch: storeDispatch } = useProducts();
+  const { dispatch: cartDispatch } = useCart();
+  const { dispatch: notificationDispatch } = useNotifications();
   const [width, setWidth] = useState(1);
+  const { loggedInUser } = useAuth();
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (width < 100 && width >= 0) {
-        console.log("setting width", width);
         width && setWidth((prevWidth) => prevWidth + 10);
       }
     }, 100);
@@ -29,11 +34,12 @@ function App() {
   useEffect(() => {
     storeDispatch({ type: "STATUS", payload: "loading" });
     const getProducts = async () => {
+     
       try {
         const response = await axios.get(
           "https://amplitude-backend.herokuapp.com/products"
         );
-        console.log({ response });
+       
 
         storeDispatch({
           type: "LOAD_PRODUCTS",
@@ -53,7 +59,37 @@ function App() {
     // const timeOutId = setTimeout(() => {}, 3000);
 
     // return () => clearTimeout(timeOutId);
-  }, [storeDispatch]);
+  }, []);
+
+  useEffect(() => {
+    const loadCart = async (userId) => {
+      try {
+        const response = await axios.get(
+          `https://amplitude-backend.herokuapp.com/cart/${userId}`
+        );
+       
+        response?.data?.success
+          ? cartDispatch({
+              type: "LOAD_CART",
+              payload: response?.data?.cart,
+            })
+          : notificationDispatch({
+              type: "ADD_NOTIFICATION",
+              payload: {
+                id: v4(),
+                type: "DANGER",
+                message: response?.data?.message,
+              },
+            });
+      } catch (error) {
+        console.log("error", error?.response?.data?.errorMessage);
+      }
+    };
+
+    if (loggedInUser.token) {
+      loadCart(loggedInUser.userId);
+    }
+  }, [loggedInUser]);
 
   return (
     <div className="App">

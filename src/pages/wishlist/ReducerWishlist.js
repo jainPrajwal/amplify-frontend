@@ -13,7 +13,9 @@ export const updateWishlist = (state, product, operation) => {
   }
 };
 export const checkIfItemIsAlreadyPresentInArray = (state, product) => {
-  return state.some((item) => item._id === product._id);
+  return state.some((item) => {
+    return item.productId == product._id;
+  });
 };
 const ReducerWishlist = (state, { type, payload }) => {
   switch (type) {

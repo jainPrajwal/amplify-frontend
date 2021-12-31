@@ -1,7 +1,23 @@
+import axios from "axios";
 import { v4 } from "uuid";
 
 import { useNotifications } from "../../contexts/useNotifications";
-import { isItemOutOfStockInRespectiveColor } from "../../pages/store/ReducerStore";
+import { increaseQuantityOfItemInRespectiveColor } from "../../pages/cart/ReducerCart";
+import {
+  isItemOutOfStock,
+  isItemOutOfStockInRespectiveColor,
+} from "../../pages/store/ReducerStore";
+
+const getQuantityOfItemInRespectiveColor = (itemInCart) => {
+  const quantityOfItemInRespectiveColor = itemInCart.availableColors
+    .map((colorObj) =>
+      colorObj.color === itemInCart.color
+        ? colorObj.quantityOfItemInRespectiveColor
+        : null
+    )
+    .filter((colorObj) => colorObj != null)[0];
+  console.log({ quantityOfItemInRespectiveColor });
+};
 
 const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
   let {
@@ -9,7 +25,6 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
     name,
     brand,
     offer,
-    inStock,
 
     color,
 
@@ -58,13 +73,34 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
               Quantity :
               <button
                 className="btn-round"
-                disabled={!inStock}
-                onClick={() => {
+                disabled={isItemOutOfStock(itemInCart)}
+                onClick={async () => {
                   if (!isItemOutOfStockInRespectiveColor(itemInCart)) {
-                    cartDispatch({
-                      type: "INCREASE_QUANTITY",
-                      payload: itemInCart,
-                    });
+                    const updateItemOnServer = async (itemInCart) => {
+                      const requiredUpdateInItem = {
+                        totalQuantity: itemInCart.totalQuantity + 1,
+                        colorObj: {
+                          color: itemInCart.color,
+                          quantityOfItemInRespectiveColor:
+                            getQuantityOfItemInRespectiveColor(itemInCart),
+                        },
+                      };
+                      const response = axios.post(``, requiredUpdateInItem);
+                      console.log(
+                        "merko toh aisa dhag dhag ho rela hai",
+                        response
+                      );
+                      const {
+                        data: { success, message, newCartItem },
+                      } = response;
+                      return success
+                        ? cartDispatch({
+                            type: "INCREASE_QUANTITY",
+                            payload: { newCartItem },
+                          })
+                        : null;
+                    };
+                    await updateItemOnServer(itemInCart);
                   }
 
                   notificationDispatch({

@@ -3,7 +3,7 @@ import {
   isItemOutOfStockInRespectiveColor,
 } from "../store/ReducerStore";
 
-const getProductWithUpdatedQuantityMetrics = (
+export const getProductWithUpdatedQuantityMetrics = (
   product,
   updatedAvailableColors
 ) => {
@@ -19,7 +19,7 @@ const getProductWithUpdatedQuantityMetrics = (
     inStock: !updatedInStock,
   };
 };
-const increaseQuantityOfItemInRespectiveColor = (product) => {
+export const increaseQuantityOfItemInRespectiveColor = (product) => {
   const updatedArrayOfAvailableColors = !isItemOutOfStockInRespectiveColor(
     product
   )
@@ -40,7 +40,7 @@ const increaseQuantityOfItemInRespectiveColor = (product) => {
   );
 };
 
-const decreaseQuantityOfItemInRespectiveColor = (product) => {
+export const decreaseQuantityOfItemInRespectiveColor = (product) => {
   // const Increased_MaxQuantity_Of_Item_In_Respective_Color =
   //   increaseMaxQuantityOfItemInRespectiveColor(product);
 
@@ -62,9 +62,9 @@ const decreaseQuantityOfItemInRespectiveColor = (product) => {
   );
 };
 
-const increaseQuantity = (state, payload) => {
+export const increaseQuantity = (state, payload) => {
   return state.map((itemInCart) => {
-    return itemInCart._id === payload._id && itemInCart.color === payload.color
+    return itemInCart.productId === payload._id && itemInCart.color === payload.color
       ? {
           ...increaseQuantityOfItemInRespectiveColor(payload),
         }
@@ -72,10 +72,10 @@ const increaseQuantity = (state, payload) => {
   });
 };
 
-const decreaseQuantity = (state, payload) => {
+export const decreaseQuantity = (state, payload) => {
   if (payload.totalQuantity > 1) {
     return state.map((itemInCart) =>
-      itemInCart._id === payload._id && itemInCart.color === payload.color
+      itemInCart.productId === payload._id && itemInCart.color === payload.color
         ? {
             ...itemInCart,
             ...decreaseQuantityOfItemInRespectiveColor(payload),
@@ -86,26 +86,37 @@ const decreaseQuantity = (state, payload) => {
   return removeFromCart(state, payload);
 };
 
-const removeFromCart = (state, payload) => {
+export const removeFromCart = (state, payload) => {
   return state?.filter((itemInCart) =>
     itemInCart.color === payload.color
       ? itemInCart._id !== payload._id
       : itemInCart
   );
 };
+
 const reducerCart = (state, { type, payload }) => {
   switch (type) {
+    case "LOAD_CART":
+      return payload?.cartItems;
+
     case "ADD_TO_CART":
-      return increaseQuantity(state.concat(payload), payload);
+      return state.concat(payload.cartItem);
+
     case "INCREASE_QUANTITY":
       console.log("increasing quantity....");
-      return increaseQuantity(state, payload);
+      // return increaseQuantity(state, payload);
+      return state.map((itemInCart) => {
+        return itemInCart._id === payload?.newCartItem._id
+          ? { ...payload.newCartItem }
+          : itemInCart;
+      });
 
     case "DECREASE_QUANTITY":
       return decreaseQuantity(state, payload);
 
     case "REMOVE_FROM_CART":
       return removeFromCart(state, payload);
+
     default:
       return state;
   }
