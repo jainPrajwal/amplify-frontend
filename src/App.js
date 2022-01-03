@@ -16,7 +16,7 @@ import { v4 } from "uuid";
 import { useNotifications } from "./contexts/useNotifications";
 
 function App() {
-  const { dispatch: storeDispatch } = useProducts();
+  const { state, dispatch: storeDispatch } = useProducts();
   const { dispatch: cartDispatch } = useCart();
   const { dispatch: notificationDispatch } = useNotifications();
   const [width, setWidth] = useState(1);
@@ -34,12 +34,10 @@ function App() {
   useEffect(() => {
     storeDispatch({ type: "STATUS", payload: "loading" });
     const getProducts = async () => {
-     
       try {
         const response = await axios.get(
           "https://amplitude-backend.herokuapp.com/products"
         );
-       
 
         storeDispatch({
           type: "LOAD_PRODUCTS",
@@ -67,7 +65,7 @@ function App() {
         const response = await axios.get(
           `https://amplitude-backend.herokuapp.com/cart/${userId}`
         );
-       
+
         response?.data?.success
           ? cartDispatch({
               type: "LOAD_CART",
@@ -91,6 +89,8 @@ function App() {
     }
   }, [loggedInUser]);
 
+  
+
   return (
     <div className="App">
       <div
@@ -112,7 +112,11 @@ function App() {
           <Route path="/store" element={<Store />} />
           <PrivateRoute path="/cart" element={<Cart />} />
           <PrivateRoute path="/wishlist" element={<Wishlist />} />
-          <Route path="/products/:productId" element={<ProductDetail />} />
+          <Route
+            path="/products/:productId"
+            element={<ProductDetail />}
+            
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>

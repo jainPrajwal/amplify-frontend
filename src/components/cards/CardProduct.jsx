@@ -65,7 +65,6 @@ const CardProduct = () => {
       maxRange,
       status,
     },
-    dispatch: storeDispatch,
   } = useProducts();
 
   const sortedData = getSortedData(store, sortBy);
@@ -92,7 +91,6 @@ const CardProduct = () => {
 
   switch (status) {
     case "idle":
-     
       return dataWithinAPriceRange.map((product, index, store) => {
         return (
           <CardItemInStore product={product} key={product._id} store={store} />

@@ -15,11 +15,12 @@ export const setupAuthHeaderForServiceCalls = (token) => {
 };
 
 export const setupAuthExceptionHandler = (logout, navigate) => {
-  const UNAUTHORIZED = 401;
+  const UNAUTHORIZED = [401,500];
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
-      if (error?.response?.status === UNAUTHORIZED) {
+      console.log( error.response.data.errorMessage);
+      if (UNAUTHORIZED.includes(error?.response?.status)) {
         logout();
         navigate("/login");
         return Promise.reject(error);
@@ -36,7 +37,7 @@ const AuthProvider = ({ children }) => {
   const [status, setStatus] = useState("idle");
   const { dispatch: notificationDispatch } = useNotifications();
   const { state } = useLocation();
- 
+
   const navigate = useNavigate();
 
   useEffect(() => {

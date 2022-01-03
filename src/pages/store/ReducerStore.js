@@ -17,6 +17,7 @@ export const isItemOutOfStock = (item) => {
 };
 
 export const isItemOutOfStockInRespectiveColor = (item) => {
+  
   return item.availableColors.filter((colorObj) => {
     if (item.color === colorObj.color) {
       if (
@@ -104,7 +105,7 @@ const reducerCallbackFunction = (state, { type, payload }) => {
   switch (type) {
     case "LOAD_PRODUCTS":
       const products = sanitizeProducts(payload.products);
-     
+
       return { ...state, store: products };
 
     case "SORT":

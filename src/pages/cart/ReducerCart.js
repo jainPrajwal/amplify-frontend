@@ -64,7 +64,8 @@ export const decreaseQuantityOfItemInRespectiveColor = (product) => {
 
 export const increaseQuantity = (state, payload) => {
   return state.map((itemInCart) => {
-    return itemInCart.productId === payload._id && itemInCart.color === payload.color
+    return itemInCart.productId === payload._id &&
+      itemInCart.color === payload.color
       ? {
           ...increaseQuantityOfItemInRespectiveColor(payload),
         }
@@ -103,8 +104,6 @@ const reducerCart = (state, { type, payload }) => {
       return state.concat(payload.cartItem);
 
     case "INCREASE_QUANTITY":
-      console.log("increasing quantity....");
-      // return increaseQuantity(state, payload);
       return state.map((itemInCart) => {
         return itemInCart._id === payload?.newCartItem._id
           ? { ...payload.newCartItem }
@@ -112,7 +111,11 @@ const reducerCart = (state, { type, payload }) => {
       });
 
     case "DECREASE_QUANTITY":
-      return decreaseQuantity(state, payload);
+      return state.map((itemInCart) =>
+        itemInCart._id === payload?.newCartItem._id
+          ? { ...payload.newCartItem }
+          : itemInCart
+      );
 
     case "REMOVE_FROM_CART":
       return removeFromCart(state, payload);

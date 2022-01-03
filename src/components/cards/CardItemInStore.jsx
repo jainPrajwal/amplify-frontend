@@ -120,12 +120,11 @@ const CardItemInStore = ({ product, store }) => {
             disabled={isItemOutOfStockInRespectiveColor(product)}
             onClick={async () => {
               const saveItemToServer = async () => {
-                let product = getProductById(_id);
+                let product = { ...getProductById(_id) };
                 product["productId"] = product._id;
                 delete product._id;
 
                 try {
-                  console.log("loggedInUser", loggedInUser);
                   // setStatus("loading");
                   const response = await axios.post(
                     `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}`,

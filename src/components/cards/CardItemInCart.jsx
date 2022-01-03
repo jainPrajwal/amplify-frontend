@@ -1,14 +1,13 @@
 import axios from "axios";
 import { v4 } from "uuid";
-
 import { useNotifications } from "../../contexts/useNotifications";
-import { increaseQuantityOfItemInRespectiveColor } from "../../pages/cart/ReducerCart";
+import { useAuth } from "../../contexts/useAuth";
 import {
   isItemOutOfStock,
   isItemOutOfStockInRespectiveColor,
 } from "../../pages/store/ReducerStore";
 
-const getQuantityOfItemInRespectiveColor = (itemInCart) => {
+export const getQuantityOfItemInRespectiveColor = (itemInCart) => {
   const quantityOfItemInRespectiveColor = itemInCart.availableColors
     .map((colorObj) =>
       colorObj.color === itemInCart.color
@@ -18,9 +17,31 @@ const getQuantityOfItemInRespectiveColor = (itemInCart) => {
     .filter((colorObj) => colorObj != null)[0];
   console.log({ quantityOfItemInRespectiveColor });
 };
-
+export const updateItemOnServer = async ({
+  itemInCart,
+  loggedInUser,
+  cartDispatch,
+  type,
+  requiredUpdateInItem,
+}) => {
+  const response = await axios.post(
+    `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}/${itemInCart._id}`,
+    requiredUpdateInItem
+  );
+  console.log("merko toh aisa dhag dhag ho rela hai", response);
+  const {
+    data: { success, newCartItem },
+  } = response;
+  return success
+    ? cartDispatch({
+        type,
+        payload: { newCartItem },
+      })
+    : null;
+};
 const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
   let {
+    _id,
     image,
     name,
     brand,
@@ -33,24 +54,51 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
   } = itemInCart;
 
   const { dispatch: notificationDispatch } = useNotifications();
+  const { loggedInUser } = useAuth();
+
   return (
     <>
       <div className="card-itemCart-container d-flex mt-extra-large">
         <span
           className="btn-remove-from-cart header-secondary"
           onClick={() => {
-            cartDispatch({
-              type: "REMOVE_FROM_CART",
-              payload: itemInCart,
-            });
-            notificationDispatch({
-              type: "ADD_NOTIFICATION",
-              payload: {
-                id: v4(),
-                type: "DANGER",
-                message: `${name} removed from cart`,
-              },
-            });
+            const removeFromCartFromServer = async () => {
+              try {
+                const {
+                  data: { success },
+                } = await axios.delete(
+                  `http://127.0.0.1:3000/cart/${loggedInUser.userId}/${_id}`
+                );
+                console.log("success", success);
+                if (success) {
+                  cartDispatch({
+                    type: "REMOVE_FROM_CART",
+                    payload: itemInCart,
+                  });
+                  notificationDispatch({
+                    type: "ADD_NOTIFICATION",
+                    payload: {
+                      id: v4(),
+                      type: "DANGER",
+                      message: `${name} removed from cart`,
+                    },
+                  });
+                } else {
+                  notificationDispatch({
+                    type: "ADD_NOTIFICATION",
+                    payload: {
+                      id: v4(),
+                      type: "DANGER",
+                      message: `Deletion failed..!`,
+                    },
+                  });
+                }
+              } catch (error) {
+                console.log("error ", error?.response?.data?.errorMessage);
+              }
+            };
+
+            removeFromCartFromServer();
           }}
         >
           &times;
@@ -76,31 +124,22 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
                 disabled={isItemOutOfStock(itemInCart)}
                 onClick={async () => {
                   if (!isItemOutOfStockInRespectiveColor(itemInCart)) {
-                    const updateItemOnServer = async (itemInCart) => {
-                      const requiredUpdateInItem = {
-                        totalQuantity: itemInCart.totalQuantity + 1,
-                        colorObj: {
-                          color: itemInCart.color,
-                          quantityOfItemInRespectiveColor:
-                            getQuantityOfItemInRespectiveColor(itemInCart),
-                        },
-                      };
-                      const response = axios.post(``, requiredUpdateInItem);
-                      console.log(
-                        "merko toh aisa dhag dhag ho rela hai",
-                        response
-                      );
-                      const {
-                        data: { success, message, newCartItem },
-                      } = response;
-                      return success
-                        ? cartDispatch({
-                            type: "INCREASE_QUANTITY",
-                            payload: { newCartItem },
-                          })
-                        : null;
+                    const requiredUpdateInItem = {
+                      totalQuantity: itemInCart.totalQuantity + 1,
+                      colorObj: {
+                        color: itemInCart.color,
+                        quantityOfItemInRespectiveColor:
+                          getQuantityOfItemInRespectiveColor(itemInCart),
+                      },
                     };
-                    await updateItemOnServer(itemInCart);
+
+                    await updateItemOnServer({
+                      itemInCart,
+                      loggedInUser,
+                      cartDispatch,
+                      requiredUpdateInItem,
+                      type: "INCREASE_QUANTITY",
+                    });
                   }
 
                   notificationDispatch({
@@ -120,10 +159,22 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
               <span className="text-primary mx-1">{totalQuantity}</span>
               <button
                 className="btn-round"
-                onClick={() => {
-                  cartDispatch({
+                onClick={async () => {
+                  const requiredUpdateInItem = {
+                    totalQuantity: itemInCart.totalQuantity - 1,
+                    colorObj: {
+                      color: itemInCart.color,
+                      quantityOfItemInRespectiveColor:
+                        getQuantityOfItemInRespectiveColor(itemInCart),
+                    },
+                  };
+
+                  await updateItemOnServer({
+                    itemInCart,
+                    loggedInUser,
+                    cartDispatch,
+                    requiredUpdateInItem,
                     type: "DECREASE_QUANTITY",
-                    payload: itemInCart,
                   });
 
                   notificationDispatch({
