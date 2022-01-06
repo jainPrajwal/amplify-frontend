@@ -14,11 +14,13 @@ import { useAuth } from "./contexts/useAuth";
 import { useCart } from "./contexts/useCart";
 import { v4 } from "uuid";
 import { useNotifications } from "./contexts/useNotifications";
+import { useWishlist } from "./contexts/useWishlist";
 
 function App() {
   const { state, dispatch: storeDispatch } = useProducts();
   const { dispatch: cartDispatch } = useCart();
   const { dispatch: notificationDispatch } = useNotifications();
+  const { dispatch: wishlistDispatch } = useWishlist();
   const [width, setWidth] = useState(1);
   const { loggedInUser } = useAuth();
 
@@ -62,24 +64,29 @@ function App() {
   useEffect(() => {
     const loadCart = async (userId) => {
       try {
-        const response = await axios.get(
+        storeDispatch({ type: "STATUS", payload: "loading" });
+        const {
+          data: { success, message, cart },
+        } = await axios.get(
           `https://amplitude-backend.herokuapp.com/cart/${userId}`
         );
 
-        response?.data?.success
-          ? cartDispatch({
-              type: "LOAD_CART",
-              payload: response?.data?.cart,
-            })
-          : notificationDispatch({
-              type: "ADD_NOTIFICATION",
-              payload: {
-                id: v4(),
-                type: "DANGER",
-                message: response?.data?.message,
-              },
-            });
+        if (success) {
+          cartDispatch({
+            type: "LOAD_CART",
+            payload: { cart },
+          });
+          notificationDispatch({
+            type: "ADD_NOTIFICATION",
+            payload: {
+              id: v4(),
+              type: "DANGER",
+              message,
+            },
+          });
+        }
       } catch (error) {
+        storeDispatch({ type: "STATUS", payload: "error" });
         console.log("error", error?.response?.data?.errorMessage);
       }
     };
@@ -89,7 +96,42 @@ function App() {
     }
   }, [loggedInUser]);
 
-  
+  useEffect(() => {
+    storeDispatch({ type: "STATUS", payload: "loading" });
+    const loadWishlist = async (userId) => {
+      try {
+        const {
+          data: { success, message, wishlist },
+        } = await axios.get(
+          `http://127.0.0.1:3000/wishlist/${userId}`
+        );
+        console.log({ wishlist });
+        if (success) {
+          storeDispatch({ type: "STATUS", payload: "idle" });
+          wishlistDispatch({
+            type: "LOAD_WISHLIST",
+            payload: { wishlist: wishlist.wishlistItems },
+          });
+
+          notificationDispatch({
+            type: "ADD_NOTIFICATION",
+            payload: {
+              id: v4(),
+              type: "SUCCESS",
+              message,
+            },
+          });
+        }
+      } catch (error) {
+        storeDispatch({ type: "STATUS", payload: "error" });
+        console.log("error", error?.response?.data?.errorMessage);
+      }
+    };
+
+    if (loggedInUser.token) {
+      loadWishlist(loggedInUser.userId)
+    }
+  }, [loggedInUser]);
 
   return (
     <div className="App">
@@ -112,11 +154,7 @@ function App() {
           <Route path="/store" element={<Store />} />
           <PrivateRoute path="/cart" element={<Cart />} />
           <PrivateRoute path="/wishlist" element={<Wishlist />} />
-          <Route
-            path="/products/:productId"
-            element={<ProductDetail />}
-            
-          />
+          <Route path="/products/:productId" element={<ProductDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>

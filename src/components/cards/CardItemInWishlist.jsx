@@ -7,9 +7,10 @@ import { checkIfItemIsAlreadyPresentInArray } from "../../pages/wishlist/Reducer
 import { Badge } from "./Badge";
 import { WishListIcon } from "./WishListIcon";
 
-const CardItemInWishlist = ({
-  wishlistedItem: {
-    id,
+const CardItemInWishlist = ({ wishlistedItem }) => {
+  let {
+    _id,
+    productId,
     image,
     name,
     brand,
@@ -20,8 +21,7 @@ const CardItemInWishlist = ({
     category,
     subcategory,
     price,
-  },
-}) => {
+  } = wishlistedItem;
   let navigate = useNavigate();
   const { state: cart, dispatch: cartDispatch } = useCart();
   const { dispatch: notificationDispatch } = useNotifications();
@@ -29,19 +29,21 @@ const CardItemInWishlist = ({
   const { state: storeObj } = useProducts();
 
   const getProductById = (id) => {
-    return storeObj.store.find((itemInCart) => itemInCart.id === id);
+    return storeObj.store.find((itemInStore) => itemInStore._id === id);
   };
 
   const IsAlreadyPresentInArray = checkIfItemIsAlreadyPresentInArray(
     cart,
-    getProductById(id)
+    getProductById(productId)
   );
+
+  console.log("is wishlisdted in here..", wishlistedItem);
 
   return (
     <div className="card card-ecommerce">
       <Badge fastDelivery={fastDelivery} />
-      <WishListIcon product={getProductById(id)} />
-      <div onClick={() => navigate(`/products/${id}`)}>
+      <WishListIcon wishlistedItem={wishlistedItem} />
+      <div onClick={() => navigate(`/products/${_id}`)}>
         <div className="card-image-wrapper">
           <img
             src={image}
@@ -83,7 +85,7 @@ const CardItemInWishlist = ({
             onClick={() => {
               cartDispatch({
                 type: "ADD_TO_CART",
-                payload: getProductById(id),
+                payload: getProductById(productId),
               });
               notificationDispatch({
                 type: "ADD_NOTIFICATION",

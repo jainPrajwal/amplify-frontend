@@ -98,7 +98,7 @@ export const removeFromCart = (state, payload) => {
 const reducerCart = (state, { type, payload }) => {
   switch (type) {
     case "LOAD_CART":
-      return payload?.cartItems;
+      return payload?.cart?.cartItems;
 
     case "ADD_TO_CART":
       return state.concat(payload.cartItem);

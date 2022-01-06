@@ -4,17 +4,22 @@ import { useNotifications } from "../../contexts/useNotifications";
 import axios from "axios";
 
 import { Badge } from "./Badge";
-import { WishListIcon } from "./WishListIcon";
+import {
+  checkIfItemIsAlreadyPresentInWishlist,
+  WishListIcon,
+} from "./WishListIcon";
 import { v4 } from "uuid";
 import { checkIfItemIsAlreadyPresentInArray } from "../../pages/wishlist/ReducerWishlist";
 import { isItemOutOfStockInRespectiveColor } from "../../pages/store/ReducerStore";
 import { useAuth } from "../../contexts/useAuth";
+import { useWishlist } from "../../contexts/useWishlist";
 import { useState } from "react";
 
 const CardItemInStore = ({ product, store }) => {
   const { state: cart, dispatch: cartDispatch } = useCart();
   const { loggedInUser } = useAuth();
   const [status, setStatus] = useState("idle");
+  const { state: wishlist } = useWishlist();
 
   const { dispatch: notificationDispatch } = useNotifications();
   const {
@@ -39,7 +44,10 @@ const CardItemInStore = ({ product, store }) => {
     cart,
     getProductById(_id)
   );
-
+  const IsAlreadyPresentInWishlist = checkIfItemIsAlreadyPresentInWishlist(
+    wishlist,
+    product
+  );
   let navigate = useNavigate();
 
   return (
@@ -59,7 +67,11 @@ const CardItemInStore = ({ product, store }) => {
     >
       <Badge fastDelivery={fastDelivery} />
 
-      <WishListIcon product={getProductById(_id)} />
+      {IsAlreadyPresentInWishlist?.productId ? (
+        <WishListIcon wishlistedItem={IsAlreadyPresentInWishlist} />
+      ) : (
+        <WishListIcon product={product} />
+      )}
       <div
         onClick={() => {
           navigate(`/products/${_id}`);

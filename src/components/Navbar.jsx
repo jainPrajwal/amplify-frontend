@@ -132,7 +132,7 @@ const Navbar = () => {
               <div className="nav-menu-link wishlist">
                 <i className="far fa-heart">
                   {loggedInUser.token && (
-                    <span className="cart-count">{wishlist.length}</span>
+                    <span className="cart-count">{wishlist?.length}</span>
                   )}
                 </i>
                 <div></div>
