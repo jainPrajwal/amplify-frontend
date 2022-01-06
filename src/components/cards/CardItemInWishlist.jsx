@@ -1,5 +1,7 @@
+import axios from "axios";
 import { useNavigate } from "react-router";
 import { v4 } from "uuid";
+import { useAuth } from "../../contexts/useAuth";
 import { useCart } from "../../contexts/useCart";
 import { useNotifications } from "../../contexts/useNotifications";
 import { useProducts } from "../../contexts/useProducts";
@@ -23,6 +25,7 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
   let navigate = useNavigate();
   const { state: cart, dispatch: cartDispatch } = useCart();
   const { dispatch: notificationDispatch } = useNotifications();
+  const { loggedInUser } = useAuth();
 
   const { state: storeObj } = useProducts();
 
@@ -77,19 +80,47 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
         ) : (
           <button
             className="btn btn-primary"
-            onClick={() => {
-              cartDispatch({
-                type: "ADD_TO_CART",
-                payload: getProductById(productId),
-              });
-              notificationDispatch({
-                type: "ADD_NOTIFICATION",
-                payload: {
-                  id: v4(),
-                  type: "SUCCESS",
-                  message: "Item Added to Cart",
-                },
-              });
+            onClick={async () => {
+              const saveItemToServer = async () => {
+                let product = { ...getProductById(productId) };
+                product["productId"] = product._id;
+                delete product._id;
+
+                try {
+                  // setStatus("loading");
+                  const response = await axios.post(
+                    `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}`,
+                    product
+                  );
+                  console.log({ response });
+                  const savedProduct = response?.data?.cartItem;
+                  if (savedProduct) {
+                    // setStatus("idle");
+                    cartDispatch({
+                      type: "ADD_TO_CART",
+                      payload: {
+                        cartItem: savedProduct,
+                      },
+                    });
+                    notificationDispatch({
+                      type: "ADD_NOTIFICATION",
+                      payload: {
+                        id: v4(),
+                        type: "SUCCESS",
+                        message: `${name} Added to Cart`,
+                      },
+                    });
+                  } else {
+                    console.log("yaha error hai");
+                    throw new Error(
+                      "some error occured while saving item to server"
+                    );
+                  }
+                } catch (error) {
+                  console.log("error", error?.response?.data?.errorMessage);
+                }
+              };
+              await saveItemToServer();
             }}
           >
             {`${"Add to Cart".toUpperCase()}`}

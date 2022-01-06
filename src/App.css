@@ -84,7 +84,9 @@
 .nav-menu-items .nav-menu-item:hover {
   cursor: pointer;
 }
-
+.active {
+  color: initial;
+}
 .brand-logo-amplify {
   width: 180px;
   height: 80%;
@@ -248,7 +250,6 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-
 }
 .card-ecommerce .tag.tag-bestSeller {
   background-color: var(--red);

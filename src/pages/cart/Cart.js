@@ -68,7 +68,7 @@ const Cart = () => {
                   ₹
                   {parseInt(
                     cart.reduce((acc, current) => {
-                      return (acc += current.price * current.totalQuantity);
+                      return (acc += current.sellingPrice * current.totalQuantity);
                     }, 0)
                   )}
                 </div>
