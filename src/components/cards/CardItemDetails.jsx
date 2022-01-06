@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { useEffect } from "react/cjs/react.development";
+import { useEffect } from "react";
 import { v4 } from "uuid";
 
 import { useCart } from "../../contexts/useCart";
