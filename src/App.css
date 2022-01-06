@@ -236,6 +236,9 @@
 }
 .card.card-ecommerce .card-image-wrapper {
   background: #cdcdcd;
+
+  width: 100%;
+  height: 280px;
 }
 .card-ecommerce .fa-heart {
   background-color: #eee;
@@ -243,6 +246,9 @@
 .product-price-details {
   height: 52px;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+
 }
 .card-ecommerce .tag.tag-bestSeller {
   background-color: var(--red);

@@ -1,11 +1,10 @@
 import { v4 } from "uuid";
 import { useNotifications } from "../../contexts/useNotifications";
 import { useWishlist } from "../../contexts/useWishlist";
-import { checkIfItemIsAlreadyPresentInArray } from "../../pages/wishlist/ReducerWishlist";
 import { HeartSvg } from "./HeartSvg";
 import axios from "axios";
 import { useAuth } from "../../contexts/useAuth";
-const addItemToWishlist = async (product, userId, wishlistDispatch) => {
+export const addItemToWishlist = async (product, userId, wishlistDispatch) => {
   try {
     let productToBeWishlisted = { ...product };
     productToBeWishlisted["productId"] = product._id;
@@ -28,7 +27,7 @@ const addItemToWishlist = async (product, userId, wishlistDispatch) => {
   }
 };
 
-const removeItemFromWishlist = async (product, userId, wishlistDispatch) => {
+export const removeItemFromWishlist = async (product, userId, wishlistDispatch) => {
   try {
     console.log("removing from wishlist");
     const {

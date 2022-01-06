@@ -14,13 +14,11 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
     image,
     name,
     brand,
-    offer,
-    inStock,
+
     fastDelivery,
-    color,
+
     category,
     subcategory,
-    price,
   } = wishlistedItem;
   let navigate = useNavigate();
   const { state: cart, dispatch: cartDispatch } = useCart();
@@ -63,9 +61,6 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
             </span>
           </div>
 
-          <div>
-            {`Color : ${color}`} {`${inStock ? "In Stock" : "Out of Stock"}`}
-          </div>
           <hr />
         </div>
       </div>

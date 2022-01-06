@@ -96,15 +96,8 @@ const CardItemInStore = ({ product, store }) => {
             </span>
           </div>
 
-          <div>
-            {`Color : ${color}`}{" "}
-            {`${
-              isItemOutOfStockInRespectiveColor(product)
-                ? "Out of Stock"
-                : "In Stock"
-            }`}
-          </div>
-          <hr />
+          <div>{`Color : ${color}`} </div>
+
           <div className="product-price-details">
             <div className="product-price">
               <span>₹{sellingPrice}</span>
