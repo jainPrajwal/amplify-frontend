@@ -103,7 +103,7 @@ function App() {
         const {
           data: { success, message, wishlist },
         } = await axios.get(
-          `http://127.0.0.1:3000/wishlist/${userId}`
+          `https://amplitude-backend.herokuapp.com/wishlist/${userId}`
         );
         console.log({ wishlist });
         if (success) {
