@@ -4,8 +4,7 @@ import { useNotifications } from "../contexts/useNotifications";
 import { v4 } from "uuid";
 import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
-import { useEffect } from "react/cjs/react.development";
-import { useCart } from "./useCart";
+import { useEffect } from "react";
 
 export const AuthContext = createContext();
 
@@ -15,11 +14,11 @@ export const setupAuthHeaderForServiceCalls = (token) => {
 };
 
 export const setupAuthExceptionHandler = (logout, navigate) => {
-  const UNAUTHORIZED = [401,500];
+  const UNAUTHORIZED = [401, 500];
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
-      console.log( error.response.data.errorMessage);
+      console.log(error.response.data.errorMessage);
       if (UNAUTHORIZED.includes(error?.response?.status)) {
         logout();
         navigate("/login");
