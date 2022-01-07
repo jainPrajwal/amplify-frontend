@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useCart } from "../contexts/useCart";
 import { useWishlist } from "../contexts/useWishlist";
 import { BrandLogo } from "./BrandLogo";
@@ -24,6 +24,8 @@ const Navbar = () => {
   const { state: cart } = useCart();
 
   let navigate = useNavigate();
+  const location = useLocation();
+  console.log({ location });
 
   return (
     <>
@@ -48,30 +50,33 @@ const Navbar = () => {
                 }));
               }}
             ></i>
-            <SearchBar status={{ mobileView, setMobileView }} />
+            {location?.pathname === "/store" && (
+              <SearchBar status={{ mobileView, setMobileView }} />
+            )}
           </div>
         </div>
         <nav className="nav-menu d-flex ai-center px-1 jc-space-between f-direction-row">
           <ul className="nav-menu-items d-flex ai-center f-direction-row">
-            <li
-              className={`nav-menu-item item-search ${
-                isPageActive === "search" ? "nav-menu-item-active" : ""
-              }`}
-              onClick={() => {
-                setPageActive("search");
-                setMobileView((prevState) => ({
-                  ...prevState,
-                  isSearchBarHidden: !prevState.isSearchBarHidden,
-                }));
-              }}
-            >
-              <div className="nav-menu-link search">
-                <i className="fa fa-search" aria-hidden="true"></i> 
-                <span className="font-sm">search</span>
-              </div>
-            </li>
+            {location?.pathname === "/store" && (
+              <li
+                className={`nav-menu-item item-search ${
+                  isPageActive === "search" ? "nav-menu-item-active" : ""
+                }`}
+                onClick={() => {
+                  setPageActive("search");
+                  setMobileView((prevState) => ({
+                    ...prevState,
+                    isSearchBarHidden: !prevState.isSearchBarHidden,
+                  }));
+                }}
+              >
+                <div className="nav-menu-link search">
+                  <i className="fa fa-search" aria-hidden="true"></i> 
+                  <span className="font-sm">search</span>
+                </div>
+              </li>
+            )}
 
-            {/*  */}
             <NavLink end activeStyle={activeStyle} to="/store">
               <li className={`nav-menu-item item-store`}>
                 <div className="nav-menu-link store">
@@ -85,12 +90,7 @@ const Navbar = () => {
               <NavLink end activeStyle={activeStyle} to="/login">
                 <li className={`nav-menu-item item-login`}>
                   <div className="nav-menu-link login">
-                    <div
-                      onClick={() => {
-                        setPageActive("login");
-                        navigate("/login");
-                      }}
-                    >
+                    <div>
                       <i className="fas fa-sign-in-alt"></i>
                       <div></div>
                       <span className="font-sm">login</span>
@@ -134,10 +134,13 @@ const Navbar = () => {
               end
               activeStyle={activeStyle}
               to="/cart"
-              style={{ marginTop: "auto"}}
+              style={{ marginTop: "auto" }}
             >
               <li className={`nav-menu-item item-cart`}>
-                <div className="nav-menu-link cart" style={{maxHeight:"46px"}}>
+                <div
+                  className="nav-menu-link cart"
+                  style={{ maxHeight: "46px" }}
+                >
                   <i className="fas fa-shopping-cart">
                     {loggedInUser.token && (
                       <span className="notification-count">

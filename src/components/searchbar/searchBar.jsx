@@ -2,12 +2,14 @@ import { useNavigate } from "react-router";
 import { useProducts } from "../../contexts/useProducts";
 
 const getSearchedData = (store, searchQuery) => {
-  return store.filter((item) => {
+  const searchedProducts = store.filter((item) => {
     return item.name.toUpperCase().indexOf(searchQuery.toUpperCase()) > -1 ||
       item.brand.toUpperCase().indexOf(searchQuery.toUpperCase()) > -1
       ? true
       : false;
   });
+
+  return searchedProducts;
 };
 
 const SearchBar = ({
@@ -39,33 +41,29 @@ const SearchBar = ({
           {searchQuery.length > 0 &&
             dataWithSearchedResults.map((item) => {
               return (
-                <>
-                  <div
-                    onClick={() => {
-                      navigate(`/products/${item.id}`);
-                      storeDispatch({
-                        type: "SEARCH",
-                        payload: "",
-                      });
-                    }}
-                  >
+                <div
+                  className="autocomplete-item"
+                  onClick={() => {
+                    navigate(`/products/${item._id}`);
+                  }}
+                  key={item._id}
+                >
+                  {`${item.name.substr(
+                    0,
+                    item.name.toUpperCase().indexOf(searchQuery.toUpperCase())
+                  )}`}
+
+                  <strong>
                     {`${item.name.substr(
-                      0,
-                      item.name.toUpperCase().indexOf(searchQuery.toUpperCase())
+                      item.name
+                        .toUpperCase()
+                        .indexOf(searchQuery.toUpperCase()),
+                      item.name
+                        .toUpperCase()
+                        .indexOf(searchQuery.toUpperCase()) + searchQuery.length
                     )}`}
-                    <strong>
-                      {`${item.name.substr(
-                        item.name
-                          .toUpperCase()
-                          .indexOf(searchQuery.toUpperCase()),
-                        item.name
-                          .toUpperCase()
-                          .indexOf(searchQuery.toUpperCase()) +
-                          searchQuery.length
-                      )}`}
-                    </strong>
-                  </div>
-                </>
+                  </strong>
+                </div>
               );
             })}
         </div>

@@ -1,8 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 import { useProducts } from "../contexts/useProducts";
 
 const SortByDesktop = () => {
   const [isHidden, setIsHidden] = useState(true);
+  const priceLowToHighRef = useRef();
+  const priceHighToLowRef = useRef();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const {
     state: { sortBy },
@@ -16,6 +21,28 @@ const SortByDesktop = () => {
     }
     return () => clearTimeout(timer);
   }, [isHidden]);
+
+  useEffect(() => {
+    if (priceLowToHighRef?.current?.checked) {
+      navigate({
+        pathname: "/store",
+        search: location?.search
+          ? location.search.concat(`&&sortBy=PRICE_LOW_TO_HIGH`)
+          : `?sortBy=PRICE_LOW_TO_HIGH`,
+      });
+    } else if (priceHighToLowRef?.current?.checked) {
+      navigate({
+        pathname: "/store",
+        search: location?.search
+          ? location.search.concat(`&&sortBy=PRICE_HIGH_TO_LOW`)
+          : `?sortBy=PRICE_HIGH_TO_LOW`,
+      });
+    } else {
+      navigate({
+        pathname: "/store",
+      });
+    }
+  }, [priceLowToHighRef?.current?.checked, priceHighToLowRef?.current?.checked]);
   return (
     <div className="sort-sortBy d-flex ">
       <div onClick={() => setIsHidden((prevState) => !prevState)}>
@@ -36,9 +63,10 @@ const SortByDesktop = () => {
       >
         <label className="checkbox-label  checkboxRoundRadio-label">
           <input
+            ref={priceLowToHighRef}
             type="radio"
             name="sortBy"
-            checked={sortBy === "PRICE_LOW_TO_HIGH"}
+            checked={sortBy && sortBy === "PRICE_LOW_TO_HIGH"}
             value={"PRICE_LOW_TO_HIGH"}
             onChange={() => {
               storeDispatch({
@@ -52,9 +80,10 @@ const SortByDesktop = () => {
         </label>
         <label className="checkbox-label  checkboxRoundRadio-label">
           <input
+            ref={priceHighToLowRef}
             type="radio"
             name="sortBy"
-            checked={sortBy === "PRICE_HIGH_TO_LOW"}
+            checked={sortBy && sortBy === "PRICE_HIGH_TO_LOW"}
             value={"PRICE_HIGH_TO_LOW"}
             onChange={() => {
               storeDispatch({
@@ -70,7 +99,7 @@ const SortByDesktop = () => {
           <input
             type="radio"
             name="sortBy"
-            checked={sortBy === "RECOMMENDED"}
+            checked={sortBy && sortBy === "RECOMMENDED"}
             value={"RECOMMENDED"}
             onChange={() => {
               storeDispatch({

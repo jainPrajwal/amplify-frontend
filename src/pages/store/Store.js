@@ -1,4 +1,6 @@
 import { useReducer } from "react";
+import { useLocation } from "react-router";
+import { useEffect } from "react/cjs/react.development";
 
 import { CardProduct } from "../../components";
 import { ContainerEcommerce } from "../../components";
@@ -35,6 +37,63 @@ const Store = () => {
   });
 
   const { state: store, dispatch: storeDispatch } = useProducts();
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log({ location });
+    const searchString = location?.search.split("&&");
+    if (searchString.length > 1) {
+      //multiple filters
+
+      searchString.forEach((element, index) => {
+        if (index === 0) {
+          searchString[0] = searchString[0].slice(1);
+        }
+        const searchParams = element.split("=");
+        let [searchKey, searchValue] = searchParams;
+        switch (searchKey) {
+          case "filterBy":
+            storeDispatch({
+              type: "BRAND",
+              payload: searchValue,
+            });
+            break;
+
+          case "sortBy":
+            storeDispatch({
+              type: "SORT",
+              payload: searchValue,
+            });
+
+            break;
+          default:
+            console.log("kuch to gala thai", searchKey);
+        }
+      });
+    } else {
+      const searchParams = location?.search.split("=");
+      searchParams[0] = searchParams[0].slice(1);
+      const [searchKey, searchValue] = searchParams;
+      switch (searchKey) {
+        case "filterBy":
+          storeDispatch({
+            type: "BRAND",
+            payload: searchValue,
+          });
+          break;
+
+            case "sortBy":
+            storeDispatch({
+              type: "SORT",
+              payload: searchValue,
+            });
+
+            break;
+        default:
+          console.log("somehting wrong!");
+      }
+    }
+  }, []);
 
   return (
     <>
