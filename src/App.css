@@ -967,6 +967,9 @@
     text-overflow: ellipsis;
     color: black;
   }
+  .card.card-ecommerce .card-image-wrapper {
+    height: auto;
+  }
 }
 
 @media only screen and (max-width: 480px) {
