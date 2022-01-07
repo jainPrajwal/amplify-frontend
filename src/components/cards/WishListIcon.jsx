@@ -12,7 +12,7 @@ export const addItemToWishlist = async (product, userId, wishlistDispatch) => {
     const {
       data: { success, message, wishlist },
     } = await axios.post(
-      `http://127.0.0.1:3000/wishlist/${userId}`,
+      `https://amplitude-backend.herokuapp.com/wishlist/${userId}`,
       productToBeWishlisted
     );
     console.log({ wishlist });
@@ -33,7 +33,7 @@ export const removeItemFromWishlist = async (product, userId, wishlistDispatch) 
     const {
       data: { success, message },
     } = await axios.delete(
-      `http://127.0.0.1:3000/wishlist/${userId}/${product._id}`
+      `https://amplitude-backend.herokuapp.com/wishlist/${userId}/${product._id}`
     );
     if (success) {
       wishlistDispatch({
