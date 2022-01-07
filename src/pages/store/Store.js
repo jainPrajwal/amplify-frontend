@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 import { useLocation } from "react-router";
-import { useEffect } from "react/cjs/react.development";
+import { useEffect } from "react";
 
 import { CardProduct } from "../../components";
 import { ContainerEcommerce } from "../../components";
