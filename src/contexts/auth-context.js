@@ -63,7 +63,7 @@ const AuthProvider = ({ children }) => {
       const {
         data: { success, message, userId, token },
       } = await axios.post(
-        "http://amplitude-backend.herokuapp.com/login",
+        "https://amplitude-backend.herokuapp.com/login",
         userLoginDetails
       );
 
@@ -102,7 +102,7 @@ const AuthProvider = ({ children }) => {
       const {
         data: { success, user },
       } = await axios.post(
-        "http://amplitude-backend.herokuapp.com/signup",
+        "https://amplitude-backend.herokuapp.com/signup",
         userSignUpDetails
       );
 
