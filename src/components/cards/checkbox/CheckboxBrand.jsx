@@ -6,13 +6,7 @@ const CheckboxBrand = ({ value: { store, storeDispatch }, brand }) => {
   const inputRef = useRef();
 
   useEffect(() => {
-    console.log(
-      "inputRef",
-      inputRef?.current,
-      " if checked ",
-      inputRef?.current?.checked
-    );
-    console.log({ location });
+    
 
     if (inputRef?.current?.checked) {
       navigate({
