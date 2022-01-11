@@ -34,8 +34,11 @@ const SignUp = () => {
 
   return (
     <>
-      <div className="d-flex f-direction-row jc-space-around wrapper-login">
-        <div className="w-100">
+      <div className="d-flex f-direction-row jc-space-around wrapper-login p-extra-large">
+        <div
+          style={{ maxWidth: "480px", backgroundColor: "#fef2f2" }}
+          className="border-primary p-large w-100"
+        >
           {" "}
           <form onSubmit={(e) => SignUpHandler(e)} className="form">
             {status === "error" && (
@@ -51,8 +54,8 @@ const SignUp = () => {
             )}
 
             <div className="form-container">
-              <div className="form-title header header-primary text-center">
-                sign up
+              <div className="form-title header header-secondary text-center">
+                Sign up
               </div>
               <div className="form-row">
                 <input
@@ -71,7 +74,7 @@ const SignUp = () => {
                   <span className="content-name">Name</span>
                 </label>
               </div>
-              {<div> Heleoo {error}</div>}
+
               <div className="form-row">
                 <input
                   type="text"
@@ -111,7 +114,7 @@ const SignUp = () => {
                 </label>
               </div>
               <div className="d-flex jc-center">
-                <button className="btn btn-primary btn-input">
+                <button className="btn btn-danger">
                   {" "}
                   {status === "loading" ? (
                     <>
@@ -131,17 +134,30 @@ const SignUp = () => {
           </form>
           <div className="d-flex jc-center ai-center">
             Already have an account?
-            <button
-              className="btn btn-danger"
-              onClick={() => navigate("/login")}
+            <span
+              className="text-underline text-primary p-large span-login"
+              style={{
+                color: "var(--red)",
+                textDecorationLine: "underline",
+              }}
+              onClick={() => {
+                console.log("click to ho raiya la");
+                navigate("/login");
+              }}
             >
               Login
-            </button>
+            </span>
           </div>
         </div>
-        <div className="d-flex ai-center pt-medium">
-          <img src={BannerLogin} alt="banner" className="banner-login" />
-        </div>
+      </div>
+      <div className="wrapper-svg-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+          <path
+            fill="#E6003D"
+            fill-opacity="1"
+            d="M0,288L80,277.3C160,267,320,245,480,229.3C640,213,800,203,960,213.3C1120,224,1280,256,1360,272L1440,288L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
+          ></path>
+        </svg>
       </div>
     </>
   );

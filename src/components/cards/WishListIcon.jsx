@@ -27,7 +27,11 @@ export const addItemToWishlist = async (product, userId, wishlistDispatch) => {
   }
 };
 
-export const removeItemFromWishlist = async (product, userId, wishlistDispatch) => {
+export const removeItemFromWishlist = async (
+  product,
+  userId,
+  wishlistDispatch
+) => {
   try {
     console.log("removing from wishlist");
     const {
@@ -92,20 +96,27 @@ const WishListIcon = ({ wishlistedItem, product }) => {
                 wishlistDispatch
               );
             }
+            notificationDispatch({
+              type: "ADD_NOTIFICATION",
+              payload: {
+                id: v4(),
+                type: wishlistedItem?.productId ? "DANGER" : "SUCCESS",
+                message: wishlistedItem?.productId
+                  ? `${wishlistedItem.name} removed from  Wishlist`
+                  : `${product.name} added to Wishlist`,
+              },
+            });
           };
-
-          await toggleWishlistOnServer();
-
-          notificationDispatch({
-            type: "ADD_NOTIFICATION",
-            payload: {
-              id: v4(),
-              type: wishlistedItem?.productId ? "DANGER" : "SUCCESS",
-              message: wishlistedItem?.productId
-                ? `${wishlistedItem.name} removed from  Wishlist`
-                : `${product.name} added to Wishlist`,
-            },
-          });
+          !loggedInUser.userId
+            ? notificationDispatch({
+                type: "ADD_NOTIFICATION",
+                payload: {
+                  id: v4(),
+                  type: "DANGER",
+                  message: `Please Login To Add Item To Wishlist`,
+                },
+              })
+            : await toggleWishlistOnServer();
         }}
       ></i>
       <svg

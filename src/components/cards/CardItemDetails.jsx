@@ -212,7 +212,16 @@ const CardItemDetails = () => {
                       console.log("error", error?.response?.data?.errorMessage);
                     }
                   };
-                  saveItemToServer();
+                  !loggedInUser?.userId
+                    ? notificationDispatch({
+                        type: "ADD_NOTIFICATION",
+                        payload: {
+                          id: v4(),
+                          type: "DANGER",
+                          message: `Please Login To Add Item To Cart`,
+                        },
+                      })
+                    : saveItemToServer();
                 }}
               >
                 {status === "loading" ? (
@@ -266,22 +275,30 @@ const CardItemDetails = () => {
                         wishlistDispatch
                       );
                     }
+                    notificationDispatch({
+                      type: "ADD_NOTIFICATION",
+                      payload: {
+                        id: v4(),
+                        type: IsAlreadyPresentInWishlist?.productId
+                          ? "DANGER"
+                          : "SUCCESS",
+                        message: IsAlreadyPresentInWishlist?.productId
+                          ? `${IsAlreadyPresentInWishlist.name} removed from  Wishlist`
+                          : `${product.name} added to Wishlist`,
+                      },
+                    });
                   };
 
-                  await toggleWishlistOnServer();
-
-                  notificationDispatch({
-                    type: "ADD_NOTIFICATION",
-                    payload: {
-                      id: v4(),
-                      type: IsAlreadyPresentInWishlist?.productId
-                        ? "DANGER"
-                        : "SUCCESS",
-                      message: IsAlreadyPresentInWishlist?.productId
-                        ? `${IsAlreadyPresentInWishlist.name} removed from  Wishlist`
-                        : `${product.name} added to Wishlist`,
-                    },
-                  });
+                  !loggedInUser?.userId
+                    ? notificationDispatch({
+                        type: "ADD_NOTIFICATION",
+                        payload: {
+                          id: v4(),
+                          type: "DANGER",
+                          message: `Please Login To Add Item To Wishlist`,
+                        },
+                      })
+                    : await toggleWishlistOnServer();
                 }}
               >
                 <i

@@ -164,7 +164,16 @@ const CardItemInStore = ({ product, store }) => {
                   console.log("error", error?.response?.data?.errorMessage);
                 }
               };
-              await saveItemToServer();
+              !loggedInUser?.userId
+                ? notificationDispatch({
+                    type: "ADD_NOTIFICATION",
+                    payload: {
+                      id: v4(),
+                      type: "DANGER",
+                      message: `Please Login To Add Item To Cart`,
+                    },
+                  })
+                : await saveItemToServer();
             }}
           >
             {status === "loading" ? (
