@@ -4,11 +4,11 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
-import { ProductsProvider } from "./contexts/products-context";
-import { CartProvider } from "./contexts/cart-context";
-import { WishlistProvider } from "./contexts/wishlist-context";
-import { NotificationProvider } from "./contexts/notification-context";
-import { AuthProvider } from "./contexts/auth-context";
+import { NotificationProvider } from "./Home/components/notification/context/notification-context";
+import { AuthProvider } from "./Auth/context/auth-context";
+import { WishlistProvider } from "./Wishlist/context/wishlist-context";
+import { CartProvider } from "./Cart/context/cart-context";
+import { ProductsProvider } from "./Product/context/products-context";
 
 ReactDOM.render(
   <React.StrictMode>

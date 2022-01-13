@@ -1,23 +1,25 @@
-import "./App.css";
-import { Cart, Home, Store, Wishlist } from "./pages";
-
-import { Routes, Route } from "react-router-dom";
-import { Navbar } from "./components";
-import { ProductDetail } from "./pages/ProductDetail";
-import { useEffect, useState } from "react";
-import { PrivateRoute } from "./PrivateRoute";
-import { Login } from "./pages/login/Login";
-import { SignUp } from "./pages/signup/signup";
-import { useProducts } from "./contexts/useProducts";
 import axios from "axios";
-import { useAuth } from "./contexts/useAuth";
-import { useCart } from "./contexts/useCart";
+import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router";
 import { v4 } from "uuid";
-import { useNotifications } from "./contexts/useNotifications";
-import { useWishlist } from "./contexts/useWishlist";
+import "./App.css";
+import { useAuth } from "./Auth/context/useAuth";
+import { Login } from "./Auth/login/Login";
+import { PrivateRoute } from "./Auth/PrivateRoute";
+import { SignUp } from "./Auth/signup/signup";
+import { Cart } from "./Cart/Cart";
+import { useCart } from "./Cart/context/useCart";
+import { Navbar } from "./Home/components/navbar/Navbar";
+import { useNotifications } from "./Home/components/notification/context/useNotifications";
+import { Home } from "./Home/Home";
+import { useProducts } from "./Product/context/useProducts";
+import { Store } from "./Product/Store";
+import { ProductDetail } from "./ProductDetail/ProductDetail";
+import { useWishlist } from "./Wishlist/context/useWishlist";
+import { Wishlist } from "./Wishlist/Wishlist";
 
 function App() {
-  const { state, dispatch: storeDispatch } = useProducts();
+  const { dispatch: storeDispatch } = useProducts();
   const { dispatch: cartDispatch } = useCart();
   const { dispatch: notificationDispatch } = useNotifications();
   const { dispatch: wishlistDispatch } = useWishlist();
