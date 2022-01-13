@@ -25,7 +25,7 @@ const Navbar = () => {
 
   let navigate = useNavigate();
   const location = useLocation();
-  console.log({ location });
+  
 
   return (
     <>

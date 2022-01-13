@@ -38,7 +38,7 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
     getProductById(productId)
   );
 
-  console.log("is wishlisdted in here..", wishlistedItem);
+  
 
   return (
     <div className="card card-ecommerce">
@@ -92,7 +92,7 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
                     `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}`,
                     product
                   );
-                  console.log({ response });
+                  
                   const savedProduct = response?.data?.cartItem;
                   if (savedProduct) {
                     // setStatus("idle");
@@ -111,13 +111,13 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
                       },
                     });
                   } else {
-                    console.log("yaha error hai");
+                    
                     throw new Error(
                       "some error occured while saving item to server"
                     );
                   }
                 } catch (error) {
-                  console.log("error", error?.response?.data?.errorMessage);
+                  
                 }
               };
               await saveItemToServer();

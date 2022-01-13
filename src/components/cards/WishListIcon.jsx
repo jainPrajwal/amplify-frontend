@@ -15,7 +15,7 @@ export const addItemToWishlist = async (product, userId, wishlistDispatch) => {
       `https://amplitude-backend.herokuapp.com/wishlist/${userId}`,
       productToBeWishlisted
     );
-    console.log({ wishlist });
+    
     if (success) {
       wishlistDispatch({
         type: "ADD_TO_WISHLIST",
@@ -33,7 +33,7 @@ export const removeItemFromWishlist = async (
   wishlistDispatch
 ) => {
   try {
-    console.log("removing from wishlist");
+    
     const {
       data: { success, message },
     } = await axios.delete(
@@ -55,7 +55,7 @@ export const checkIfItemIsAlreadyPresentInWishlist = (wishlist, item) => {
       return itemInWishlist.productId === item._id;
     }),
   };
-  console.log({ foundItem });
+  
   return foundItem;
 };
 
@@ -82,7 +82,7 @@ const WishListIcon = ({ wishlistedItem, product }) => {
         className={`fas fa-heart ${wishlistedItem?.productId ? "red" : ""}`}
         onClick={async () => {
           const toggleWishlistOnServer = async () => {
-            console.log("wishlistedItem onclic", wishlistedItem);
+            
             if (wishlistedItem?.productId) {
               await removeItemFromWishlist(
                 wishlistedItem,

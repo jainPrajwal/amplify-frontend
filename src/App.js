@@ -105,7 +105,7 @@ function App() {
         } = await axios.get(
           `https://amplitude-backend.herokuapp.com/wishlist/${userId}`
         );
-        console.log({ wishlist });
+
         if (success) {
           storeDispatch({ type: "STATUS", payload: "idle" });
           wishlistDispatch({
@@ -129,7 +129,7 @@ function App() {
     };
 
     if (loggedInUser.token) {
-      loadWishlist(loggedInUser.userId)
+      loadWishlist(loggedInUser.userId);
     }
   }, [loggedInUser]);
 

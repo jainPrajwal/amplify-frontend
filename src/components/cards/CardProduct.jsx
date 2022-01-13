@@ -2,7 +2,7 @@ import { useProducts } from "../../contexts/useProducts";
 import { CardItemInStore } from "./CardItemInStore";
 import loadingImage from "../../assets/images/loading.gif";
 
-const getSortedData = (store, sortBy) => {
+export const getSortedData = (store, sortBy) => {
   if (sortBy === "RECOMMENDED") return store;
   return [...store].sort((a, b) =>
     sortBy === "PRICE_HIGH_TO_LOW"
@@ -91,11 +91,17 @@ const CardProduct = () => {
 
   switch (status) {
     case "idle":
-      return dataWithinAPriceRange.map((product, index, store) => {
-        return (
-          <CardItemInStore product={product} key={product._id} store={store} />
-        );
-      });
+      return dataWithinAPriceRange.length > 0
+        ? dataWithinAPriceRange.map((product, index, store) => {
+            return (
+              <CardItemInStore
+                product={product}
+                key={product._id}
+                store={store}
+              />
+            );
+          })
+        : `No items found!`;
     case "loading":
       return (
         <div className="wrapper-loading">

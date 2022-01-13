@@ -40,7 +40,6 @@ const Store = () => {
   const location = useLocation();
 
   useEffect(() => {
-    console.log({ location });
     const searchString = location?.search.split("&&");
     if (searchString.length > 1) {
       //multiple filters
@@ -67,7 +66,7 @@ const Store = () => {
 
             break;
           default:
-            console.log("kuch to gala thai", searchKey);
+            console.log("default case");
         }
       });
     } else {
@@ -82,15 +81,15 @@ const Store = () => {
           });
           break;
 
-            case "sortBy":
-            storeDispatch({
-              type: "SORT",
-              payload: searchValue,
-            });
+        case "sortBy":
+          storeDispatch({
+            type: "SORT",
+            payload: searchValue,
+          });
 
-            break;
+          break;
         default:
-          console.log("somehting wrong!");
+          console.log("default case !");
       }
     }
   }, []);
@@ -177,7 +176,11 @@ const Store = () => {
                   <span>select price range</span>
                 </div>
 
-                <PriceSlider value={{ store, storeDispatch }} />
+                {store.store.length > 0 ? (
+                  <PriceSlider value={{ store, storeDispatch }} />
+                ) : (
+                  `Loading..!`
+                )}
               </li>
               <hr />
             </ul>

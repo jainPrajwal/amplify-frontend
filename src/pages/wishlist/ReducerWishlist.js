@@ -30,7 +30,7 @@ const ReducerWishlist = (state, { type, payload }) => {
       );
 
     case "ADD_TO_WISHLIST":
-      console.log("wreducer", payload.updatedWishlist);
+      
       return payload.updatedWishlist;
 
     default:

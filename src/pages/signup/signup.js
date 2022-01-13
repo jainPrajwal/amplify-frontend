@@ -19,7 +19,7 @@ const SignUp = () => {
   };
 
   const handleValidation = ({ name, username, password }) => {
-    console.log("vaildatin");
+    
     if (!name) {
       setError("name field required");
       return false;
@@ -141,7 +141,7 @@ const SignUp = () => {
                 textDecorationLine: "underline",
               }}
               onClick={() => {
-                console.log("click to ho raiya la");
+                
                 navigate("/login");
               }}
             >

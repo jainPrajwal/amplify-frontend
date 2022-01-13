@@ -1,19 +1,28 @@
 import { createRef, useEffect, useState } from "react";
 import { useProducts } from "../contexts/useProducts";
+import { getSortedData } from "../components/cards/CardProduct";
 
 const PriceSlider = () => {
   const slider = createRef();
   const silderValue = createRef();
+  const { state } = useProducts();
 
+  const sortedData = getSortedData(state?.store, "PRICE_LOW_TO_HIGH");
+  console.log({ sortedData });
+  const itemWithMinimumPrice = sortedData[0]?.sellingPrice;
+
+  console.log({ itemWithMinimumPrice });
+  const itemWithMaximumPrice = sortedData[sortedData.length - 1]?.sellingPrice;
   const [price, setPrice] = useState({
     priceInputValue: "3",
     priceInput: {
-      0: "100",
-      1: "500",
-      2: "1000",
-      3: "2000",
+      0: itemWithMinimumPrice,
+      1: Math.round(itemWithMaximumPrice / 2),
+      2: Math.round((itemWithMinimumPrice + itemWithMaximumPrice) / 2),
+      3: itemWithMaximumPrice,
     },
   });
+
   useEffect(() => {
     slider.current.setAttribute("min", 0);
 
@@ -25,7 +34,6 @@ const PriceSlider = () => {
 
   const { dispatch: storeDispatch } = useProducts();
   const handlePriceChange = (event) => {
-    console.log("handle Price Vhange");
     setPrice((prevState) => ({
       ...prevState,
       priceInputValue: event.target.value,
@@ -46,7 +54,7 @@ const PriceSlider = () => {
     <>
       <input
         type="range"
-        min="0"
+        min={itemWithMinimumPrice}
         defaultValue={price.priceInputValue}
         ref={slider}
         onChange={(event) => handlePriceChange(event)}

@@ -1,6 +1,6 @@
 const Carousel = ({ timerObj, ...props }) => {
   const handlePauseTimer = () => {
-    console.log("timerObj", timerObj.timer);
+    
     clearInterval(timerObj.timer);
   };
 
