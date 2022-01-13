@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import { useProducts } from "../../../Product/context/useProducts";
+import "./searchBar.css";
 
 const getSearchedData = (store, searchQuery) => {
   const searchedProducts = store.filter((item) => {
