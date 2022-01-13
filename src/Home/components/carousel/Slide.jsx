@@ -1,3 +1,4 @@
+import "./carousel.css";
 const Slide = ({ isCurrent, takeFocus, image, id, title, children }) => {
   // let ref = useRef();
 
