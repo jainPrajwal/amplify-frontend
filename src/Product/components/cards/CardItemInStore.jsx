@@ -13,6 +13,7 @@ import {
 import { WishListIcon } from "../../../Wishlist/components/WishListIcon";
 import { useWishlist } from "../../../Wishlist/context/useWishlist";
 import { Badge } from "../Badge";
+import "./cardItems.css";
 
 const CardItemInStore = ({ product, store }) => {
   const { state: cart, dispatch: cartDispatch } = useCart();

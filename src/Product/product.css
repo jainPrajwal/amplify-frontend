@@ -1,0 +1,42 @@
+.grid-sidebar {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+}
+.sidebar {
+  position: fixed;
+  width: 280px;
+  box-shadow: 10px 0 5px -2px rgb(0 0 0 / 20%);
+  height: calc( 100vh - 4rem);
+  overflow-x: hidden;
+  top: 4rem;
+  overflow-y: auto;
+  z-index: 6;
+}
+.clear-all:hover {
+  cursor: pointer;
+}
+
+.container-sortBy-mobile {
+  display: none;
+}
+@media only screen and (max-width: 480px) {
+  .container-sortBy-mobile {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .container-main {
+    padding: 0;
+  }
+  .grid-sidebar {
+    display: block;
+  }
+
+  .container-sidebar-desktop {
+    display: none;
+  }
+}

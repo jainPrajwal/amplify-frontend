@@ -8,6 +8,7 @@ import {
   isItemOutOfStockInRespectiveColor,
   updateItemOnServer,
 } from "../../utils";
+import "./cart.css";
 
 const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
   let {

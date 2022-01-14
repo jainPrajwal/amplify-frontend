@@ -1,3 +1,4 @@
+import "./checkboxRegular.css";
 const CheckboxSubCategory = ({
   value: { store, storeDispatch },
   subcategory,

@@ -1,0 +1,61 @@
+.wrapper-header {
+  border: 1px solid red;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  margin-top: 3rem;
+}
+.wrapper-image {
+  height: 100%;
+  width: 100%;
+}
+.image-ad {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+
+.wrapper-header .header.header-primary {
+  color: white;
+  background: #333333; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #dd1818,
+    #333333
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #dd1818,
+    #333333
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem;
+  margin: 0;
+}
+.header.header-primary > div {
+  font-family: "Montserrat", sans-serif;
+  white-space: pre-line;
+  color: var(--font-color);
+}
+
+@media only screen and (max-width: 768px) {
+  .wrapper-header {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+  }
+
+  .wrapper-header .header.header-primary {
+    font-size: 2rem;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1248px) {
+  .wrapper-header {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+  }
+}

@@ -11,6 +11,7 @@ import { ModalSortBy } from "./components/modal/ModalSortBy";
 import { PriceSlider } from "./components/priceslider/PriceSlider";
 import { SortByDesktop } from "./components/SortByDesktop";
 import { useProducts } from "./context/useProducts";
+import "./product.css";
 
 const modalReducer = (state, { type }) => {
   switch (type) {

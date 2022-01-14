@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
-
+import "./checkboxRegular.css";
 const CheckboxBrand = ({ value: { store, storeDispatch }, brand }) => {
   const navigate = useNavigate();
   const location = useLocation();

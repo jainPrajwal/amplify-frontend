@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-
+import "./header.css";
 const Header = ({ title, subtitle }) => {
   let navigate = useNavigate();
   return (

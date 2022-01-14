@@ -1,0 +1,24 @@
+/* Slider */
+.slider {
+  appearance: none;
+  /* appeareance : none to override default css styles */
+  height: 10px;
+  border-radius: 10px;
+  background-color: #d3d3d3;
+  outline: none;
+  opacity: 0.8;
+  transition: opacity 200ms;
+  width: 200px;
+}
+
+.slider:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background-color: var(--red);
+  border-radius: 50%;
+}

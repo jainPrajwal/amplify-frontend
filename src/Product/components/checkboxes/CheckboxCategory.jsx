@@ -1,3 +1,4 @@
+import "./checkboxRegular.css";
 const CheckboxCategory = ({ value: { store, storeDispatch }, category }) => {
   return (
     <label className="checkbox-label checkboxRegular-label">

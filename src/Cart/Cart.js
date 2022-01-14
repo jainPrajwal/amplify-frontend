@@ -1,5 +1,6 @@
 import { CardCart } from "./components/CardCart";
 import { useCart } from "./context/useCart";
+import "./components/cart.css";
 
 const Cart = () => {
   let { state: cart } = useCart();

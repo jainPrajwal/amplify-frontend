@@ -1,0 +1,7 @@
+.checkboxRegular-label {
+  width: 16px;
+  height: 16px;
+}
+.checkboxRegular-label input:checked ~ .checkmark {
+  background-color: var(--red);
+}

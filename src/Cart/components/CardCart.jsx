@@ -3,7 +3,7 @@ import { CardItemInCart } from "./CardItemInCart";
 
 const CardCart = () => {
   const { state: cart, dispatch: cartDispatch } = useCart();
-  return cart.map((itemInCart, index, cart) => {
+  return cart.map((itemInCart, cart) => {
     return (
       <CardItemInCart
         key={itemInCart.color.concat(itemInCart._id)}

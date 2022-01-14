@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNotifications } from "../notification/context/useNotifications";
+import "./snackbars.css";
 
 const AlertDanger = (props) => {
   const [exit, setExit] = useState(false);

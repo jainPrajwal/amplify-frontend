@@ -1,7 +1,7 @@
 import { createRef, useEffect, useState } from "react";
 import { getSortedData } from "../../../utils";
 import { useProducts } from "../../context/useProducts";
-
+import "./priceslider.css";
 const PriceSlider = () => {
   const slider = createRef();
   const silderValue = createRef();
