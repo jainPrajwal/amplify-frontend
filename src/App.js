@@ -12,6 +12,7 @@ import { useCart } from "./Cart/context/useCart";
 import { Navbar } from "./Home/components/navbar/Navbar";
 import { useNotifications } from "./Home/components/notification/context/useNotifications";
 import { Home } from "./Home/Home";
+import { PageNotFound } from "./PageNotFound/PageNotFound";
 import { useProducts } from "./Product/context/useProducts";
 import { Store } from "./Product/Store";
 import { ProductDetail } from "./ProductDetail/ProductDetail";
@@ -159,6 +160,7 @@ function App() {
           <Route path="/products/:productId" element={<ProductDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
     </div>
