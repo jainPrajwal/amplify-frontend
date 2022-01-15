@@ -8,10 +8,9 @@ const PriceSlider = () => {
   const { state } = useProducts();
 
   const sortedData = getSortedData(state?.store, "PRICE_LOW_TO_HIGH");
-  console.log({ sortedData });
+
   const itemWithMinimumPrice = sortedData[0]?.sellingPrice;
 
-  console.log({ itemWithMinimumPrice });
   const itemWithMaximumPrice = sortedData[sortedData.length - 1]?.sellingPrice;
   const [price, setPrice] = useState({
     priceInputValue: "3",

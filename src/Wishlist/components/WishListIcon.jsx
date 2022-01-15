@@ -1,4 +1,3 @@
-import axios from "axios";
 import { v4 } from "uuid";
 import { useAuth } from "../../Auth/context/useAuth";
 import { useNotifications } from "../../Home/components/notification/context/useNotifications";

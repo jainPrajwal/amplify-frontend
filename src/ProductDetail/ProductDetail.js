@@ -1,7 +1,7 @@
 import { useProducts } from "../Product/context/useProducts";
 import loadingImage from "../assets/images/loading.gif";
 import { CardItemDetails } from "./components/CardItemDetails";
-
+import "./productDetail.css";
 const ProductDetail = () => {
   const { state } = useProducts();
 

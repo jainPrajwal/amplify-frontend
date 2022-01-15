@@ -3,11 +3,11 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useEffect } from "react";
 import { v4 } from "uuid";
-
+import "./cardItemDetails.css";
 import { useAuth } from "../../Auth/context/useAuth";
 import { useWishlist } from "../../Wishlist/context/useWishlist";
 import { useProducts } from "../../Product/context/useProducts";
-import {
+import { 
   addItemToWishlist,
   checkIfItemIsAlreadyPresentInCartWithSameColor,
   checkIfItemIsAlreadyPresentInWishlist,

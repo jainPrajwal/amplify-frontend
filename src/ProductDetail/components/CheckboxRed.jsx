@@ -1,3 +1,5 @@
+import "./checkboxRed.css";
+
 const CheckboxRed = ({ state: { itemColor, setItemColor } }) => {
   return (
     <label className="checkbox-label  checkboxRed-label">

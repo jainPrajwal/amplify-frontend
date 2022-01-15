@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../context/useAuth";
-
+import "../auth.css";
 const SignUp = () => {
   const [userSignUpDetails, setUserSignUpDetails] = useState({
     name: "",

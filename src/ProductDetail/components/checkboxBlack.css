@@ -1,0 +1,36 @@
+.checkboxBlack-label input:checked ~ .checkmark {
+  background-color: #282c3f;
+  color: var(--font-color);
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+}
+.checkboxBlack-label .checkmark::after {
+  width: 7px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  position: absolute;
+  left: 50%;
+
+  /* transform: translate(-50%); */
+  top: 50%;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.checkboxBlack-label .checkmark {
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  background-color: #282c3f;
+  color: var(--font-color);
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+  outline: none;
+  border: none;
+}
+.checkboxBlack-label:hover input ~ .checkmark {
+  background-color: #101429;
+}

@@ -1,3 +1,4 @@
+import "./checkboxBlack.css";
 const CheckboxBlack = ({ state: { itemColor, setItemColor } }) => {
   return (
     <label className="checkbox-label checkboxBlack-label">
