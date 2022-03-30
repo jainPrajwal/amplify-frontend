@@ -16,7 +16,7 @@ export const setupAuthExceptionHandler = (logout, navigate) => {
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
-      console.log(error.response.data.errorMessage);
+      console.log("error auth context", error?.response);
       if (UNAUTHORIZED.includes(error?.response?.status)) {
         logout();
         navigate("/login");
@@ -67,6 +67,7 @@ const AuthProvider = ({ children }) => {
 
       if (token && success) {
         const bearerToken = `Bearer ${token}`;
+        console.log(`bearer Token line 70`, bearerToken);
         setupAuthHeaderForServiceCalls(bearerToken);
         localStorage.setItem("user", JSON.stringify({ userId, token }));
         setLoggedInUser(() => ({

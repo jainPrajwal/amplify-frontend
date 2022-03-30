@@ -73,7 +73,7 @@ function App() {
         } = await axios.get(
           `https://amplitude-backend.herokuapp.com/cart/${userId}`
         );
-
+        console.log("cart", cart)
         if (success) {
           cartDispatch({
             type: "LOAD_CART",
@@ -95,6 +95,7 @@ function App() {
     };
 
     if (loggedInUser.token) {
+      console.log({loggedInUser},"loggedInUser")
       loadCart(loggedInUser.userId);
     }
   }, [loggedInUser]);
@@ -108,7 +109,7 @@ function App() {
         } = await axios.get(
           `https://amplitude-backend.herokuapp.com/wishlist/${userId}`
         );
-
+          console.log("wishlist", wishlist)
         if (success) {
           storeDispatch({ type: "STATUS", payload: "idle" });
           wishlistDispatch({

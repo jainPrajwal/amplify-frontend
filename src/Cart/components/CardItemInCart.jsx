@@ -38,7 +38,7 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
                 const {
                   data: { success },
                 } = await axios.delete(
-                  `http://127.0.0.1:3000/cart/${loggedInUser.userId}/${_id}`
+                  `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}/${_id}`
                 );
                 console.log("success", success);
                 if (success) {
