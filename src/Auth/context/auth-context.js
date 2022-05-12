@@ -41,7 +41,6 @@ const AuthProvider = ({ children }) => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) return;
     if (user.token) {
-      console.log("bearer token set");
       const bearerToken = `Bearer ${user.token}`;
       setupAuthHeaderForServiceCalls(bearerToken);
       setLoggedInUser(() => ({
