@@ -91,13 +91,22 @@ const reducerCallbackFunction = (state, { type, payload }) => {
       return { ...state, fastDeliveryOnly: true };
 
     case "BRAND":
-      return {
+      // return {
+      //   ...state,
+      //   specificBrand: state.specificBrand.map((item) => {
+      //     if (item.name === payload) {
+      //       return { ...item, filterBy: !item.filterBy };
+      //     }
+      //     return item;
+      //   }),
+      // };
+
+         return {
         ...state,
         specificBrand: state.specificBrand.map((item) => {
-          if (item.name === payload) {
-            return { ...item, filterBy: !item.filterBy };
-          }
-          return item;
+        if(payload.includes(item.name)) {
+          return {...item, filterBy: !item.filterBy}
+        } return item;
         }),
       };
 
@@ -105,21 +114,19 @@ const reducerCallbackFunction = (state, { type, payload }) => {
       return {
         ...state,
         specificCategory: state.specificCategory.map((item) => {
-          if (item.name === payload) {
-            return { ...item, filterBy: !item.filterBy };
-          }
-          return item;
-        }),
+          if(payload.includes(item.name)) {
+            return {...item, filterBy: !item.filterBy}
+          } return item;
+          }),
       };
 
     case "SUBCATEGORY":
       return {
         ...state,
         specificSubCategory: state.specificSubCategory.map((item) => {
-          if (item.name === payload) {
-            return { ...item, filterBy: !item.filterBy };
-          }
-          return item;
+          if(payload.includes(item.name)) {
+            return {...item, filterBy: !item.filterBy}
+          } return item;
         }),
       };
 
@@ -131,10 +138,9 @@ const reducerCallbackFunction = (state, { type, payload }) => {
 
     case "CLEAR_ALL":
       return {
-        ...state,
-        specificBrand: initialStateOfSpecificBrands,
-        specificCategory: initialStateOfSpecificCategories,
-        specificSubCategory: initialStateOfSpecificSubCategories,
+        ...initialState,
+        store: state.store,
+      
       };
 
     case "STATUS":
