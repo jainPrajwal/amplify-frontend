@@ -27,13 +27,13 @@ const Login = () => {
             height="25px"
             width="25px"
           />
-          <p className="ml-medium">Invalid Username or Password</p>
+          <p className="ml-md">Invalid Username or Password</p>
         </div>
       )}
-      <div className="d-flex f-direction-column jc-space-around wrapper-login p-extra-large">
+      <div className="d-flex f-direction-column jc-space-around wrapper-login p-lg">
         <div
           style={{ maxWidth: "480px", backgroundColor: "#fef2f2" }}
-          className="border-primary p-large w-100"
+          className="border-primary p-lg w-100"
         >
           <form onSubmit={(e) => LoginHandler(e)} className="form">
             <div className="form-container">
@@ -98,8 +98,8 @@ const Login = () => {
           <div className="d-flex jc-center ai-center">
             Not Registered yet?
             <span
-              className="text-underline text-primary p-large span-signup"
-              style={{ color: "var(--red)", textDecorationLine: "underline" }}
+              className="text-underline text-primary p-lg span-signup"
+              style={{ color: "var(--kaali-danger)", textDecorationLine: "underline" }}
               onClick={() => navigate("/signup")}
             >{`Sign up`}</span>
           </div>

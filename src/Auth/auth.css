@@ -40,5 +40,5 @@
 }
 
 .input:invalid {
-  border-bottom: 1px solid var(--red);
+  border-bottom: 1px solid var(--kaali-danger);
 }

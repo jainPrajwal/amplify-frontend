@@ -32,10 +32,10 @@ const SignUp = () => {
 
   return (
     <>
-      <div className="d-flex f-direction-row jc-space-around wrapper-login p-extra-large">
+      <div className="d-flex f-direction-row jc-space-around wrapper-login p-lg">
         <div
           style={{ maxWidth: "480px", backgroundColor: "#fef2f2" }}
-          className="border-primary p-large w-100"
+          className="border-primary p-lg w-100"
         >
           {" "}
           <form onSubmit={(e) => SignUpHandler(e)} className="form">
@@ -47,7 +47,7 @@ const SignUp = () => {
                   height="25px"
                   width="25px"
                 />
-                <p className="ml-medium">Invalid Username or Password</p>
+                <p className="ml-md">Invalid Username or Password</p>
               </div>
             )}
 
@@ -133,9 +133,9 @@ const SignUp = () => {
           <div className="d-flex jc-center ai-center">
             Already have an account?
             <span
-              className="text-underline text-primary p-large span-login"
+              className="text-underline text-primary p-lg span-login"
               style={{
-                color: "var(--red)",
+                color: "var(--kaali-danger)",
                 textDecorationLine: "underline",
               }}
               onClick={() => {
