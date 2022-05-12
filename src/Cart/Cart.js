@@ -22,7 +22,7 @@ const Cart = () => {
                     alt="offers"
                   />
                 </div>
-                <span className="text-primary ml-medium">Available Offers</span>
+                <span className="text-primary ml-md">Available Offers</span>
               </div>
               <span className="text-gray text-smallest ">
                 10% Instant Discount with ICICI Bank Credit and Debit Cards on a
