@@ -1,6 +1,9 @@
-import { useEffect, useReducer } from "react";
-import { useLocation } from "react-router";
+import { useEffect, useReducer, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import { brands, category, subcategory } from "../data/getItemsInStore";
+import { getDataWithSpecificBrand, getSortedData } from "../utils";
+import { getSellingPrice } from "../utils/utils";
 import { CardProduct } from "./components/cards/CardProduct";
 import { CheckboxBrand } from "./components/checkboxes/CheckboxBrand";
 import { CheckboxCategory } from "./components/checkboxes/CheckboxCategory";
@@ -36,18 +39,61 @@ const Store = () => {
 
   const { state: store, dispatch: storeDispatch } = useProducts();
   const location = useLocation();
+  const navigate = useNavigate();
+  const [finalData, setFinalData] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    const searchString = location?.search.split("&&");
-    if (searchString.length > 1) {
-      //multiple filters
+    /*const searchString = location?.search.split("&&");
+    console.log(`location`, location);
+    if (store) {
+      if (searchString.length > 1) {
+        //multiple filters
+        searchString.forEach((element, index) => {
+          if (index === 0) {
+            searchString[0] = searchString[0].slice(1);
+            console.log(`searchString[o]`, searchString);
+          }
+          const searchParams = element.split("=");
+          let [searchKey, searchValue] = searchParams;
+          switch (searchKey) {
+            case "filterBy":
+              console.log(`store`, store);
+              storeDispatch({
+                type: "BRAND",
+                payload: searchValue,
+              });
 
-      searchString.forEach((element, index) => {
-        if (index === 0) {
-          searchString[0] = searchString[0].slice(1);
-        }
-        const searchParams = element.split("=");
-        let [searchKey, searchValue] = searchParams;
+
+              // setFinalData(prevState => {
+              //   return prevState.length > 0 ? prevState.filter(product => product.brand === searchValue) : store?.store.filter(product => product.brand === searchValue)
+              // })
+           
+
+              break;
+
+            case "sortBy":
+              // setFinalData(prevState => {
+              //   return prevState.length > 0 ? getSortedData(prevState, searchValue) : getSortedData(store?.store, searchValue)
+              // })
+              storeDispatch({
+                type: "SORT",
+                payload: searchValue,
+              });
+
+              break;
+            default:
+              console.log("default case 12");
+              // storeDispatch({
+              //   type: "STATUS",
+              //   payload: `idle`,
+              // });
+          }
+        });
+      } else {
+        const searchParams = location?.search.split("=");
+        searchParams[0] = searchParams[0].slice(1);
+        const [searchKey, searchValue] = searchParams;
         switch (searchKey) {
           case "filterBy":
             storeDispatch({
@@ -64,49 +110,79 @@ const Store = () => {
 
             break;
           default:
-            console.log("default case");
+            console.log("default case 11!");
+            storeDispatch({
+              type: "STATUS",
+              payload: `idle`,
+            });
         }
-      });
-    } else {
-      const searchParams = location?.search.split("=");
-      searchParams[0] = searchParams[0].slice(1);
-      const [searchKey, searchValue] = searchParams;
-      switch (searchKey) {
-        case "filterBy":
-          storeDispatch({
-            type: "BRAND",
-            payload: searchValue,
-          });
-          break;
+      }
+    } */
+    const filters = {
+      BRAND: searchParams.getAll(`brand`),
+      CATEGORY: searchParams.getAll(`category`),
+      SUBCATEGORY: searchParams.getAll(`subcategory`),
+    };
 
-        case "sortBy":
-          storeDispatch({
-            type: "SORT",
-            payload: searchValue,
-          });
+    const sortBy = searchParams.getAll(`sortBy`);
+    const price = searchParams.get(`price`);
+    console.log(`price`, price);
+    const sortedData = getSortedData(store?.store, "PRICE_LOW_TO_HIGH");
+    console.log(store?.store, `store?.store`)
+    const itemWithMinimumPrice = getSellingPrice(sortedData[0]);
 
-          break;
-        default:
-          console.log("default case !");
+    const itemWithMaximumPrice = getSellingPrice(
+      sortedData[sortedData.length - 1]
+    );
+    const priceInput = {
+      0: itemWithMinimumPrice,
+      1: Math.round(itemWithMaximumPrice / 2),
+      2: Math.round((itemWithMinimumPrice + itemWithMaximumPrice) / 2),
+      3: itemWithMaximumPrice,
+    };
+    for (let key in filters) {
+      if (filters[key].length > 0) {
+        storeDispatch({
+          type: key,
+          payload: filters[key],
+        });
       }
     }
+
+    if (sortBy.length > 0) {
+      storeDispatch({
+        type: `SORT`,
+        payload: sortBy[0],
+      });
+    }
+    if(price) {
+      storeDispatch({
+        type: "PRICE_RANGE",
+        payload: priceInput[price],
+      });
+    }
+   
   }, []);
 
   return (
     <>
-      <div className="d-flex jc-end mr-extra-large pr-large">
+      <div className="d-flex jc-end mr-lg pr-lg">
         <SortByDesktop />
       </div>
       <div className="grid-sidebar">
         <div className="container-sidebar-desktop">
           <div className="sidebar">
-            <ul className="sidebar-list mt-extra-large px-1">
-              <li className="sidebar-list-items mt-large">
+            <ul className="sidebar-list mt-lg px-1">
+              <li className="sidebar-list-items mt-lg">
                 <div className="header fs-1 text-black text-upper d-flex jc-space-between">
                   <span>filter by</span>
                   <span
                     className="red fs-14 clear-all"
-                    onClick={() => storeDispatch({ type: "CLEAR_ALL" })}
+                    onClick={() => {
+                      console.log(`location`, location);
+                      navigate(`/${location.pathname}`);
+                      storeDispatch({ type: "CLEAR_ALL" });
+                    }}
                   >
                     clear all
                   </span>
@@ -129,7 +205,7 @@ const Store = () => {
                 </ul>
               </li>
               <hr />
-              <li className="sidebar-list-items  mt-large">
+              <li className="sidebar-list-items  mt-lg">
                 <div className="text-primary fs-14 text-upper my-1">
                   categories
                 </div>
@@ -149,7 +225,7 @@ const Store = () => {
                 </ul>
               </li>
               <hr />
-              <li className="sidebar-list-items  mt-large">
+              <li className="sidebar-list-items  mt-lg">
                 <div className="text-primary fs-14 text-upper my-1">
                   other categories
                 </div>
@@ -169,7 +245,7 @@ const Store = () => {
                 </ul>
               </li>
               <hr />
-              <li className="sidebar-list-items mt-large">
+              <li className="sidebar-list-items mt-lg">
                 <div className="header fs-1 text-black text-upper d-flex jc-space-between">
                   <span>select price range</span>
                 </div>
@@ -225,7 +301,6 @@ const Store = () => {
       ) : (
         <div />
       )}
-      <div></div>
     </>
   );
 };
