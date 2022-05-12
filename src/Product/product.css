@@ -22,7 +22,7 @@
 
 /* Badge */
 .card-ecommerce .tag.tag-bestSeller {
-  background-color: var(--red);
+  background-color: var(--kaali-danger);
 }
 
 /* sortBy Desktop */
@@ -82,7 +82,7 @@
 .checkboxRoundRadio-label .checkmark::after {
   width: 100%;
   height: 100%;
-  border: solid var(--red);
+  border: solid var(--kaali-danger);
   border-width: 5px;
   border-radius: 50%;
   position: absolute;
