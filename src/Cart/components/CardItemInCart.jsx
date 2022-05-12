@@ -8,6 +8,7 @@ import {
   isItemOutOfStockInRespectiveColor,
   updateItemOnServer,
 } from "../../utils";
+import { removeFromCartFromServer } from "../../utils/utils";
 import "./cart.css";
 
 const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
@@ -29,47 +30,18 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
 
   return (
     <>
-      <div className="card-itemCart-container d-flex mt-extra-large">
+      <div className="card-itemCart-container d-flex mt-lg">
         <span
           className="btn-remove-from-cart header-secondary"
           onClick={() => {
-            const removeFromCartFromServer = async () => {
-              try {
-                const {
-                  data: { success },
-                } = await axios.delete(
-                  `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}/${_id}`
-                );
-                console.log("success", success);
-                if (success) {
-                  cartDispatch({
-                    type: "REMOVE_FROM_CART",
-                    payload: itemInCart,
-                  });
-                  notificationDispatch({
-                    type: "ADD_NOTIFICATION",
-                    payload: {
-                      id: v4(),
-                      type: "DANGER",
-                      message: `${name} removed from cart`,
-                    },
-                  });
-                } else {
-                  notificationDispatch({
-                    type: "ADD_NOTIFICATION",
-                    payload: {
-                      id: v4(),
-                      type: "DANGER",
-                      message: `Deletion failed..!`,
-                    },
-                  });
-                }
-              } catch (error) {
-                console.log("error ", error?.response?.data?.errorMessage);
-              }
-            };
-
-            removeFromCartFromServer();
+            removeFromCartFromServer({
+              loggedInUser,
+              _id,
+              cartDispatch,
+              notificationDispatch,
+              itemInCart,
+              name,
+            });
           }}
         >
           &times;
@@ -78,7 +50,7 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
           <img src={image} alt={name} className="w-100 h-100" />
         </div>
 
-        <div className="card-itemCart-content ml-medium w-100 py-small">
+        <div className="card-itemCart-content ml-md w-100 py-small">
           <div className="card-itemCart-title text-primary fs-2 mb-small">
             {brand}
           </div>
@@ -87,7 +59,7 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
             {color}
           </div>
 
-          <div className="card-itemCart-quantity-details mt-medium">
+          <div className="card-itemCart-quantity-details mt-md">
             <div className="card-itemCart-quantity d-flex ai-center fs-1">
               Quantity :
               <button
@@ -131,22 +103,33 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
               <button
                 className="btn-round"
                 onClick={async () => {
-                  const requiredUpdateInItem = {
-                    totalQuantity: itemInCart.totalQuantity - 1,
-                    colorObj: {
-                      color: itemInCart.color,
-                      quantityOfItemInRespectiveColor:
-                        getQuantityOfItemInRespectiveColor(itemInCart),
-                    },
-                  };
+                  if (totalQuantity > 1) {
+                    const requiredUpdateInItem = {
+                      totalQuantity: itemInCart.totalQuantity - 1,
+                      colorObj: {
+                        color: itemInCart.color,
+                        quantityOfItemInRespectiveColor:
+                          getQuantityOfItemInRespectiveColor(itemInCart),
+                      },
+                    };
 
-                  await updateItemOnServer({
-                    itemInCart,
-                    loggedInUser,
-                    cartDispatch,
-                    requiredUpdateInItem,
-                    type: "DECREASE_QUANTITY",
-                  });
+                    await updateItemOnServer({
+                      itemInCart,
+                      loggedInUser,
+                      cartDispatch,
+                      requiredUpdateInItem,
+                      type: "DECREASE_QUANTITY",
+                    });
+                  } else {
+                    await removeFromCartFromServer({
+                      loggedInUser,
+                      _id,
+                      cartDispatch,
+                      notificationDispatch,
+                      itemInCart,
+                      name,
+                    });
+                  }
 
                   notificationDispatch({
                     type: "ADD_NOTIFICATION",
@@ -167,7 +150,7 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
             </div>
           </div>
 
-          <div className="itemCart-price-details d-flex mt-medium">
+          <div className="itemCart-price-details d-flex mt-md">
             <div className="itemCart-price mr-small">
               <strong>
                 ₹
@@ -180,7 +163,7 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
                 }`}
               </strong>
             </div>
-            <div className="product-selling-price mr-medium">₹{price}</div>
+            <div className="product-selling-price mr-md">₹{price}</div>
             <div className="product-discount">({offer})</div>
           </div>
         </div>

@@ -26,6 +26,7 @@ const reducerCart = (state, { type, payload }) => {
       return removeFromCart(state, payload);
 
     default:
+     
       return state;
   }
 };

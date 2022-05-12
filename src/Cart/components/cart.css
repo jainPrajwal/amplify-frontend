@@ -10,7 +10,7 @@
   display: inline-block;
   width: 64%;
   padding-right: 20px;
-  border-right: 1px solid var(--red);
+  border-right: 1px solid var(--kaali-danger);
   padding-top: 32px;
   min-height: 250px;
   /* background: red; */
