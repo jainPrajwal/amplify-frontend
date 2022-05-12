@@ -1,4 +1,5 @@
 import axios from "axios";
+import { v4 } from "uuid";
 
 const getSellingPriceForSeventyPercentDiscount = (price) => {
   return parseInt(price - (price / 100) * 70);
@@ -46,6 +47,7 @@ const getProductWithUpdatedQuantityMetrics = (
     inStock: !updatedInStock,
   };
 };
+
 const increaseQuantityOfItemInRespectiveColor = (product) => {
   const updatedArrayOfAvailableColors = !isItemOutOfStockInRespectiveColor(
     product
@@ -123,6 +125,7 @@ const removeFromCart = (state, payload) => {
 };
 
 const checkIfItemIsAlreadyPresentInArray = (state, product) => {
+  // Deliberate use of ==.
   return state.some((item) => {
     return item.productId == product._id;
   });
@@ -201,6 +204,54 @@ const getQuantityOfItemInRespectiveColor = (itemInCart) => {
   console.log({ quantityOfItemInRespectiveColor });
 };
 
+/* ADD TO CART */
+const saveItemToServer = async ({
+  _id,
+  cartDispatch,
+  notificationDispatch,
+  name,
+  setStatus,
+  loggedInUser,
+  store,
+}) => {
+ 
+  let product = { ...getProductById(store, _id) };
+  product["productId"] = product._id;
+  delete product._id;
+
+  try {
+    // setStatus("loading");
+    const response = await axios.post(
+      `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}`,
+      product
+    );
+    const savedProduct = response?.data?.cartItem;
+
+    if (savedProduct) {
+      // setStatus("idle");
+      cartDispatch({
+        type: "ADD_TO_CART",
+        payload: {
+          cartItem: savedProduct,
+        },
+      });
+      notificationDispatch({
+        type: "ADD_NOTIFICATION",
+        payload: {
+          id: v4(),
+          type: "SUCCESS",
+          message: `${name} Added to Cart`,
+        },
+      });
+    } else {
+      throw new Error("some error occured while saving item to server");
+    }
+  } catch (error) {
+    setStatus("error");
+    console.log("error", error?.response?.data?.errorMessage);
+  }
+};
+
 const updateItemOnServer = async ({
   itemInCart,
   loggedInUser,
@@ -224,6 +275,41 @@ const updateItemOnServer = async ({
     : null;
 };
 
+const removeFromCartFromServer = async ({
+  loggedInUser,
+  _id,
+  cartDispatch,
+  notificationDispatch,
+  itemInCart,
+  name,
+}) => {
+  try {
+    const {
+      data: { success },
+    } = await axios.delete(
+      `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}/${_id}`
+    );
+   
+    if (success) {
+      cartDispatch({
+        type: "REMOVE_FROM_CART",
+        payload: itemInCart,
+      });
+    } else {
+      notificationDispatch({
+        type: "ADD_NOTIFICATION",
+        payload: {
+          id: v4(),
+          type: "DANGER",
+          message: `Deletion failed..!`,
+        },
+      });
+    }
+  } catch (error) {
+    console.log("error ", error?.response?.data?.errorMessage);
+  }
+};
+
 const getProductById = (store, id) => {
   const returnedObject = store.find((itemInStore) => {
     return itemInStore._id === id;
@@ -241,6 +327,8 @@ const checkIfItemIsAlreadyPresentInCartWithSameColor = (
     (item) => item.productId === product._id && item.color === itemColor
   );
 };
+
+/* Wishlist Handlers */
 
 const addItemToWishlist = async (product, userId, wishlistDispatch) => {
   try {
@@ -283,6 +371,10 @@ const removeItemFromWishlist = async (product, userId, wishlistDispatch) => {
   }
 };
 
+const getSellingPrice = (item) => {
+  return item.sellingPrice;
+}
+
 export {
   getSellingPriceForSeventyPercentDiscount,
   getSellingPriceForSave50,
@@ -305,4 +397,7 @@ export {
   checkIfItemIsAlreadyPresentInCartWithSameColor,
   addItemToWishlist,
   removeItemFromWishlist,
+  saveItemToServer,
+  removeFromCartFromServer,
+  getSellingPrice
 };
