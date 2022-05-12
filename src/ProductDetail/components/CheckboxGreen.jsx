@@ -7,7 +7,7 @@ const CheckboxGreen = ({ state: { itemColor, setItemColor } }) => {
         name="itemColor"
         checked={itemColor === "green"}
         onChange={() => {
-          console.log("setting itemColor to green");
+         
           setItemColor("green");
         }}
       />

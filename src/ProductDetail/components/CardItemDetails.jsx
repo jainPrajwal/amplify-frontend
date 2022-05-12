@@ -90,16 +90,16 @@ const CardItemDetails = () => {
           <span className="card-subtitle text-gray fs-3 ">
             {product.category}
           </span>
-          <span className="card-subtitle text-gray fs-2 ml-small">
+          <span className="card-subtitle text-gray fs-2 ml-sm">
             ({product.subcategory})
           </span>
         </div>
 
-        <div className="ratings-cart mt-medium">
+        <div className="ratings-cart mt-md">
           <div className="badge-rating ">
             4.7
             <i
-              className="fas fa-star text-white ml-small"
+              className="fas fa-star text-white ml-sm"
               style={{ fontSize: "small" }}
             ></i>
             <span className="text-white">
@@ -109,7 +109,7 @@ const CardItemDetails = () => {
           </div>
         </div>
 
-        <div className="product-price-details-in-cart mt-extra-large">
+        <div className="product-price-details-in-cart mt-lg">
           <div className="product-price">
             <span className="header header-tertiary text-black">
               ₹
@@ -121,10 +121,10 @@ const CardItemDetails = () => {
                   : parseInt(product.price - 22)
               }`}
             </span>
-            <span className="product-selling-price ml-medium  fs-2">
+            <span className="product-selling-price ml-md  fs-2">
               ₹{product.price}
             </span>
-            <span className="product-discount fs-2 ml-medium">
+            <span className="product-discount fs-2 ml-md">
               ({product.offer})
             </span>
             <div className="text-primary green fs-14">
@@ -133,9 +133,9 @@ const CardItemDetails = () => {
           </div>
         </div>
 
-        <div className="text-primary text-black mt-extra-large">
+        <div className="text-primary text-black mt-lg">
           {`${`select Color`.toUpperCase()}`}
-          <div className="d-flex mt-medium color-palette">
+          <div className="d-flex mt-md color-palette">
             <CheckboxPanel
               product={product}
               key={product._id}
@@ -144,7 +144,7 @@ const CardItemDetails = () => {
           </div>{" "}
         </div>
 
-        <div className="btn-outer-wrapper-prod-detail mt-extra-large">
+        <div className="btn-outer-wrapper-prod-detail mt-lg">
           <div className="btn-wrapper-prod-detail">
             {!IsAlreadyPresentInCart ? (
               <button
@@ -284,7 +284,7 @@ const CardItemDetails = () => {
                 }}
               >
                 <i
-                  className="far fa-heart mr-large"
+                  className="far fa-heart mr-lg"
                   style={{ fontSize: "1.2rem" }}
                 ></i>
                 {`${"Add to Wishlist".toUpperCase()} `}{" "}
@@ -293,7 +293,7 @@ const CardItemDetails = () => {
           </div>
         </div>
 
-        <div className="features-product d-flex jc-space-evenly mt-extra-large">
+        <div className="features-product d-flex jc-space-evenly mt-lg">
           <div className="wrapper-free-delivery">
             <div className="wrapper-image-free-delivery">
               <img
@@ -302,7 +302,7 @@ const CardItemDetails = () => {
                 alt="free delivery"
               />
             </div>
-            <div className="fs-2 ml-medium red text-primary">Free Delivery</div>
+            <div className="fs-2 ml-md red text-primary">Free Delivery</div>
           </div>
 
           <div className="wrapper-free-delivery">
@@ -313,7 +313,7 @@ const CardItemDetails = () => {
                 alt="secured delivery"
               />
             </div>
-            <div className="fs-2 ml-medium red text-primary">
+            <div className="fs-2 ml-md red text-primary">
               Secured Payment
             </div>
           </div>
@@ -326,7 +326,7 @@ const CardItemDetails = () => {
                 alt="easy replacement"
               />
             </div>
-            <div className="fs-2 ml-medium red text-primary">Easy Return</div>
+            <div className="fs-2 ml-md red text-primary">Easy Return</div>
           </div>
         </div>
       </div>
