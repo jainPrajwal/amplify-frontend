@@ -11,7 +11,7 @@ import { NavMenu } from "./NavMenu";
 import "./navbar.css";
 
 const activeStyle = {
-  borderBottom: `2px solid var(--red)`,
+  borderBottom: `2px solid var(--kaali-danger)`,
 };
 
 const Navbar = () => {

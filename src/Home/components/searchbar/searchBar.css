@@ -39,7 +39,9 @@
   background-color: #fff;
   border-bottom: 1px solid #d4d4d4;
 }
-
+.autocomplete-items div:focus {
+  background-color: #e9e9e9;
+}
 .wrapper-search {
   width: 50%;
   margin: 0 auto;

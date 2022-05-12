@@ -54,7 +54,7 @@
   padding: 0.5rem 1rem;
 }
 .nav-menu-item-active {
-  border-bottom: 2px solid var(--red);
+  border-bottom: 2px solid var(--kaali-danger);
 }
 .nav-menu-items {
   height: 100%;
@@ -106,7 +106,7 @@
   .navbar .fas.fa-bars.hamburger,
   .icon-close {
     color: black;
-    font-size: x-large;
+    font-size: x-lg;
   }
 
   .nav-menu-item.item-search {
