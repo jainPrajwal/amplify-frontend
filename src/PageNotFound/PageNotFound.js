@@ -1,6 +1,6 @@
 const PageNotFound = () => {
   return (
-    <div className="d-flex jc-center ai-center f-direction-col mt-large">
+    <div className="d-flex jc-center ai-center f-direction-col mt-lg">
       <div
         className="header header-secondary text-black"
         style={{ maxWidth: "100%" }}
