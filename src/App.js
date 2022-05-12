@@ -18,9 +18,10 @@ import { Store } from "./Product/Store";
 import { ProductDetail } from "./ProductDetail/ProductDetail";
 import { useWishlist } from "./Wishlist/context/useWishlist";
 import { Wishlist } from "./Wishlist/Wishlist";
+import loadingImage from "../src/assets/images/loading.gif"
 
 function App() {
-  const { dispatch: storeDispatch } = useProducts();
+  const { state: store, dispatch: storeDispatch } = useProducts();
   const { dispatch: cartDispatch } = useCart();
   const { dispatch: notificationDispatch } = useNotifications();
   const { dispatch: wishlistDispatch } = useWishlist();
@@ -48,7 +49,7 @@ function App() {
           type: "LOAD_PRODUCTS",
           payload: { products: response.data.products },
         });
-
+        console.log(`products received`);
         storeDispatch({ type: "STATUS", payload: "idle" });
         setWidth(undefined);
       } catch (error) {
@@ -73,7 +74,7 @@ function App() {
         } = await axios.get(
           `https://amplitude-backend.herokuapp.com/cart/${userId}`
         );
-        console.log("cart", cart)
+
         if (success) {
           cartDispatch({
             type: "LOAD_CART",
@@ -87,6 +88,7 @@ function App() {
               message,
             },
           });
+          storeDispatch({ type: "STATUS", payload: "idle" });
         }
       } catch (error) {
         storeDispatch({ type: "STATUS", payload: "error" });
@@ -95,7 +97,6 @@ function App() {
     };
 
     if (loggedInUser.token) {
-      console.log({loggedInUser},"loggedInUser")
       loadCart(loggedInUser.userId);
     }
   }, [loggedInUser]);
@@ -109,7 +110,7 @@ function App() {
         } = await axios.get(
           `https://amplitude-backend.herokuapp.com/wishlist/${userId}`
         );
-          console.log("wishlist", wishlist)
+        console.log("wishlist", wishlist);
         if (success) {
           storeDispatch({ type: "STATUS", payload: "idle" });
           wishlistDispatch({
@@ -155,7 +156,22 @@ function App() {
       <div className="container-amplify">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/store" element={<Store />} />
+          <Route
+            path="/store"
+            element={
+              store?.store?.length > 0 ? (
+                <Store />
+              ) : (
+                <div className="wrapper-loading">
+                <img
+                  src={loadingImage}
+                  alt="loading"
+                  className="w-100 h-auto"
+                />
+                </div>
+              )
+            }
+          />
           <PrivateRoute path="/cart" element={<Cart />} />
           <PrivateRoute path="/wishlist" element={<Wishlist />} />
           <Route path="/products/:productId" element={<ProductDetail />} />

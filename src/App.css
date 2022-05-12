@@ -57,7 +57,7 @@
 }
 
 .card.card-ecommerce .card-product-discount {
-  color: var(--red);
+  color: var(--kaali-danger);
 }
 .card.card-ecommerce:hover {
   box-shadow: 0 3px 20px 20px rgb(0 0 0 / 20%);
@@ -103,9 +103,9 @@
   font-weight: bolder;
   /* width: inherit; */
   outline: none;
-  border: 1px solid var(--red);
+  border: 1px solid var(--kaali-danger);
   margin: 0.5rem;
-  background-color: var(--red);
+  background-color: var(--kaali-danger);
   color: var(--font-color);
   position: relative;
 }
@@ -122,7 +122,7 @@
 }
 
 .product-discount {
-  color: var(--red);
+  color: var(--kaali-danger);
 }
 .w-100 {
   width: 100%;
@@ -131,7 +131,7 @@
   color: var(--green);
 }
 .red {
-  color: var(--red);
+  color: var(--kaali-danger);
 }
 .f-wrap {
   flex-wrap: wrap;
@@ -147,7 +147,7 @@
 }
 
 .shade-red {
-  background-color: var(--red);
+  background-color: var(--kaali-danger);
 }
 
 /* Snackbar */
@@ -183,11 +183,11 @@
 }
 .loader-top {
   height: 3px;
-  background-color: var(--red);
+  background-color: var(--kaali-danger);
 }
 
 .border-primary {
-  border: 2px solid var(--red);
+  border: 2px solid var(--kaali-danger);
   border-radius: 5px;
 }
 
@@ -196,6 +196,8 @@
 .span-signup:hover {
   cursor: pointer;
 }
+
+
 @media only screen and (max-width: 768px) {
   .card.card-ecommerce .card-content-ecommerce > * {
     white-space: nowrap;
@@ -204,6 +206,7 @@
     color: black;
   }
 }
+
 
 @media only screen and (max-width: 480px) {
   .alert-wrapper {
@@ -246,6 +249,7 @@
   }
 }
 
+
 @media only screen and (max-width: 768px) {
   .cart-count {
     font-size: 12px;
@@ -273,6 +277,7 @@
   }
 }
 
+
 @-webkit-keyframes slide-in-right {
   0% {
     -webkit-transform: translateX(1000px);
@@ -285,6 +290,8 @@
     opacity: 1;
   }
 }
+
+
 @keyframes slide-in-right {
   0% {
     -webkit-transform: translateX(1000px);
@@ -297,6 +304,8 @@
     opacity: 1;
   }
 }
+
+
 @keyframes SlideLeft {
   0% {
     margin-left: 120%;
@@ -305,6 +314,7 @@
     margin-left: 0;
   }
 }
+
 
 @keyframes SlideRight {
   0% {
