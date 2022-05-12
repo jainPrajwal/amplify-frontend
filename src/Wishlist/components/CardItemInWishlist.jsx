@@ -54,7 +54,7 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
         <div className="card-content-ecommerce">
           <div className="card-title header header-tertiary">
             <strong>{brand}</strong>
-            <span className="card-subtitle text-black ml-medium">
+            <span className="card-subtitle text-black ml-md">
               {category}
             </span>
             <span className="card-subtitle text-black ml-small">
