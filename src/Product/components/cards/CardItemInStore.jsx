@@ -10,6 +10,7 @@ import {
   checkIfItemIsAlreadyPresentInWishlist,
   isItemOutOfStockInRespectiveColor,
 } from "../../../utils";
+import { saveItemToServer } from "../../../utils/utils";
 import { WishListIcon } from "../../../Wishlist/components/WishListIcon";
 import { useWishlist } from "../../../Wishlist/context/useWishlist";
 import { Badge } from "../Badge";
@@ -88,7 +89,7 @@ const CardItemInStore = ({ product, store }) => {
         <div className="card-content-ecommerce">
           <div className="card-title header header-tertiary">
             <span className="text-black">{brand}</span>
-            <span className="card-subtitle text-black ml-medium">
+            <span className="card-subtitle text-black ml-md">
               {category}
             </span>
             <span className="card-subtitle text-black ml-small">
@@ -124,46 +125,7 @@ const CardItemInStore = ({ product, store }) => {
             }`}
             disabled={isItemOutOfStockInRespectiveColor(product)}
             onClick={async () => {
-              const saveItemToServer = async () => {
-                let product = { ...getProductById(_id) };
-                product["productId"] = product._id;
-                delete product._id;
-
-                try {
-                  // setStatus("loading");
-                  const response = await axios.post(
-                    `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}`,
-                    product
-                  );
-                  console.log({ response });
-                  const savedProduct = response?.data?.cartItem;
-                  if (savedProduct) {
-                    // setStatus("idle");
-                    cartDispatch({
-                      type: "ADD_TO_CART",
-                      payload: {
-                        cartItem: savedProduct,
-                      },
-                    });
-                    notificationDispatch({
-                      type: "ADD_NOTIFICATION",
-                      payload: {
-                        id: v4(),
-                        type: "SUCCESS",
-                        message: `${name} Added to Cart`,
-                      },
-                    });
-                  } else {
-                    console.log("yaha error hai");
-                    throw new Error(
-                      "some error occured while saving item to server"
-                    );
-                  }
-                } catch (error) {
-                  setStatus("error");
-                  console.log("error", error?.response?.data?.errorMessage);
-                }
-              };
+             
               !loggedInUser?.userId
                 ? notificationDispatch({
                     type: "ADD_NOTIFICATION",
@@ -173,7 +135,15 @@ const CardItemInStore = ({ product, store }) => {
                       message: `Please Login To Add Item To Cart`,
                     },
                   })
-                : await saveItemToServer();
+                : await saveItemToServer({
+                  _id,
+                  setStatus,
+                  notificationDispatch,
+                  cartDispatch,
+                  name,
+                  store,
+                  loggedInUser,
+                });
             }}
           >
             {status === "loading" ? (

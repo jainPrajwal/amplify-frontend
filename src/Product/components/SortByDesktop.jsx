@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import { useProducts } from "../context/useProducts";
 
 const SortByDesktop = () => {
   const [isHidden, setIsHidden] = useState(true);
   const priceLowToHighRef = useRef();
   const priceHighToLowRef = useRef();
-  const location = useLocation();
-  const navigate = useNavigate();
+const [searchParams,setSearchParams] = useSearchParams();
 
   const {
     state: { sortBy },
@@ -23,7 +23,7 @@ const SortByDesktop = () => {
   }, [isHidden]);
 
   useEffect(() => {
-    if (priceLowToHighRef?.current?.checked) {
+    /*if (priceLowToHighRef?.current?.checked) {
       navigate({
         pathname: "/store",
         search: location?.search
@@ -38,10 +38,16 @@ const SortByDesktop = () => {
           : `?sortBy=PRICE_HIGH_TO_LOW`,
       });
     } else {
-      navigate({
-        pathname: "/store",
-      });
-    }
+      // navigate({
+      //   pathname: "/store",
+      // });
+    }*/
+
+    
+
+
+
+
   }, [
     priceLowToHighRef?.current?.checked,
     priceHighToLowRef?.current?.checked,
@@ -50,7 +56,7 @@ const SortByDesktop = () => {
     <div className="sort-sortBy d-flex ">
       <div onClick={() => setIsHidden((prevState) => !prevState)}>
         sort By :
-        <span className="text-primary ml-large">
+        <span className="text-primary ml-lg">
           {sortBy === "PRICE_LOW_TO_HIGH"
             ? "PRICE LOW TO HIGH".toLowerCase()
             : sortBy === "PRICE_HIGH_TO_LOW"
@@ -76,6 +82,9 @@ const SortByDesktop = () => {
                 type: "SORT",
                 payload: "PRICE_LOW_TO_HIGH",
               });
+              searchParams.set(`sortBy`,"PRICE_LOW_TO_HIGH" )
+              setSearchParams(searchParams)
+
             }}
           />
           <span className="fs-14">Price Low To High</span>
@@ -93,6 +102,8 @@ const SortByDesktop = () => {
                 type: "SORT",
                 payload: "PRICE_HIGH_TO_LOW",
               });
+              searchParams.set(`sortBy`,"PRICE_HIGH_TO_LOW", )
+              setSearchParams(searchParams)
             }}
           />
           <span className="fs-14"> Price High To Low</span>
@@ -109,6 +120,8 @@ const SortByDesktop = () => {
                 type: "SORT",
                 payload: "RECOMMENDED",
               });
+              searchParams.set(`sortBy`,"RECOMMENDED", )
+              setSearchParams(searchParams)
             }}
           />
           <span className="fs-14"> Recommended</span>

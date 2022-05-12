@@ -1,19 +1,26 @@
 import { createRef, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { getSortedData } from "../../../utils";
+import { getSellingPrice } from "../../../utils/utils";
 import { useProducts } from "../../context/useProducts";
 import "./priceslider.css";
+
+
 const PriceSlider = () => {
   const slider = createRef();
-  const silderValue = createRef();
+
   const { state } = useProducts();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const sortedData = getSortedData(state?.store, "PRICE_LOW_TO_HIGH");
 
-  const itemWithMinimumPrice = sortedData[0]?.sellingPrice;
+  const itemWithMinimumPrice = getSellingPrice(sortedData[0]);
 
-  const itemWithMaximumPrice = sortedData[sortedData.length - 1]?.sellingPrice;
+  const itemWithMaximumPrice = getSellingPrice(
+    sortedData[sortedData.length - 1]
+  );
   const [price, setPrice] = useState({
-    priceInputValue: "3",
+    priceInputValue: searchParams.get(`price`) ?? "3",
     priceInput: {
       0: itemWithMinimumPrice,
       1: Math.round(itemWithMaximumPrice / 2),
@@ -21,6 +28,11 @@ const PriceSlider = () => {
       3: itemWithMaximumPrice,
     },
   });
+  const getPricingData = (obj) => {
+    return slider.current === null
+      ? obj[price.priceInputValue]
+      : obj[slider.current.value];
+  };
 
   useEffect(() => {
     slider.current.setAttribute("min", 0);
@@ -31,22 +43,23 @@ const PriceSlider = () => {
     );
   }, [slider, price]);
 
+
   const { dispatch: storeDispatch } = useProducts();
+
   const handlePriceChange = (event) => {
-    setPrice((prevState) => ({
-      ...prevState,
-      priceInputValue: event.target.value,
-    }));
+    console.log(`price`, event.target.value);
+    searchParams.set(`price`, event.target.value);
+    setSearchParams(searchParams);
+    setPrice((prevState) => {
+      return {
+        ...prevState,
+        priceInputValue: event.target.value,
+      };
+    });
     storeDispatch({
       type: "PRICE_RANGE",
       payload: getPricingData(price.priceInput),
     });
-  };
-
-  const getPricingData = (obj) => {
-    return slider.current === null
-      ? obj[price.priceInputValue]
-      : obj[slider.current.value];
   };
 
   return (
@@ -54,12 +67,12 @@ const PriceSlider = () => {
       <input
         type="range"
         min={itemWithMinimumPrice}
-        defaultValue={price.priceInputValue}
+        value={price.priceInputValue}
         ref={slider}
         onChange={(event) => handlePriceChange(event)}
         className="slider"
       />
-      <div ref={silderValue}>Value = {getPricingData(price.priceInput)}</div>
+      <div>Value = {getPricingData(price.priceInput)}</div>
     </>
   );
 };

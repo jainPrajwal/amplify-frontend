@@ -19,6 +19,6 @@
   appearance: none;
   width: 15px;
   height: 15px;
-  background-color: var(--red);
+  background-color: var(--kaali-danger);
   border-radius: 50%;
 }
