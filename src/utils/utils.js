@@ -375,6 +375,15 @@ const getSellingPrice = (item) => {
   return item.sellingPrice;
 }
 
+
+const getSearchedData = (store, searchQuery) => {
+  if(searchQuery.length <= 0) return store;
+  const searchedProducts = store.filter((item) => {
+    return item.name.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
+  return searchedProducts;
+};
 export {
   getSellingPriceForSeventyPercentDiscount,
   getSellingPriceForSave50,
@@ -399,5 +408,6 @@ export {
   removeItemFromWishlist,
   saveItemToServer,
   removeFromCartFromServer,
-  getSellingPrice
+  getSellingPrice,
+  getSearchedData
 };

@@ -45,6 +45,7 @@
 }
 .signin-form .tooltip , .signup-form .tooltip{
   width: initial;
+  
 }
 .input:hover ~ .tooltip {
   visibility: visible;

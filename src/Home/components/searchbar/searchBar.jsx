@@ -4,14 +4,8 @@ import { useProducts } from "../../../Product/context/useProducts";
 import "./searchBar.css";
 import { useState } from "react";
 import { useEffect } from "react";
+import { getSearchedData } from "../../../utils/utils";
 
-const getSearchedData = (store, searchQuery) => {
-  const searchedProducts = store.filter((item) => {
-    return item.name.toLowerCase().includes(searchQuery.toLowerCase());
-  });
-
-  return searchedProducts;
-};
 
 const SearchBar = ({
   status: {
