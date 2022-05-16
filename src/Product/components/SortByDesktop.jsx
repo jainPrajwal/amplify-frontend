@@ -14,13 +14,7 @@ const [searchParams,setSearchParams] = useSearchParams();
     dispatch: storeDispatch,
   } = useProducts();
 
-  useEffect(() => {
-    let timer = 0;
-    if (!isHidden) {
-      timer = setTimeout(() => setIsHidden(true), 5000);
-    }
-    return () => clearTimeout(timer);
-  }, [isHidden]);
+
 
   useEffect(() => {
     /*if (priceLowToHighRef?.current?.checked) {
@@ -53,8 +47,10 @@ const [searchParams,setSearchParams] = useSearchParams();
     priceHighToLowRef?.current?.checked,
   ]);
   return (
-    <div className="sort-sortBy d-flex ">
-      <div onClick={() => setIsHidden((prevState) => !prevState)}>
+    <div className="sort-sortBy d-flex " 
+    onClick={() => setIsHidden((prevState) => !prevState)}
+   >
+      <div >
         sort By :
         <span className="text-primary ml-lg">
           {sortBy === "PRICE_LOW_TO_HIGH"
@@ -84,7 +80,7 @@ const [searchParams,setSearchParams] = useSearchParams();
               });
               searchParams.set(`sortBy`,"PRICE_LOW_TO_HIGH" )
               setSearchParams(searchParams)
-
+              setIsHidden(true)
             }}
           />
           <span className="fs-14">Price Low To High</span>
@@ -104,6 +100,7 @@ const [searchParams,setSearchParams] = useSearchParams();
               });
               searchParams.set(`sortBy`,"PRICE_HIGH_TO_LOW", )
               setSearchParams(searchParams)
+              setIsHidden(true)
             }}
           />
           <span className="fs-14"> Price High To Low</span>
@@ -122,6 +119,7 @@ const [searchParams,setSearchParams] = useSearchParams();
               });
               searchParams.set(`sortBy`,"RECOMMENDED", )
               setSearchParams(searchParams)
+              setIsHidden(true)
             }}
           />
           <span className="fs-14"> Recommended</span>

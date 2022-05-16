@@ -62,6 +62,18 @@ const PriceSlider = () => {
     });
   };
 
+  useEffect(() => {
+    setPrice((prevState) => {
+      return {
+        ...prevState,
+        priceInputValue: searchParams.get(`price`) || 3
+      };
+    });
+  }, [searchParams]);
+
+
+
+
   return (
     <>
       <input

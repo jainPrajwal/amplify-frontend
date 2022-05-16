@@ -1,83 +1,72 @@
-import { useEffect, useReducer, useState } from "react";
-import { Carousel } from "./components/carousel/Carousel";
-import { Controls } from "./components/carousel/Controls";
-import { IconButton } from "./components/carousel/IconButton";
-import { LeftArrowImage } from "./components/carousel/LeftArrowImage";
-import { reducerCallbackFunction } from "./components/carousel/ReducerCarousel";
-import { RightArrowImage } from "./components/carousel/RightArrowImage";
-import { Slide } from "./components/carousel/Slide";
-import { SlideNav } from "./components/carousel/SlideNav";
-import { SlideNavItem } from "./components/carousel/SlideNavItem";
-import { Slides } from "./components/carousel/Slides";
-import { slides } from "./components/carousel/slides/slides";
+import { useNavigate } from "react-router";
+import { createSearchParams } from "react-router-dom";
+
+import { useProducts } from "../Product/context/useProducts";
+
+import { MyCarousel } from "./components/carousel/MyCarousel";
 import { Header } from "./components/Header";
 
 const Home = () => {
-  const [timer, setTimer] = useState(null);
-  const [state, dispatch] = useReducer(reducerCallbackFunction, {
-    currentIndex: 0,
-  });
+  const { state, dispatch } = useProducts();
 
-  const handleStartTimer = () => {
-    const intervalId = setInterval(() => {
-      dispatch({
-        type: "NEXT",
-      });
-    }, 5000);
-    setTimer(intervalId);
-  };
-  useEffect(() => {
-    handleStartTimer();
-  }, []);
-  useEffect(() => () => clearInterval(timer), [timer]);
+
+  const navigate = useNavigate();
+
+  // Make the value of category as the key and the original object as its value
+  // Put it into the map as map does not consider duplicate keys.
+  // Finally get its values.
+  const uniqueBrands = [
+    ...new Map(state.store.map((item) => [item[`brand`], item])).values(),
+  ];
+  console.log({ state }, `store.... from home`);
+
   return (
-    <>
-      <Carousel timerObj={{ timer, setTimer, handleStartTimer }}>
-        <Slides>
-          {slides.map((image, index) => {
-            return (
-              <Slide
-                key={index}
-                id={`image-${index}`}
-                image={image.img}
-                title={image.title}
-                isCurrent={index === state.currentIndex}
-                takeFocus={state.takeFocus}
-                children={image.content}
-              />
-            );
-          })}
-        </Slides>
-
-        <SlideNav>
-          {slides.map((image, index) => {
-            return (
-              <SlideNavItem
-                key={index}
-                isCurrent={index === state.currentIndex}
-                onClick={() => {
-                  dispatch({ type: "GOTO", payload: index });
-                }}
-              />
-            );
-          })}
-        </SlideNav>
-
-        <Controls>
-          <IconButton
-            arial-label="Previous Slide"
-            children={<LeftArrowImage className="carousel-button-left" />}
-            onClick={() => dispatch({ type: "PREV" })}
-          />
-          <IconButton
-            arial-label="Next Slide"
-            children={<RightArrowImage className="carousel-button-right" />}
-            onClick={() => dispatch({ type: "NEXT" })}
-          />
-        </Controls>
-      </Carousel>
+    <div className="">
+      <MyCarousel />
       <Header />
-    </>
+      <div className="featured-categories">
+        <div className="header header-secondary text-center">Categories</div>
+        <div className="card">
+          <div className="card-container">
+            {uniqueBrands.map((item) => {
+              const { _id, image, brand } = item;
+              return (
+               
+                  <div
+                    className="card-body"
+                    key={_id}
+                    onClick={() => {
+                      console.log(`clicked`, _id);
+                      dispatch({
+                        type: "CLEAR_ALL",
+                      });
+                      navigate({
+                        pathname: `/store`,
+                        search: `?${createSearchParams({
+                          brand
+                        })}`
+                      })
+                      
+                    }}
+                  >
+                    <div className="card-item">
+                      <div className="card-image-container">
+                        <img src={image} alt="card" className="card-image" />
+                      </div>
+                      <div className="p-md d-flex ai-center jc-center">
+                        <div className="text-bold text-upper text-center">
+                          {brand}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

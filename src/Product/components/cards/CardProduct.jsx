@@ -58,6 +58,7 @@ const CardProduct = () => {
           })
         : `No items found!`;
     case "loading":
+      console.log(`here is the loading..`)
       return (
         <div className="wrapper-loading">
           <img src={loadingImage} className="w-100 h-auto" alt="loading" />

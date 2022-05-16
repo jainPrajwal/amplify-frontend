@@ -2,7 +2,7 @@ import faker from "faker";
 
 import { v4 } from "uuid";
 export const colorsAvailable = ["red", "blue", "white"];
-export const brands = ["Boat", "OnePlus", "Sony", "Bose"];
+export const brands = ["Boat", "Apple", "Sony", "Bose"];
 export const category = ["headphones", "earphones", "airbuds"];
 export const subcategory = ["wired", "wireless"];
 faker.seed(123);

@@ -1,4 +1,4 @@
-import "./checkboxWhite.css";
+
 const CheckboxWhite = ({ state: { itemColor, setItemColor } }) => {
   return (
     <label className="checkbox-label  checkboxWhite-label">

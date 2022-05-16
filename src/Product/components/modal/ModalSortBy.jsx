@@ -1,5 +1,5 @@
 import { useProducts } from "../../context/useProducts";
-
+import "./modalSortBy.css";
 const ModalSortBy = ({
   status: {
     state: { isSortByModalOpen },
@@ -10,87 +10,103 @@ const ModalSortBy = ({
     state: { sortBy },
     dispatch: storeDispatch,
   } = useProducts();
-
+  console.log(
+    `sortBy && sortBy === "PRICE_LOW_TO_HIGH"`,
+    sortBy && sortBy === "PRICE_LOW_TO_HIGH"
+  );
   const closeModal = () => {
     modalDispatch({ type: "CLOSE_MODAL" });
   };
 
   return (
-    <div
-      className={` ${
-        isSortByModalOpen === true ? "modal-bg modal-bg-active" : ""
-      }`}
-    >
-      <div className="modal">
-        <div className="modal-container">
-          <span className="circle">
-            <span
-              id="btn-modal-close"
-              onClick={() => {
-                closeModal();
-              }}
-            >
-              ×
+    <div className="wrapper-mobile-sort-by-modal">
+      <div
+        className={` ${
+          isSortByModalOpen === true ? "modal-bg modal-bg-active" : ""
+        }`}
+      >
+        <div className="modal modal-sort-by">
+          <div className="modal-container">
+            <span className="circle">
+              <span
+                id="btn-modal-close"
+                onClick={() => {
+                  closeModal();
+                }}
+              >
+                ×
+              </span>
             </span>
-          </span>
 
-          <div className="modal-header">
-            <div
-              className="header header-tertiary text-black px-1"
-              style={{ marginBottom: 0 }}
-            >
-              Sort By
+            <div className="modal-header">
+              <div
+                className="header header-tertiary text-black px-1"
+                style={{ marginBottom: 0 }}
+              >
+                Sort By
+              </div>
+              <div
+                className="red text-upper fs-2 clear-all"
+                onClick={() =>
+                  storeDispatch({ type: "SORT", payload: "RECOMMENDED" })
+                }
+              >
+                {" "}
+                clear all
+              </div>
             </div>
-            <div
-              className="red text-upper fs-2 clear-all"
-              onClick={() =>
-                storeDispatch({ type: "SORT", payload: "RECOMMENDED" })
-              }
-            >
-              {" "}
-              clear all
+            <hr className="modal-hr" />
+            <div className="modal-body">
+              <div className="row">
+                <label className="checkbox-label  checkboxRoundRadio-label">
+                  <input
+                    type="radio"
+                    name="sortBy"
+                    checked={sortBy && sortBy === "PRICE_LOW_TO_HIGH"}
+                    value={"PRICE_LOW_TO_HIGH"}
+                    onChange={(e) => {
+                      console.log(`is checked`, e.target.checked);
+                      storeDispatch({
+                        type: "SORT",
+                        payload: "PRICE_LOW_TO_HIGH",
+                      });
+                    }}
+                  />
+                  <span className="fs-14">Price Low To High</span>
+                  <span
+                    className={`checkmark ${
+                      sortBy === "PRICE_LOW_TO_HIGH" ? `checkmark-active` : ``
+                    }`}
+                  >
+                    <span></span>
+                  </span>
+                </label>
+              </div>
+              <div className="row">
+                <label className="checkbox-label  checkboxRoundRadio-label">
+                  <input
+                    type="radio"
+                    name="sortBy"
+                    checked={sortBy && sortBy === "PRICE_HIGH_TO_LOW"}
+                    value={"PRICE_HIGH_TO_LOW"}
+                    onChange={() => {
+                      storeDispatch({
+                        type: "SORT",
+                        payload: "PRICE_HIGH_TO_LOW",
+                      });
+                    }}
+                  />
+                  <span className="fs-14"> Price High To Low</span>
+                  <span
+                    className={`checkmark ${
+                      sortBy === "PRICE_HIGH_TO_LOW" ? `checkmark-active` : ``
+                    }`}
+                  ><span></span></span>
+                </label>
+              </div>
             </div>
+            <div className="modal-footer"></div>
           </div>
-          <hr className="modal-hr" />
-          <div className="modal-body">
-            <div className="row">
-              <label className="checkbox-label  checkboxRoundRadio-label">
-                <input
-                  type="radio"
-                  name="sortBy"
-                  checked={sortBy === "PRICE_LOW_TO_HIGH"}
-                  value={"PRICE_LOW_TO_HIGH"}
-                  onChange={() => {
-                    storeDispatch({
-                      type: "SORT",
-                      payload: "PRICE_LOW_TO_HIGH",
-                    });
-                  }}
-                />
-                <span className="fs-14">Price Low To High</span>
-                <span className="checkmark"></span>
-              </label>
-            </div>
-            <div className="row">
-              <label className="checkbox-label  checkboxRoundRadio-label">
-                <input
-                  type="radio"
-                  name="sortBy"
-                  checked={sortBy === "PRICE_HIGH_TO_LOW"}
-                  value={"PRICE_HIGH_TO_LOW"}
-                  onChange={() => {
-                    storeDispatch({
-                      type: "SORT",
-                      payload: "PRICE_HIGH_TO_LOW",
-                    });
-                  }}
-                />
-                <span className="fs-14"> Price High To Low</span>
-                <span className="checkmark"></span>
-              </label>
-            </div>
-          </div>
-          <div className="modal-footer"></div>
         </div>
       </div>
     </div>

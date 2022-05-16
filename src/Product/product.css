@@ -49,13 +49,13 @@
   padding: 12px 12px 0 12px;
   background-color: #fff;
   z-index: 11;
-  opacity: 0;
+  display: none;
 }
 
 .wrapper-sortBy-options.wrapper-sortBy-options-active {
   transform: translateY(10%);
-  opacity: 1;
-  transition: transform 200ms ease-in, opacity 200ms ease-in;
+  display: block;
+  transition: transform 200ms ease-in, display 200ms ease-in;
 }
 
 .checkboxRoundRadio-label .checkmark {
@@ -70,25 +70,25 @@
   outline: none;
   border: 1px solid rgb(133, 133, 133);
 }
-.checkboxRoundRadio-label input:checked ~ .checkmark {
-  background-color: #fff;
-  color: #282c3f;
-  border-radius: 50%;
-  height: 16px;
-  width: 16px;
-  border: 1px solid rgb(133, 133, 133);
+
+.checkmark span {
+  display: none;
 }
 
-.checkboxRoundRadio-label .checkmark::after {
+
+.checkboxRoundRadio-label .checkmark-active span {
   width: 100%;
+  background-color: #fff;
   height: 100%;
   border: solid var(--kaali-danger);
   border-width: 5px;
   border-radius: 50%;
   position: absolute;
   top: 0;
+  display: block;
   left: 0;
 }
+
 
 @media only screen and (max-width: 480px) {
   .container-sortBy-mobile {

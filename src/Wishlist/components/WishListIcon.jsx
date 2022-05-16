@@ -16,7 +16,7 @@ const WishListIcon = ({ wishlistedItem, product }) => {
     <>
       <HeartSvg />
       <i
-        className={`fas fa-heart ${wishlistedItem?.productId ? "red" : ""}`}
+        className={`fas fa-heart ${wishlistedItem?.productId  && loggedInUser?.userId ? "red" : ""}`}
         onClick={async () => {
           const toggleWishlistOnServer = async () => {
             if (wishlistedItem?.productId) {

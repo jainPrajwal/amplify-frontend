@@ -1,9 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap");
+.landing-page {
+  background-color: #0F172A;
+}
 .wrapper-header {
-  border: 1px solid red;
   width: 100%;
   display: grid;
-  grid-template-columns: 50% 50%;
-  margin-top: 3rem;
+  grid-template-columns: 1fr 2fr;
+}
+
+.header-amplify {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.header.header-primary.header-amplify > * {
+  font-family: "Open Sans", sans-serif;
+  /* text-transform: capitalize; */
 }
 .wrapper-image {
   height: 100%;
@@ -13,31 +27,6 @@
   width: 100%;
   height: auto;
   max-height: 100%;
-}
-
-.wrapper-header .header.header-primary {
-  color: white;
-  background: #333333; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #dd1818,
-    #333333
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #dd1818,
-    #333333
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-  display: flex;
-  flex-wrap: wrap;
-  padding: 2rem;
-  margin: 0;
-}
-.header.header-primary > div {
-  font-family: "Montserrat", sans-serif;
-  white-space: pre-line;
-  color: var(--font-color);
 }
 
 @media only screen and (max-width: 768px) {

@@ -38,9 +38,11 @@ function App() {
   }, [width]);
 
   useEffect(() => {
-    storeDispatch({ type: "STATUS", payload: "loading" });
+   
     const getProducts = async () => {
       try {
+        console.log(`sotre disptach get Products`)
+        storeDispatch({ type: "STATUS", payload: "loading" });
         const response = await axios.get(
           "https://amplitude-backend.herokuapp.com/products"
         );
@@ -59,15 +61,12 @@ function App() {
     };
 
     getProducts();
-
-    // const timeOutId = setTimeout(() => {}, 3000);
-
-    // return () => clearTimeout(timeOutId);
   }, []);
 
   useEffect(() => {
     const loadCart = async (userId) => {
       try {
+        console.log(`load cart get Products`)
         storeDispatch({ type: "STATUS", payload: "loading" });
         const {
           data: { success, message, cart },
@@ -102,9 +101,12 @@ function App() {
   }, [loggedInUser]);
 
   useEffect(() => {
-    storeDispatch({ type: "STATUS", payload: "loading" });
+    
     const loadWishlist = async (userId) => {
+    
       try {
+        console.log(`load wishlist get Products`)
+        storeDispatch({ type: "STATUS", payload: "loading" });
         const {
           data: { success, message, wishlist },
         } = await axios.get(

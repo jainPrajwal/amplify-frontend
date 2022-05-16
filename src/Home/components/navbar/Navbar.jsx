@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../../Auth/context/useAuth";
 import { useCart } from "../../../Cart/context/useCart";
 import { useWishlist } from "../../../Wishlist/context/useWishlist";
@@ -11,7 +11,7 @@ import { NavMenu } from "./NavMenu";
 import "./navbar.css";
 
 const activeStyle = {
-  borderBottom: `2px solid var(--kaali-danger)`,
+  color: `var(--kaali-danger)`,
 };
 
 const Navbar = () => {
@@ -25,13 +25,16 @@ const Navbar = () => {
   const { state: cart } = useCart();
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <>
       <div className="navbar d-flex">
         <div className="nav-actions d-flex ai-center pt-small pb-small">
           <HamburgerMenu status={{ mobileView, setMobileView }} />
-          <BrandLogo />
+          <Link to="/">
+            <BrandLogo />
+          </Link>
 
           <div
             className={`wrapper-search ${
@@ -54,12 +57,12 @@ const Navbar = () => {
             )}
           </div>
         </div>
-        <nav className="nav-menu d-flex ai-center px-1 jc-space-between f-direction-row">
-          <ul className="nav-menu-items d-flex ai-center f-direction-row">
+        <nav className="nav-menu">
+          <ul className="nav-menu-items">
             {location?.pathname === "/store" && (
               <li
                 className={`nav-menu-item item-search ${
-                  isPageActive === "search" ? "nav-menu-item-active" : ""
+                  isPageActive === "search" ? activeStyle : ""
                 }`}
                 onClick={() => {
                   setPageActive("search");
@@ -70,77 +73,94 @@ const Navbar = () => {
                 }}
               >
                 <div className="nav-menu-link search">
-                  <i className="fa fa-search" aria-hidden="true"></i> 
-                  <span className="font-sm">search</span>
+                  <div className="text-center">
+                    <i className="fa fa-search fa-fw" aria-hidden="true"></i> 
+                    <div className="text-center">search</div>
+                  </div>
                 </div>
               </li>
             )}
-
-            <NavLink end activeStyle={activeStyle} to="/store">
-              <li className={`nav-menu-item item-store`}>
+            <li className={`nav-menu-item `}>
+              <NavLink
+                end
+                className="h-100"
+                activeStyle={activeStyle}
+                to="/store"
+              >
                 <div className="nav-menu-link store">
-                  <i className="fas fa-store" aria-hidden="true"></i> 
-                  <span className="font-sm">store</span>
+                  <div>
+                    <i className="fas fa-store fa-fw" aria-hidden="true"></i> 
+                    <div className="text-center">store</div>
+                  </div>
                 </div>
-              </li>
-            </NavLink>
+              </NavLink>
+            </li>
 
             {!loggedInUser.token ? (
-              <NavLink end activeStyle={activeStyle} to="/login">
-                <li className={`nav-menu-item item-login`}>
+              <li className={`nav-menu-item`}>
+                <NavLink
+                  end
+                  className="h-100"
+                  activeStyle={activeStyle}
+                  to="/login"
+                >
                   <div className="nav-menu-link login">
                     <div>
-                      <i className="fas fa-sign-in-alt"></i>
-                      <div></div>
-                      <span className="font-sm">login</span>
+                      <i className="fas fa-sign-in-alt fa-fw"></i>
                     </div>
+                    <div className="text-center">login</div>
                   </div>
-                </li>
-              </NavLink>
+                </NavLink>
+              </li>
             ) : (
+              
               <li
-                className={`nav-menu-item item-login ${
+                className={`nav-menu-item  ${
                   isPageActive === "login" ? "nav-menu-item-active" : ""
                 }`}
+                onClick={() => {
+                  logout();
+                  navigate("/store");
+                }}
               >
                 <div className="nav-menu-link login">
-                  <div
-                    onClick={() => {
-                      logout();
-                    }}
-                  >
-                    <i className="fas fa-sign-in-alt"></i>
-                    <div></div>
-                    <span className="font-sm">logout</span>
+                  <div>
+                    <i className="fas fa-sign-in-alt fa-fw"></i>
                   </div>
+                  <div className="text-center">logout</div>
                 </div>
               </li>
             )}
-            <NavLink end activeStyle={activeStyle} to="/wishlist">
-              <li className={`nav-menu-item item-wishlist`}>
-                <div className="nav-menu-link wishlist">
+            <li className={`nav-menu-item`}>
+              <NavLink
+                end
+                className="h-100"
+                activeStyle={activeStyle}
+                to="/wishlist"
+              >
+                <div className="nav-menu-link  fa-fw">
+                  <div>
                   <i className="far fa-heart">
                     {loggedInUser.token && (
                       <span className="cart-count">{wishlist?.length}</span>
                     )}
                   </i>
-                  <div></div>
-                  <span className="font-sm">wishlist</span>
+                  </div>
+                 
+                  <div className="text-center">wishlist</div>
                 </div>
-              </li>
-            </NavLink>
-            <NavLink
-              end
-              activeStyle={activeStyle}
-              to="/cart"
-              style={{ marginTop: "auto" }}
-            >
-              <li className={`nav-menu-item item-cart`}>
-                <div
-                  className="nav-menu-link cart"
-                  style={{ maxHeight: "46px" }}
-                >
-                  <i className="fas fa-shopping-cart">
+              </NavLink>
+            </li>
+            <li className={`nav-menu-item`}>
+              <NavLink
+                end
+                activeStyle={activeStyle}
+                to="/cart"
+                className="h-100"
+              >
+                <div className="nav-menu-link">
+                  <div>
+                  <i className="fas fa-shopping-cart fa-fw">
                     {loggedInUser.token && (
                       <span className="notification-count">
                         {cart?.reduce((acc, current) => {
@@ -149,13 +169,12 @@ const Navbar = () => {
                       </span>
                     )}
                   </i>
-                  <div>
-                    <span className="font-sm">cart</span>
                   </div>
-                   
+                
+                  <div className="text-center">cart</div>
                 </div>
-              </li>
-            </NavLink>
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </div>

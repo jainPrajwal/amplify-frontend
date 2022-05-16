@@ -1,5 +1,4 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
-@import url("https://kaaliui.netlify.app/kaali.css");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
 .App {
   font-family: sans-serif;
@@ -60,8 +59,9 @@
   color: var(--kaali-danger);
 }
 .card.card-ecommerce:hover {
-  box-shadow: 0 3px 20px 20px rgb(0 0 0 / 20%);
-  /* transform: translateY(2px); */
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  transform: translateY(2px);
 }
 
 .btn-disabled {
@@ -127,8 +127,8 @@
 .w-100 {
   width: 100%;
 }
-.green {
-  color: var(--green);
+.text-green {
+  color: #27c02f;
 }
 .red {
   color: var(--kaali-danger);
@@ -177,7 +177,7 @@
   transform: translate(-50%, -50%);
 }
 
-.wrapper-login  {
+.wrapper-login {
   max-width: 480px;
   height: auto;
 }
@@ -191,12 +191,33 @@
   border-radius: 5px;
 }
 
-
 .span-login:hover,
 .span-signup:hover {
   cursor: pointer;
 }
 
+.card .card-container {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+.card .card-body {
+  padding: 12px;
+  background: transparent;
+  border: 1px solid #cffafe;
+  cursor: pointer;
+}
+
+.card .card-body:hover {
+  background-color: aliceblue;
+}
+.card .card-image-container {
+  margin: 0px;
+  height: 270px;
+}
+
+.card .card-content {
+  margin: 0;
+}
 
 @media only screen and (max-width: 768px) {
   .card.card-ecommerce .card-content-ecommerce > * {
@@ -206,7 +227,6 @@
     color: black;
   }
 }
-
 
 @media only screen and (max-width: 480px) {
   .alert-wrapper {
@@ -249,7 +269,6 @@
   }
 }
 
-
 @media only screen and (max-width: 768px) {
   .cart-count {
     font-size: 12px;
@@ -268,7 +287,7 @@
   .card-content-ecommerce-product-detials {
     padding-left: 0;
   }
-  .btn {
+  .btn[type=submit] {
     max-width: none;
   }
 
@@ -276,7 +295,6 @@
     height: calc(100vh - 8rem);
   }
 }
-
 
 @-webkit-keyframes slide-in-right {
   0% {
@@ -291,7 +309,6 @@
   }
 }
 
-
 @keyframes slide-in-right {
   0% {
     -webkit-transform: translateX(1000px);
@@ -305,7 +322,6 @@
   }
 }
 
-
 @keyframes SlideLeft {
   0% {
     margin-left: 120%;
@@ -314,7 +330,6 @@
     margin-left: 0;
   }
 }
-
 
 @keyframes SlideRight {
   0% {

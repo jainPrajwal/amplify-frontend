@@ -127,7 +127,7 @@ const CardItemDetails = () => {
             <span className="product-discount fs-2 ml-md">
               ({product.offer})
             </span>
-            <div className="text-primary green fs-14">
+            <div className="text-primary  fs-14 text-green">
               inclusive of all taxes
             </div>
           </div>

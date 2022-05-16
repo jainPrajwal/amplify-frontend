@@ -40,8 +40,7 @@ const Store = () => {
   const { state: store, dispatch: storeDispatch } = useProducts();
   const location = useLocation();
   const navigate = useNavigate();
-  const [finalData, setFinalData] = useState([]);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     /*const searchString = location?.search.split("&&");
@@ -118,51 +117,81 @@ const Store = () => {
         }
       }
     } */
+
     const filters = {
       BRAND: searchParams.getAll(`brand`),
       CATEGORY: searchParams.getAll(`category`),
       SUBCATEGORY: searchParams.getAll(`subcategory`),
     };
-
+    console.log(`only get`, searchParams.get(`brand`));
     const sortBy = searchParams.getAll(`sortBy`);
     const price = searchParams.get(`price`);
     console.log(`price`, price);
+
     const sortedData = getSortedData(store?.store, "PRICE_LOW_TO_HIGH");
-    console.log(store?.store, `store?.store`)
+    console.log(store, `store?.store in useEffect`);
     const itemWithMinimumPrice = getSellingPrice(sortedData[0]);
 
     const itemWithMaximumPrice = getSellingPrice(
       sortedData[sortedData.length - 1]
     );
+
     const priceInput = {
       0: itemWithMinimumPrice,
       1: Math.round(itemWithMaximumPrice / 2),
       2: Math.round((itemWithMinimumPrice + itemWithMaximumPrice) / 2),
       3: itemWithMaximumPrice,
     };
+
+    let flag = false;
+    console.log(`filters`, filters);
     for (let key in filters) {
-      if (filters[key].length > 0) {
-        storeDispatch({
-          type: key,
-          payload: filters[key],
-        });
-      }
+      console.log(`flag as true here`, filters[key]);
+      flag = true;
+      storeDispatch({
+        type: key,
+        payload: filters[key],
+      });
     }
 
     if (sortBy.length > 0) {
+      flag = true;
       storeDispatch({
         type: `SORT`,
         payload: sortBy[0],
       });
     }
-    if(price) {
+
+    if (price) {
+      flag = true;
       storeDispatch({
         type: "PRICE_RANGE",
         payload: priceInput[price],
       });
     }
-   
-  }, []);
+
+    // if(store.status === `loading`) {
+    //   storeDispatch({type: `STATUS`, payload: `idle`})
+    // }
+
+    if (!flag) {
+      console.log(`clearing all`);
+      storeDispatch({
+        type: `CLEAR_ALL`,
+      });
+    }
+  }, [searchParams]);
+
+  // useEffect(() => {
+  //   if (searchParams.getAll(`brand`).length > 0) {
+  //     console.log(`clearing all`);
+  //     storeDispatch({
+  //       type: `CLEAR_ALL`,
+  //     });
+  //   }
+  // }, [searchParams]);
+
+  console.log(`rendering stoire`, store);
 
   return (
     <>
@@ -179,7 +208,6 @@ const Store = () => {
                   <span
                     className="red fs-14 clear-all"
                     onClick={() => {
-                      console.log(`location`, location);
                       navigate(`/${location.pathname}`);
                       storeDispatch({ type: "CLEAR_ALL" });
                     }}
@@ -198,8 +226,7 @@ const Store = () => {
                       <CheckboxBrand
                         value={{ store, storeDispatch }}
                         brand={brand}
-                      />{" "}
-                      {brand}
+                      />
                     </li>
                   ))}
                 </ul>
@@ -219,7 +246,6 @@ const Store = () => {
                         value={{ store, storeDispatch }}
                         category={category}
                       />
-                      {category}
                     </li>
                   ))}
                 </ul>
@@ -239,7 +265,6 @@ const Store = () => {
                         value={{ store, storeDispatch }}
                         subcategory={subcategory}
                       />{" "}
-                      {subcategory}
                     </li>
                   ))}
                 </ul>

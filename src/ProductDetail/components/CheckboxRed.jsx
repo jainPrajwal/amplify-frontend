@@ -1,4 +1,4 @@
-import "./checkboxRed.css";
+
 
 const CheckboxRed = ({ state: { itemColor, setItemColor } }) => {
   return (

@@ -1,14 +1,14 @@
 const slides = [
   {
-    img: "https://m.media-amazon.com/images/S/aplus-media/vc/10d3d9d7-f319-4005-9173-ead011283566.__CR0,0,970,300_PT0_SX970_V1___.jpg",
+    img: "https://res.cloudinary.com/dmk11fqw8/image/upload/v1649341366/photo-1505236273191-1dce886b01e9_ri6g0r.jpg",
     title: "Lagoon Nebula (Visible-light View)",
   },
   {
-    img: "https://cdn.shopify.com/s/files/1/0040/4396/4531/articles/Banner_Image.jpg?v=1544604038",
+    img: "https://res.cloudinary.com/dmk11fqw8/image/upload/v1649341665/photo-1590658268037-6bf12165a8df_nalsgt.jpg",
     title: "Bubble Nebula (NGC 7635)",
   },
   {
-    img: "https://www.lg.com/au/images/plp-b2c/b2c-1/WEB-hero-8-13-2020.png",
+    img: "https://res.cloudinary.com/dmk11fqw8/image/upload/v1649343392/photo-1421757350652-9f65a35effc7_j1pmoh.jpg",
     title: "Eagle Nebula",
   },
 ];

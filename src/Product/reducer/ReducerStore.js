@@ -38,7 +38,7 @@ const initialStateOfSpecificBrands = [
     filterBy: false,
   },
   {
-    name: "OnePlus",
+    name: "Apple",
     filterBy: false,
   },
   {
@@ -75,6 +75,7 @@ const initialStateOfSpecificSubCategories = [
   },
 ];
 const reducerCallbackFunction = (state, { type, payload }) => {
+  console.log(`reducer call back`, type, payload);
   switch (type) {
     case "LOAD_PRODUCTS":
       const products = sanitizeProducts(payload.products);
@@ -91,22 +92,15 @@ const reducerCallbackFunction = (state, { type, payload }) => {
       return { ...state, fastDeliveryOnly: true };
 
     case "BRAND":
-      // return {
-      //   ...state,
-      //   specificBrand: state.specificBrand.map((item) => {
-      //     if (item.name === payload) {
-      //       return { ...item, filterBy: !item.filterBy };
-      //     }
-      //     return item;
-      //   }),
-      // };
 
-         return {
+   
+      return {
         ...state,
         specificBrand: state.specificBrand.map((item) => {
-        if(payload.includes(item.name)) {
-          return {...item, filterBy: !item.filterBy}
-        } return item;
+          if (payload.includes(item.name)) {
+            return { ...item, filterBy: true };
+          }
+          return { ...item, filterBy: false };
         }),
       };
 
@@ -114,19 +108,21 @@ const reducerCallbackFunction = (state, { type, payload }) => {
       return {
         ...state,
         specificCategory: state.specificCategory.map((item) => {
-          if(payload.includes(item.name)) {
-            return {...item, filterBy: !item.filterBy}
-          } return item;
-          }),
+          if (payload.includes(item.name)) {
+            return { ...item, filterBy: true };
+          }
+           return { ...item, filterBy: false };
+        }),
       };
 
     case "SUBCATEGORY":
       return {
         ...state,
         specificSubCategory: state.specificSubCategory.map((item) => {
-          if(payload.includes(item.name)) {
-            return {...item, filterBy: !item.filterBy}
-          } return item;
+          if (payload.includes(item.name)) {
+            return { ...item, filterBy: true };
+          }
+           return { ...item, filterBy: false };
         }),
       };
 
@@ -140,7 +136,7 @@ const reducerCallbackFunction = (state, { type, payload }) => {
       return {
         ...initialState,
         store: state.store,
-      
+        
       };
 
     case "STATUS":
