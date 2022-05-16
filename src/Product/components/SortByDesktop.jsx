@@ -7,14 +7,12 @@ const SortByDesktop = () => {
   const [isHidden, setIsHidden] = useState(true);
   const priceLowToHighRef = useRef();
   const priceHighToLowRef = useRef();
-const [searchParams,setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const {
     state: { sortBy },
     dispatch: storeDispatch,
   } = useProducts();
-
-
 
   useEffect(() => {
     /*if (priceLowToHighRef?.current?.checked) {
@@ -36,21 +34,16 @@ const [searchParams,setSearchParams] = useSearchParams();
       //   pathname: "/store",
       // });
     }*/
-
-    
-
-
-
-
   }, [
     priceLowToHighRef?.current?.checked,
     priceHighToLowRef?.current?.checked,
   ]);
   return (
-    <div className="sort-sortBy d-flex " 
-    onClick={() => setIsHidden((prevState) => !prevState)}
-   >
-      <div >
+    <div
+      className="sort-sortBy d-flex "
+      onClick={() => setIsHidden((prevState) => !prevState)}
+    >
+      <div>
         sort By :
         <span className="text-primary ml-lg">
           {sortBy === "PRICE_LOW_TO_HIGH"
@@ -78,13 +71,19 @@ const [searchParams,setSearchParams] = useSearchParams();
                 type: "SORT",
                 payload: "PRICE_LOW_TO_HIGH",
               });
-              searchParams.set(`sortBy`,"PRICE_LOW_TO_HIGH" )
-              setSearchParams(searchParams)
-              setIsHidden(true)
+              searchParams.set(`sortBy`, "PRICE_LOW_TO_HIGH");
+              setSearchParams(searchParams);
+              setIsHidden(true);
             }}
           />
           <span className="fs-14">Price Low To High</span>
-          <span className="checkmark"></span>
+          <span
+            className={`checkmark ${
+              sortBy === "PRICE_LOW_TO_HIGH" ? `checkmark-active` : ``
+            }`}
+          >
+            <span></span>
+          </span>
         </label>
         <label className="checkbox-label  checkboxRoundRadio-label">
           <input
@@ -98,13 +97,19 @@ const [searchParams,setSearchParams] = useSearchParams();
                 type: "SORT",
                 payload: "PRICE_HIGH_TO_LOW",
               });
-              searchParams.set(`sortBy`,"PRICE_HIGH_TO_LOW", )
-              setSearchParams(searchParams)
-              setIsHidden(true)
+              searchParams.set(`sortBy`, "PRICE_HIGH_TO_LOW");
+              setSearchParams(searchParams);
+              setIsHidden(true);
             }}
           />
           <span className="fs-14"> Price High To Low</span>
-          <span className="checkmark"></span>
+          <span
+            className={`checkmark ${
+              sortBy === "PRICE_HIGH_TO_LOW" ? `checkmark-active` : ``
+            }`}
+          >
+            <span></span>
+          </span>
         </label>
         <label className="checkbox-label  checkboxRoundRadio-label">
           <input
@@ -117,13 +122,19 @@ const [searchParams,setSearchParams] = useSearchParams();
                 type: "SORT",
                 payload: "RECOMMENDED",
               });
-              searchParams.set(`sortBy`,"RECOMMENDED", )
-              setSearchParams(searchParams)
-              setIsHidden(true)
+              searchParams.set(`sortBy`, "RECOMMENDED");
+              setSearchParams(searchParams);
+              setIsHidden(true);
             }}
           />
           <span className="fs-14"> Recommended</span>
-          <span className="checkmark"></span>
+          <span
+            className={`checkmark ${
+              sortBy === "RECOMMENDED" ? `checkmark-active` : ``
+            }`}
+          >
+            <span></span>
+          </span>
         </label>
       </div>
     </div>
