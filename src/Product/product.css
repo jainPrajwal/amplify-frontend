@@ -57,7 +57,7 @@
   display: block;
   transition: transform 200ms ease-in, display 200ms ease-in;
 }
-.checkboxRoundRadio-label input:checked ~ .checkmark::after {
+.checkbox-label.checkboxRoundRadio-label input:checked ~ .checkmark::after {
   display: none;
 }
 
