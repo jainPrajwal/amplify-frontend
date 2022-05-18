@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../../Auth/context/useAuth";
 import { useCart } from "../../../Cart/context/useCart";
 import { useWishlist } from "../../../Wishlist/context/useWishlist";
@@ -26,6 +26,10 @@ const Navbar = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  console.log(`search params from navbar`, searchParams.getAll(`brand`));
+  console.log(`location.search`, location?.search)
 
   return (
     <>
@@ -79,13 +83,14 @@ const Navbar = () => {
                   </div>
                 </div>
               </li>
-            )}
-            <li className={`nav-menu-item `}>
+            )} 
+            {/* <li className={`nav-menu-item `}>
               <NavLink
                 end
                 className="h-100"
                 activeStyle={activeStyle}
                 to="/store"
+               
               >
                 <div className="nav-menu-link store">
                   <div>
@@ -94,7 +99,7 @@ const Navbar = () => {
                   </div>
                 </div>
               </NavLink>
-            </li>
+            </li> */}
 
             {!loggedInUser.token ? (
               <li className={`nav-menu-item`}>
@@ -113,7 +118,6 @@ const Navbar = () => {
                 </NavLink>
               </li>
             ) : (
-              
               <li
                 className={`nav-menu-item  ${
                   isPageActive === "login" ? "nav-menu-item-active" : ""
@@ -137,16 +141,17 @@ const Navbar = () => {
                 className="h-100"
                 activeStyle={activeStyle}
                 to="/wishlist"
+                // target={`_blank`}
               >
                 <div className="nav-menu-link  fa-fw">
                   <div>
-                  <i className="far fa-heart">
-                    {loggedInUser.token && (
-                      <span className="cart-count">{wishlist?.length}</span>
-                    )}
-                  </i>
+                    <i className="far fa-heart">
+                      {loggedInUser.token && (
+                        <span className="cart-count">{wishlist?.length}</span>
+                      )}
+                    </i>
                   </div>
-                 
+
                   <div className="text-center">wishlist</div>
                 </div>
               </NavLink>
@@ -157,20 +162,21 @@ const Navbar = () => {
                 activeStyle={activeStyle}
                 to="/cart"
                 className="h-100"
+                // target={`_blank`}
               >
                 <div className="nav-menu-link">
                   <div>
-                  <i className="fas fa-shopping-cart fa-fw">
-                    {loggedInUser.token && (
-                      <span className="notification-count">
-                        {cart?.reduce((acc, current) => {
-                          return (acc += current?.totalQuantity);
-                        }, 0)}
-                      </span>
-                    )}
-                  </i>
+                    <i className="fas fa-shopping-cart fa-fw">
+                      {loggedInUser.token && (
+                        <span className="notification-count">
+                          {cart?.reduce((acc, current) => {
+                            return (acc += current?.totalQuantity);
+                          }, 0)}
+                        </span>
+                      )}
+                    </i>
                   </div>
-                
+
                   <div className="text-center">cart</div>
                 </div>
               </NavLink>
