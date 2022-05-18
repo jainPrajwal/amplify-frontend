@@ -43,6 +43,7 @@ const Login = () => {
     },
   });
   const LoginHandler = async () => {
+
     await loginUserWithCredentials({
       username: form.email,
       password: form.password,
@@ -66,6 +67,7 @@ const Login = () => {
           className="signup-form"
           onSubmit={(e) => {
             e.preventDefault();
+          console.log(`submitting form.........`)
             LoginHandler();
           }}
         >
@@ -231,7 +233,13 @@ const Login = () => {
             </div>
             <div className="p-md">
               <button
-                type="submit"
+               onClick={async () => {
+                await loginUserWithCredentials({
+                  username: `test@gmail.com`,
+                  password: `test@123`,
+                });
+               }}
+                name="loginAsGest"
                 className="btn btn-danger w-100"
                 style={{ paddingInline: 0, margin: 0 }}
               >
