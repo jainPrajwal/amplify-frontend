@@ -1,9 +1,10 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 import "./checkboxRegular.css";
-const CheckboxBrand = ({ value: { store, storeDispatch }, brand }) => {
+const CheckboxBrand = ({ value: { store }, brand }) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   useEffect(() => {
     let isChecked = store.specificBrand
       .map((current) => {
@@ -12,8 +13,9 @@ const CheckboxBrand = ({ value: { store, storeDispatch }, brand }) => {
       })
       .filter((item) => item !== null)[0];
     if (isChecked) {
-      searchParams.append(`brand`, brand);
-      setSearchParams(searchParams);
+      // console.log(`appending brand`, brand);
+      // searchParams.append(`brand`, brand);
+      // setSearchParams(searchParams);
     }
   }, []);
 
@@ -26,20 +28,10 @@ const CheckboxBrand = ({ value: { store, storeDispatch }, brand }) => {
           checked={searchParams.getAll(`brand`).includes(brand)}
           onChange={(event) => {
             if (event.target.checked) {
-              // navigate({
-              //   pathname: "/store",
-              //   search: location?.search
-              //     ? location.search.concat(`&&filterBy=${brand}`)
-              //     : `?filterBy=${brand}`,
-              // });
+              console.log(`on change setParams`);
               searchParams.append(`brand`, brand);
               setSearchParams(searchParams);
             } else {
-              // navigate({
-              //   pathname: "/store",
-              //   search: location?.search.includes("&&") ? location.search : ``,
-              // });
-
               let newParams = [...searchParams.entries()].filter(
                 ([key, value]) => {
                   if (key === `brand` && value === event.target.name) {
@@ -49,7 +41,12 @@ const CheckboxBrand = ({ value: { store, storeDispatch }, brand }) => {
               );
 
               // console.log(`newParams`, newParams)
-              setSearchParams(newParams);
+              if(newParams.length === 0) {
+                navigate("/store");
+              } else {
+                setSearchParams(newParams);
+
+              }
             }
           }}
         />
