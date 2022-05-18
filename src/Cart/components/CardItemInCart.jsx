@@ -1,4 +1,4 @@
-import axios from "axios";
+import { useState } from "react";
 import { v4 } from "uuid";
 import { useAuth } from "../../Auth/context/useAuth";
 import { useNotifications } from "../../Home/components/notification/context/useNotifications";
@@ -9,9 +9,10 @@ import {
   updateItemOnServer,
 } from "../../utils";
 import { removeFromCartFromServer } from "../../utils/utils";
+import { InlineLoader } from "../../Loader/InlineLoader";
 import "./cart.css";
 
-const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
+const CardItemInCart = ({ itemInCart, cartDispatch }) => {
   let {
     _id,
     image,
@@ -27,6 +28,7 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
 
   const { dispatch: notificationDispatch } = useNotifications();
   const { loggedInUser } = useAuth();
+  const [status, setStatus] = useState(`idle`);
 
   return (
     <>
@@ -41,6 +43,7 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
               notificationDispatch,
               itemInCart,
               name,
+              setStatus
             });
           }}
         >
@@ -50,7 +53,7 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
           <img src={image} alt={name} className="w-100 h-100" />
         </div>
 
-        <div className="card-itemCart-content ml-md w-100 py-small">
+        <div className="card-itemCart-content ml-md w-100 p-md">
           <div className="card-itemCart-title text-primary fs-2 mb-small">
             {brand}
           </div>
@@ -60,94 +63,101 @@ const CardItemInCart = ({ itemInCart, cart, cartDispatch }) => {
           </div>
 
           <div className="card-itemCart-quantity-details mt-md">
-            <div className="card-itemCart-quantity d-flex ai-center fs-1">
-              Quantity :
-              <button
-                className="btn-round"
-                disabled={isItemOutOfStock(itemInCart)}
-                onClick={async () => {
-                  if (!isItemOutOfStockInRespectiveColor(itemInCart)) {
-                    const requiredUpdateInItem = {
-                      totalQuantity: itemInCart.totalQuantity + 1,
-                      colorObj: {
-                        color: itemInCart.color,
-                        quantityOfItemInRespectiveColor:
-                          getQuantityOfItemInRespectiveColor(itemInCart),
+            {status === `idle` ? (
+              <div className="card-itemCart-quantity d-flex ai-center fs-1">
+                Quantity :
+                <button
+                  className="btn-round"
+                  onClick={async () => {
+                    if (totalQuantity > 1) {
+                      const requiredUpdateInItem = {
+                        totalQuantity: itemInCart.totalQuantity - 1,
+                        colorObj: {
+                          color: itemInCart.color,
+                          quantityOfItemInRespectiveColor:
+                            getQuantityOfItemInRespectiveColor(itemInCart),
+                        },
+                      };
+
+                      await updateItemOnServer({
+                        itemInCart,
+                        setStatus,
+                        loggedInUser,
+                        cartDispatch,
+                        requiredUpdateInItem,
+                        type: "DECREASE_QUANTITY",
+                      });
+                    } else {
+                      await removeFromCartFromServer({
+                        setStatus,
+                        loggedInUser,
+                        _id,
+                        cartDispatch,
+                        notificationDispatch,
+                        itemInCart,
+                        name,
+                      });
+                    }
+
+                    notificationDispatch({
+                      type: "ADD_NOTIFICATION",
+                      payload: {
+                        id: v4(),
+                        type: "DANGER",
+                        message: `${
+                          totalQuantity > 1
+                            ? "Quantity decreased"
+                            : `${name} removed from cart`
+                        }`,
                       },
-                    };
-
-                    await updateItemOnServer({
-                      itemInCart,
-                      loggedInUser,
-                      cartDispatch,
-                      requiredUpdateInItem,
-                      type: "INCREASE_QUANTITY",
                     });
-                  }
+                  }}
+                >
+                  <div className="fs-1 sign-minus"></div>
+                </button>
+                <span className="text-primary mx-1">{totalQuantity}</span>
+                <button
+                  className="btn-round"
+                  disabled={isItemOutOfStock(itemInCart)}
+                  onClick={async () => {
+                    if (!isItemOutOfStockInRespectiveColor(itemInCart)) {
+                      const requiredUpdateInItem = {
+                        totalQuantity: itemInCart.totalQuantity + 1,
+                        colorObj: {
+                          color: itemInCart.color,
+                          quantityOfItemInRespectiveColor:
+                            getQuantityOfItemInRespectiveColor(itemInCart),
+                        },
+                      };
 
-                  notificationDispatch({
-                    type: "ADD_NOTIFICATION",
-                    payload: {
-                      id: v4(),
-                      type: "SUCCESS",
-                      message: isItemOutOfStockInRespectiveColor(itemInCart)
-                        ? `item is OUT OF STOCK!`
-                        : `Quantity increased`,
-                    },
-                  });
-                }}
-              >
-                <span className="fs-1">+</span>
-              </button>
-              <span className="text-primary mx-1">{totalQuantity}</span>
-              <button
-                className="btn-round"
-                onClick={async () => {
-                  if (totalQuantity > 1) {
-                    const requiredUpdateInItem = {
-                      totalQuantity: itemInCart.totalQuantity - 1,
-                      colorObj: {
-                        color: itemInCart.color,
-                        quantityOfItemInRespectiveColor:
-                          getQuantityOfItemInRespectiveColor(itemInCart),
+                      await updateItemOnServer({
+                        setStatus,
+                        itemInCart,
+                        loggedInUser,
+                        cartDispatch,
+                        requiredUpdateInItem,
+                        type: "INCREASE_QUANTITY",
+                      });
+                    }
+
+                    notificationDispatch({
+                      type: "ADD_NOTIFICATION",
+                      payload: {
+                        id: v4(),
+                        type: "SUCCESS",
+                        message: isItemOutOfStockInRespectiveColor(itemInCart)
+                          ? `item is OUT OF STOCK!`
+                          : `Quantity increased`,
                       },
-                    };
-
-                    await updateItemOnServer({
-                      itemInCart,
-                      loggedInUser,
-                      cartDispatch,
-                      requiredUpdateInItem,
-                      type: "DECREASE_QUANTITY",
                     });
-                  } else {
-                    await removeFromCartFromServer({
-                      loggedInUser,
-                      _id,
-                      cartDispatch,
-                      notificationDispatch,
-                      itemInCart,
-                      name,
-                    });
-                  }
-
-                  notificationDispatch({
-                    type: "ADD_NOTIFICATION",
-                    payload: {
-                      id: v4(),
-                      type: "DANGER",
-                      message: `${
-                        totalQuantity > 1
-                          ? "Quantity decreased"
-                          : `${name} removed from cart`
-                      }`,
-                    },
-                  });
-                }}
-              >
-                <div className="fs-1 sign-minus"></div>
-              </button>
-            </div>
+                  }}
+                >
+                  {<span className="fs-1 text-white">+</span>}
+                </button>
+              </div>
+            ) : (
+              <InlineLoader />
+            )}
           </div>
 
           <div className="itemCart-price-details d-flex mt-md">
