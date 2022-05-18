@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useLocation, useNavigate } from "react-router";
 import { v4 } from "uuid";
 import "./App.css";
 import { useAuth } from "./Auth/context/useAuth";
@@ -18,7 +18,8 @@ import { Store } from "./Product/Store";
 import { ProductDetail } from "./ProductDetail/ProductDetail";
 import { useWishlist } from "./Wishlist/context/useWishlist";
 import { Wishlist } from "./Wishlist/Wishlist";
-import loadingImage from "../src/assets/images/loading.gif"
+import loadingImage from "../src/assets/images/loading.gif";
+import { useSearchParams } from "react-router-dom";
 
 function App() {
   const { state: store, dispatch: storeDispatch } = useProducts();
@@ -27,6 +28,7 @@ function App() {
   const { dispatch: wishlistDispatch } = useWishlist();
   const [width, setWidth] = useState(1);
   const { loggedInUser } = useAuth();
+
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -37,11 +39,11 @@ function App() {
     return () => clearInterval(intervalId);
   }, [width]);
 
+
   useEffect(() => {
-   
     const getProducts = async () => {
       try {
-        console.log(`sotre disptach get Products`)
+        console.log(`sotre disptach get Products`);
         storeDispatch({ type: "STATUS", payload: "loading" });
         const response = await axios.get(
           "https://amplitude-backend.herokuapp.com/products"
@@ -66,7 +68,7 @@ function App() {
   useEffect(() => {
     const loadCart = async (userId) => {
       try {
-        console.log(`load cart get Products`)
+        console.log(`load cart get Products`);
         storeDispatch({ type: "STATUS", payload: "loading" });
         const {
           data: { success, message, cart },
@@ -79,14 +81,7 @@ function App() {
             type: "LOAD_CART",
             payload: { cart },
           });
-          notificationDispatch({
-            type: "ADD_NOTIFICATION",
-            payload: {
-              id: v4(),
-              type: "DANGER",
-              message,
-            },
-          });
+   
           storeDispatch({ type: "STATUS", payload: "idle" });
         }
       } catch (error) {
@@ -97,15 +92,14 @@ function App() {
 
     if (loggedInUser.token) {
       loadCart(loggedInUser.userId);
+     
     }
   }, [loggedInUser]);
 
   useEffect(() => {
-    
     const loadWishlist = async (userId) => {
-    
       try {
-        console.log(`load wishlist get Products`)
+        console.log(`load wishlist get Products`);
         storeDispatch({ type: "STATUS", payload: "loading" });
         const {
           data: { success, message, wishlist },
@@ -120,14 +114,7 @@ function App() {
             payload: { wishlist: wishlist.wishlistItems },
           });
 
-          notificationDispatch({
-            type: "ADD_NOTIFICATION",
-            payload: {
-              id: v4(),
-              type: "SUCCESS",
-              message,
-            },
-          });
+     
         }
       } catch (error) {
         storeDispatch({ type: "STATUS", payload: "error" });
@@ -137,6 +124,7 @@ function App() {
 
     if (loggedInUser.token) {
       loadWishlist(loggedInUser.userId);
+     
     }
   }, [loggedInUser]);
 
@@ -165,11 +153,11 @@ function App() {
                 <Store />
               ) : (
                 <div className="wrapper-loading">
-                <img
-                  src={loadingImage}
-                  alt="loading"
-                  className="w-100 h-auto"
-                />
+                  <img
+                    src={loadingImage}
+                    alt="loading"
+                    className="w-100 h-auto"
+                  />
                 </div>
               )
             }
