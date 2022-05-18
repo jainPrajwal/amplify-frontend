@@ -27,7 +27,18 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
-
+.circular-loading {
+  font-size: 1.2rem;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  /* background-color: #ccc; */
+  border-radius: 50%;
+  padding: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 5%);
+  cursor: pointer;
+  color: #bbb;
+}
 /* Desktop SideBar */
 
 .card-ecommerce .icon-heart {
@@ -287,7 +298,7 @@
   .card-content-ecommerce-product-detials {
     padding-left: 0;
   }
-  .btn[type=submit] {
+  .btn[type="submit"] {
     max-width: none;
   }
 
