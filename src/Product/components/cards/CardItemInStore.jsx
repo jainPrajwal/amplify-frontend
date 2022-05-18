@@ -5,6 +5,7 @@ import { v4 } from "uuid";
 import { useAuth } from "../../../Auth/context/useAuth";
 import { useCart } from "../../../Cart/context/useCart";
 import { useNotifications } from "../../../Home/components/notification/context/useNotifications";
+import { InlineLoader } from "../../../Loader/InlineLoader";
 import {
   checkIfItemIsAlreadyPresentInArray,
   checkIfItemIsAlreadyPresentInWishlist,
@@ -89,9 +90,7 @@ const CardItemInStore = ({ product, store }) => {
         <div className="card-content-ecommerce">
           <div className="card-title header header-tertiary">
             <span className="text-black">{brand}</span>
-            <span className="card-subtitle text-black ml-md">
-              {category}
-            </span>
+            <span className="card-subtitle text-black ml-md">{category}</span>
             <span className="card-subtitle text-black ml-small">
               ({subcategory})
             </span>
@@ -125,7 +124,6 @@ const CardItemInStore = ({ product, store }) => {
             }`}
             disabled={isItemOutOfStockInRespectiveColor(product)}
             onClick={async () => {
-             
               !loggedInUser?.userId
                 ? notificationDispatch({
                     type: "ADD_NOTIFICATION",
@@ -136,25 +134,18 @@ const CardItemInStore = ({ product, store }) => {
                     },
                   })
                 : await saveItemToServer({
-                  _id,
-                  setStatus,
-                  notificationDispatch,
-                  cartDispatch,
-                  name,
-                  store,
-                  loggedInUser,
-                });
+                    _id,
+                    setStatus,
+                    notificationDispatch,
+                    cartDispatch,
+                    name,
+                    store,
+                    loggedInUser,
+                  });
             }}
           >
             {status === "loading" ? (
-              <>
-                <img
-                  src="https://c.tenor.com/NqKNFHSmbssAAAAi/discord-loading-dots-discord-loading.gif"
-                  alt="loading"
-                  width="50px"
-                  height="12px"
-                />
-              </>
+              <InlineLoader />
             ) : (
               `${"Add to Cart".toUpperCase()}`
             )}
