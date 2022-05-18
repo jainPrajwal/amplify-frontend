@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect, useRef } from "react";
 import { v4 } from "uuid";
 import { useAuth } from "../../Auth/context/useAuth";
 import { useNotifications } from "../../Home/components/notification/context/useNotifications";
@@ -13,11 +14,14 @@ const WishListIcon = ({ wishlistedItem, product }) => {
   const { dispatch: wishlistDispatch } = useWishlist();
   const { dispatch: notificationDispatch } = useNotifications();
   const { loggedInUser } = useAuth();
+  const countRef = useRef(0);
+
+  useEffect(() => {countRef.current++;})
   const [status, setStatus] = useState(`idle`);
 
   return status === `idle` ? (
     <>
-      <HeartSvg />
+      {countRef.current <=1 && <HeartSvg />}
 
       <i
         className={`fas fa-heart ${

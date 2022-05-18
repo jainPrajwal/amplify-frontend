@@ -1,4 +1,5 @@
 import { useProducts } from "../../context/useProducts";
+import { useEffect } from "react";
 import "./modalSortBy.css";
 const ModalSortBy = ({
   status: {
@@ -15,9 +16,23 @@ const ModalSortBy = ({
     sortBy && sortBy === "PRICE_LOW_TO_HIGH"
   );
   const closeModal = () => {
-    modalDispatch({ type: "CLOSE_MODAL" });
+    modalDispatch({ type: "CLOSE_SORTBY_MODAL" });
   };
-
+  useEffect(() => {
+    document.addEventListener(`click`, (event) => {
+      console.log(`class name`, event.target.className);
+      console.log(`closese`, event.target.closest(`.modal`));
+      if (
+        !(
+          event.target.closest(`.modal`) ||
+          event.target.classList.contains(`btn-sort-by`)
+        )
+      ) {
+        // if whatever you are clicking is a NOT a part of modal OR is NOT the sort by button itself then close the modal
+        closeModal();
+      }
+    });
+  }, [isSortByModalOpen]);
   return (
     <div className="wrapper-mobile-sort-by-modal">
       <div
@@ -101,7 +116,9 @@ const ModalSortBy = ({
                     className={`checkmark ${
                       sortBy === "PRICE_HIGH_TO_LOW" ? `checkmark-active` : ``
                     }`}
-                  ><span></span></span>
+                  >
+                    <span></span>
+                  </span>
                 </label>
               </div>
             </div>

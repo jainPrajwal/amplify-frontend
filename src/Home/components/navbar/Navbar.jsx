@@ -9,6 +9,7 @@ import { BrandLogo } from "./BrandLogo";
 import { HamburgerMenu } from "./HamburgerMenu";
 import { NavMenu } from "./NavMenu";
 import "./navbar.css";
+import { useEffect } from "react";
 
 const activeStyle = {
   color: `var(--kaali-danger)`,
@@ -29,7 +30,9 @@ const Navbar = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   console.log(`search params from navbar`, searchParams.getAll(`brand`));
-  console.log(`location.search`, location?.search)
+  console.log(`location.search`, location?.search);
+
+  
 
   return (
     <>
@@ -45,17 +48,17 @@ const Navbar = () => {
               mobileView.isSearchBarHidden ? "" : "wrapper-search-active"
             }`}
           >
-            <i
+           { <i
               className={`fas fa-arrow-left ${
                 mobileView.isSearchBarHidden ? "hide" : ""
               }`}
               onClick={() => {
                 setMobileView((prevState) => ({
                   ...prevState,
-                  isSearchBarHidden: !prevState.isSearchBarHidden,
+                  isSearchBarHidden: true,
                 }));
               }}
-            ></i>
+            ></i>}
             {location?.pathname === "/store" && (
               <SearchBar status={{ mobileView, setMobileView }} />
             )}

@@ -23,11 +23,11 @@ const NotificationProvider = (props) => {
   return (
     <NotificationContext.Provider value={{ state, dispatch }}>
       <div>
-        <div className={"alert-wrapper"}>
+       {state.length > 0 && <div className={"alert-wrapper"}>
           {state.map((notification) => {
             return <Notification {...notification} key={notification.id} />;
           })}
-        </div>
+        </div>}
         {props.children}
       </div>
     </NotificationContext.Provider>

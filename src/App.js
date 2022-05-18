@@ -29,7 +29,6 @@ function App() {
   const [width, setWidth] = useState(1);
   const { loggedInUser } = useAuth();
 
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (width < 100 && width >= 0) {
@@ -81,7 +80,7 @@ function App() {
             type: "LOAD_CART",
             payload: { cart },
           });
-   
+
           storeDispatch({ type: "STATUS", payload: "idle" });
         }
       } catch (error) {
@@ -92,7 +91,6 @@ function App() {
 
     if (loggedInUser.token) {
       loadCart(loggedInUser.userId);
-     
     }
   }, [loggedInUser]);
 
@@ -113,8 +111,6 @@ function App() {
             type: "LOAD_WISHLIST",
             payload: { wishlist: wishlist.wishlistItems },
           });
-
-     
         }
       } catch (error) {
         storeDispatch({ type: "STATUS", payload: "error" });
@@ -124,7 +120,6 @@ function App() {
 
     if (loggedInUser.token) {
       loadWishlist(loggedInUser.userId);
-     
     }
   }, [loggedInUser]);
 
@@ -134,14 +129,7 @@ function App() {
         className="loader-top"
         style={{ width: width > 90 ? `${width}%` : `${0}%` }}
       ></div>
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
-        crossOrigin="anonymous"
-        referrerPolicy="no-referrer"
-      />
-
+    
       <Navbar />
       <div className="container-amplify">
         <Routes>

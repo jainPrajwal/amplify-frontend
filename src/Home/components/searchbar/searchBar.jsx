@@ -9,8 +9,8 @@ import { getSearchedData } from "../../../utils/utils";
 
 const SearchBar = ({
   status: {
-    mobileView: { isSearchBarHidden },
-    setmobileView,
+    mobileView,
+    setMobileView,
   },
 }) => {
   const {
@@ -64,6 +64,7 @@ const SearchBar = ({
                 <div
                   className="autocomplete-item"
                   onClick={() => {
+                    setMobileView(prevState => ({...prevState , isSearchBarHidden: true}))
                     navigate(`/products/${item._id}`);
                   }}
                   onKeyUp={(e) => {

@@ -23,8 +23,10 @@ const modalReducer = (state, { type }) => {
     case "OPEN_FILTER_BY_MODAL":
       return { ...state, isFilterByModalOpen: true };
 
-    case "CLOSE_MODAL":
-      return { ...state, isSortByModalOpen: false, isFilterByModalOpen: false };
+    case "CLOSE_SORTBY_MODAL":
+      return { ...state, isSortByModalOpen: false };
+    case "CLOSE_FILTER_BY_MODAL":
+      return { ...state, isFilterByModalOpen: false };
 
     default:
       return state;
@@ -185,6 +187,9 @@ const Store = () => {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    document.querySelector(`.container-amplify`).scrollTo(0, 0);
+  }, []);
   console.log(`rendering stoire`, store);
 
   return (
@@ -292,7 +297,7 @@ const Store = () => {
         <div className="wrapper-sortBy-mobile">
           <div>
             <button
-              className="btn-secondary w-100 px-1 py-1"
+              className="btn-secondary w-100 px-1 py-1 btn-sort-by"
               onClick={() => dispatch({ type: "OPEN_SORTBY_BY_MODAL" })}
             >
               Sort By
@@ -300,7 +305,7 @@ const Store = () => {
           </div>
           <div>
             <button
-              className="btn-secondary w-100 px-1 py-1"
+              className="btn-secondary w-100 px-1 py-1 btn-filter-by"
               onClick={() => dispatch({ type: "OPEN_FILTER_BY_MODAL" })}
             >
               Filter By
