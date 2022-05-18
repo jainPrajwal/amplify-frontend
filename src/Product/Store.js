@@ -1,8 +1,8 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
 import { brands, category, subcategory } from "../data/getItemsInStore";
-import { getDataWithSpecificBrand, getSortedData } from "../utils";
+import { getSortedData } from "../utils";
 import { getSellingPrice } from "../utils/utils";
 import { CardProduct } from "./components/cards/CardProduct";
 import { CheckboxBrand } from "./components/checkboxes/CheckboxBrand";
@@ -129,7 +129,7 @@ const Store = () => {
     console.log(`price`, price);
 
     const sortedData = getSortedData(store?.store, "PRICE_LOW_TO_HIGH");
-    console.log(store, `store?.store in useEffect`);
+
     const itemWithMinimumPrice = getSellingPrice(sortedData[0]);
 
     const itemWithMaximumPrice = getSellingPrice(
@@ -146,12 +146,14 @@ const Store = () => {
     let flag = false;
     console.log(`filters`, filters);
     for (let key in filters) {
-      console.log(`flag as true here`, filters[key]);
-      flag = true;
-      storeDispatch({
-        type: key,
-        payload: filters[key],
-      });
+      if (filters[key].length > 0) {
+        console.log(`filters of key`, filters[key]);
+        flag = true;
+        storeDispatch({
+          type: key,
+          payload: filters[key],
+        });
+      }
     }
 
     if (sortBy.length > 0) {
@@ -175,21 +177,13 @@ const Store = () => {
     // }
 
     if (!flag) {
-      console.log(`clearing all`);
+      console.log(`clearing all`, searchParams.getAll(`brand`));
       storeDispatch({
         type: `CLEAR_ALL`,
       });
+      // navigate('/store');
     }
   }, [searchParams]);
-
-  // useEffect(() => {
-  //   if (searchParams.getAll(`brand`).length > 0) {
-  //     console.log(`clearing all`);
-  //     storeDispatch({
-  //       type: `CLEAR_ALL`,
-  //     });
-  //   }
-  // }, [searchParams]);
 
   console.log(`rendering stoire`, store);
 
