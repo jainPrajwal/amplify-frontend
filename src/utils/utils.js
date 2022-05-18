@@ -214,13 +214,12 @@ const saveItemToServer = async ({
   loggedInUser,
   store,
 }) => {
- 
   let product = { ...getProductById(store, _id) };
   product["productId"] = product._id;
   delete product._id;
 
   try {
-    // setStatus("loading");
+    setStatus("loading");
     const response = await axios.post(
       `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}`,
       product
@@ -228,7 +227,7 @@ const saveItemToServer = async ({
     const savedProduct = response?.data?.cartItem;
 
     if (savedProduct) {
-      // setStatus("idle");
+      setStatus("idle");
       cartDispatch({
         type: "ADD_TO_CART",
         payload: {
@@ -258,21 +257,28 @@ const updateItemOnServer = async ({
   cartDispatch,
   type,
   requiredUpdateInItem,
+  setStatus,
 }) => {
-  const response = await axios.post(
-    `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}/${itemInCart._id}`,
-    requiredUpdateInItem
-  );
-
-  const {
-    data: { success, newCartItem },
-  } = response;
-  return success
-    ? cartDispatch({
-        type,
-        payload: { newCartItem },
-      })
-    : null;
+  try {
+    setStatus(`loading`);
+    const response = await axios.post(
+      `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}/${itemInCart._id}`,
+      requiredUpdateInItem
+    );
+    setStatus(`idle`);
+    const {
+      data: { success, newCartItem },
+    } = response;
+    return success
+      ? cartDispatch({
+          type,
+          payload: { newCartItem },
+        })
+      : null;
+  } catch (error) {
+    setStatus(`error`);
+    console.error(error);
+  }
 };
 
 const removeFromCartFromServer = async ({
@@ -282,8 +288,10 @@ const removeFromCartFromServer = async ({
   notificationDispatch,
   itemInCart,
   name,
+  setStatus,
 }) => {
   try {
+    setStatus(`loading`);
     const {
       data: { success },
     } = await axios.delete(
@@ -291,6 +299,8 @@ const removeFromCartFromServer = async ({
     );
    
     if (success) {
+      
+      setStatus(`idle`);
       cartDispatch({
         type: "REMOVE_FROM_CART",
         payload: itemInCart,
@@ -306,6 +316,7 @@ const removeFromCartFromServer = async ({
       });
     }
   } catch (error) {
+    setStatus(`error`);
     console.log("error ", error?.response?.data?.errorMessage);
   }
 };
@@ -330,8 +341,17 @@ const checkIfItemIsAlreadyPresentInCartWithSameColor = (
 
 /* Wishlist Handlers */
 
-const addItemToWishlist = async (product, userId, wishlistDispatch) => {
+const addItemToWishlist = async ({
+  product,
+  setStatus,
+  userId,
+  wishlistDispatch,
+}) => {
+  console.log(`product`, product);
+  console.log(`userId`, userId);
+
   try {
+    setStatus(`loading`);
     let productToBeWishlisted = { ...product };
     productToBeWishlisted["productId"] = product._id;
     delete productToBeWishlisted._id;
@@ -343,41 +363,50 @@ const addItemToWishlist = async (product, userId, wishlistDispatch) => {
     );
 
     if (success) {
+      setStatus(`idle`);
       wishlistDispatch({
         type: "ADD_TO_WISHLIST",
         payload: { updatedWishlist: wishlist?.wishlistItems },
       });
     }
   } catch (error) {
+    setStatus(`error`);
     console.log("error", error?.response?.data?.errorMessage);
   }
 };
 
-const removeItemFromWishlist = async (product, userId, wishlistDispatch) => {
+const removeItemFromWishlist = async ({
+  product,
+  setStatus,
+  userId,
+  wishlistDispatch,
+}) => {
   try {
+    setStatus(`loading`);
     const {
       data: { success },
     } = await axios.delete(
       `https://amplitude-backend.herokuapp.com/wishlist/${userId}/${product._id}`
     );
     if (success) {
+      setStatus(`idle`);
       wishlistDispatch({
         type: "REMOVE_FROM_WISHLIST",
         payload: { product },
       });
     }
   } catch (error) {
+    setStatus(`error`);
     console.log("error", error?.response?.data?.errorMessage);
   }
 };
 
 const getSellingPrice = (item) => {
   return item.sellingPrice;
-}
-
+};
 
 const getSearchedData = (store, searchQuery) => {
-  if(searchQuery.length <= 0) return store;
+  if (searchQuery.length <= 0) return store;
   const searchedProducts = store.filter((item) => {
     return item.name.toLowerCase().includes(searchQuery.toLowerCase());
   });
@@ -409,5 +438,5 @@ export {
   saveItemToServer,
   removeFromCartFromServer,
   getSellingPrice,
-  getSearchedData
+  getSearchedData,
 };
