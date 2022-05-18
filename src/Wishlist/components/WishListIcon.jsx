@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { v4 } from "uuid";
 import { useAuth } from "../../Auth/context/useAuth";
 import { useNotifications } from "../../Home/components/notification/context/useNotifications";
+import { InlineLoader } from "../../Loader/InlineLoader";
 import { addItemToWishlist, removeItemFromWishlist } from "../../utils";
 import { useWishlist } from "../context/useWishlist";
 import { HeartSvg } from "./HeartSvg";
@@ -11,26 +13,32 @@ const WishListIcon = ({ wishlistedItem, product }) => {
   const { dispatch: wishlistDispatch } = useWishlist();
   const { dispatch: notificationDispatch } = useNotifications();
   const { loggedInUser } = useAuth();
+  const [status, setStatus] = useState(`idle`);
 
-  return (
+  return status === `idle` ? (
     <>
       <HeartSvg />
+
       <i
-        className={`fas fa-heart ${wishlistedItem?.productId  && loggedInUser?.userId ? "red" : ""}`}
+        className={`fas fa-heart ${
+          wishlistedItem?.productId && loggedInUser?.userId ? "red" : ""
+        }`}
         onClick={async () => {
           const toggleWishlistOnServer = async () => {
             if (wishlistedItem?.productId) {
-              await removeItemFromWishlist(
-                wishlistedItem,
-                loggedInUser.userId,
-                wishlistDispatch
-              );
+              await removeItemFromWishlist({
+                product: wishlistedItem,
+                userId: loggedInUser.userId,
+                wishlistDispatch,
+                setStatus,
+              });
             } else {
-              await addItemToWishlist(
+              await addItemToWishlist({
                 product,
-                loggedInUser.userId,
-                wishlistDispatch
-              );
+                userId: loggedInUser.userId,
+                wishlistDispatch,
+                setStatus,
+              });
             }
             notificationDispatch({
               type: "ADD_NOTIFICATION",
@@ -55,12 +63,17 @@ const WishListIcon = ({ wishlistedItem, product }) => {
             : await toggleWishlistOnServer();
         }}
       ></i>
+
       <svg
         className={`icon icon-heart ${wishlistedItem?.productId ? "like" : ""}`}
       >
         <use xlinkHref="#icon-heart"></use>
       </svg>
     </>
+  ) : (
+    <span className="circular-loading" style={{ height: `34px`, width: `34px` }}>
+      <InlineLoader />
+    </span>
   );
 };
 
