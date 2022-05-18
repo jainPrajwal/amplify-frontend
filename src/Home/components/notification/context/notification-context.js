@@ -2,9 +2,9 @@ import { createContext, useReducer } from "react";
 import { Notification } from "../Notification";
 
 export const NotificationContext = createContext();
-
+const initialState = [];
 const NotificationProvider = (props) => {
-  const initialState = [];
+  
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case "ADD_NOTIFICATION":
