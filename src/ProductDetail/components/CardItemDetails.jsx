@@ -7,7 +7,7 @@ import "./cardItemDetails.css";
 import { useAuth } from "../../Auth/context/useAuth";
 import { useWishlist } from "../../Wishlist/context/useWishlist";
 import { useProducts } from "../../Product/context/useProducts";
-import { 
+import {
   addItemToWishlist,
   checkIfItemIsAlreadyPresentInCartWithSameColor,
   checkIfItemIsAlreadyPresentInWishlist,
@@ -18,12 +18,13 @@ import {
 import { useNotifications } from "../../Home/components/notification/context/useNotifications";
 import { useCart } from "../../Cart/context/useCart";
 import { CheckboxPanel } from "./CheckboxPanel";
+import { InlineLoader } from "../../Loader/InlineLoader";
 
 const CardItemDetails = () => {
   let { productId } = useParams();
   const { state: wishlist, dispatch: wishlistDispatch } = useWishlist();
   const {
-    state: { store, status },
+    state: { store },
     dispatch: storeDispatch,
   } = useProducts();
   const [product, setProduct] = useState({
@@ -39,6 +40,10 @@ const CardItemDetails = () => {
   const [itemColor, setItemColor] = useState(
     getProductById(store, productId).color
   );
+
+  const [wishlistStatus, setWishlistStatus] = useState(`idle`);
+  const [cartStatus, setCartStatus] = useState(`idle`);
+
   const IsAlreadyPresentInWishlist = checkIfItemIsAlreadyPresentInWishlist(
     wishlist,
     product
@@ -152,7 +157,7 @@ const CardItemDetails = () => {
                 disabled={isItemOutOfStockInRespectiveColor(product)}
                 onClick={async () => {
                   const saveItemToServer = async () => {
-                    storeDispatch({ type: "STATUS", payload: "loading" });
+                    setCartStatus(`loading`);
                     let productToBeSaved = {
                       ...getProductById(store, product._id),
                     };
@@ -169,7 +174,7 @@ const CardItemDetails = () => {
 
                       const savedProduct = response?.data?.cartItem;
                       if (savedProduct) {
-                        storeDispatch({ type: "STATUS", payload: "idle" });
+                        setCartStatus(`idle`);
                         cartDispatch({
                           type: "ADD_TO_CART",
                           payload: {
@@ -185,7 +190,7 @@ const CardItemDetails = () => {
                           },
                         });
                       } else {
-                        storeDispatch({ type: "STATUS", payload: "error" });
+                        setCartStatus(`error`);
                         throw new Error(
                           "some error occured while saving item to server"
                         );
@@ -206,15 +211,8 @@ const CardItemDetails = () => {
                     : saveItemToServer();
                 }}
               >
-                {status === "loading" ? (
-                  <>
-                    <img
-                      src="https://c.tenor.com/NqKNFHSmbssAAAAi/discord-loading-dots-discord-loading.gif"
-                      alt="loading"
-                      width="50px"
-                      height="12px"
-                    />
-                  </>
+                {cartStatus === "loading" ? (
+                  <InlineLoader />
                 ) : (
                   `${"add to cart".toUpperCase()}`
                 )}
@@ -245,17 +243,19 @@ const CardItemDetails = () => {
                 onClick={async () => {
                   const toggleWishlistOnServer = async () => {
                     if (IsAlreadyPresentInWishlist?.productId) {
-                      await removeItemFromWishlist(
-                        IsAlreadyPresentInWishlist,
-                        loggedInUser.userId,
-                        wishlistDispatch
-                      );
-                    } else {
-                      await addItemToWishlist(
+                      await removeItemFromWishlist({
                         product,
-                        loggedInUser.userId,
-                        wishlistDispatch
-                      );
+                        userId: loggedInUser.userId,
+                        setStatus: setCartStatus,
+                        wishlistDispatch,
+                      });
+                    } else {
+                      await addItemToWishlist({
+                        product,
+                        userId: loggedInUser.userId,
+                        wishlistDispatch,
+                        setStatus: setWishlistStatus,
+                      });
                     }
                     notificationDispatch({
                       type: "ADD_NOTIFICATION",
@@ -283,11 +283,17 @@ const CardItemDetails = () => {
                     : await toggleWishlistOnServer();
                 }}
               >
-                <i
-                  className="far fa-heart mr-lg"
-                  style={{ fontSize: "1.2rem" }}
-                ></i>
-                {`${"Add to Wishlist".toUpperCase()} `}{" "}
+                {wishlistStatus === "loading" ? (
+                  <InlineLoader />
+                ) : (
+                  <>
+                    <i
+                      className="far fa-heart mr-lg"
+                      style={{ fontSize: "1.2rem" }}
+                    ></i>
+                    {"add to wishlist".toUpperCase()}
+                  </>
+                )}
               </button>
             )}
           </div>
@@ -313,9 +319,7 @@ const CardItemDetails = () => {
                 alt="secured delivery"
               />
             </div>
-            <div className="fs-2 ml-md red text-primary">
-              Secured Payment
-            </div>
+            <div className="fs-2 ml-md red text-primary">Secured Payment</div>
           </div>
 
           <div className="wrapper-free-delivery">
