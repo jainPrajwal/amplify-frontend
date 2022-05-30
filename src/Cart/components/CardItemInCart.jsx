@@ -11,10 +11,13 @@ import {
 import { removeFromCartFromServer } from "../../utils/utils";
 import { InlineLoader } from "../../Loader/InlineLoader";
 import "./cart.css";
+import { useNavigate } from "react-router";
 
 const CardItemInCart = ({ itemInCart, cartDispatch }) => {
+  
   let {
     _id,
+    productId,
     image,
     name,
     brand,
@@ -25,11 +28,10 @@ const CardItemInCart = ({ itemInCart, cartDispatch }) => {
     price,
     totalQuantity,
   } = itemInCart;
-
   const { dispatch: notificationDispatch } = useNotifications();
   const { loggedInUser } = useAuth();
   const [status, setStatus] = useState(`idle`);
-
+  const navigate = useNavigate();
   return (
     <>
       <div className="card-itemCart-container d-flex mt-lg">
@@ -43,13 +45,18 @@ const CardItemInCart = ({ itemInCart, cartDispatch }) => {
               notificationDispatch,
               itemInCart,
               name,
-              setStatus
+              setStatus,
             });
           }}
         >
           &times;
         </span>
-        <div className="card-itemCart-image-wrapper">
+        <div
+          className="card-itemCart-image-wrapper"
+          onClick={() => {
+            navigate(`/products/${productId}`);
+          }}
+        >
           <img src={image} alt={name} className="w-100 h-100" />
         </div>
 

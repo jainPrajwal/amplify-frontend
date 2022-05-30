@@ -11,7 +11,6 @@ import { WishListIcon } from "./WishListIcon";
 
 const CardItemInWishlist = ({ wishlistedItem }) => {
   let {
-    _id,
     productId,
     image,
     name,
@@ -22,6 +21,7 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
     category,
     subcategory,
   } = wishlistedItem;
+
   let navigate = useNavigate();
   const { state: cart, dispatch: cartDispatch } = useCart();
   const { dispatch: notificationDispatch } = useNotifications();
@@ -42,7 +42,7 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
     <div className="card card-ecommerce">
       <Badge fastDelivery={fastDelivery} />
       <WishListIcon wishlistedItem={wishlistedItem} />
-      <div onClick={() => navigate(`/products/${_id}`)}>
+      <div onClick={() => navigate(`/products/${productId}`)}>
         <div className="card-image-wrapper">
           <img
             src={image}
