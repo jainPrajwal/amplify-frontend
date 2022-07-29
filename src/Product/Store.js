@@ -46,20 +46,20 @@ const Store = () => {
 
   useEffect(() => {
     /*const searchString = location?.search.split("&&");
-    console.log(`location`, location);
+    
     if (store) {
       if (searchString.length > 1) {
         //multiple filters
         searchString.forEach((element, index) => {
           if (index === 0) {
             searchString[0] = searchString[0].slice(1);
-            console.log(`searchString[o]`, searchString);
+            
           }
           const searchParams = element.split("=");
           let [searchKey, searchValue] = searchParams;
           switch (searchKey) {
             case "filterBy":
-              console.log(`store`, store);
+              
               storeDispatch({
                 type: "BRAND",
                 payload: searchValue,
@@ -84,7 +84,7 @@ const Store = () => {
 
               break;
             default:
-              console.log("default case 12");
+              
               // storeDispatch({
               //   type: "STATUS",
               //   payload: `idle`,
@@ -111,7 +111,7 @@ const Store = () => {
 
             break;
           default:
-            console.log("default case 11!");
+            
             storeDispatch({
               type: "STATUS",
               payload: `idle`,
@@ -125,10 +125,10 @@ const Store = () => {
       CATEGORY: searchParams.getAll(`category`),
       SUBCATEGORY: searchParams.getAll(`subcategory`),
     };
-    console.log(`only get`, searchParams.get(`brand`));
+    
     const sortBy = searchParams.getAll(`sortBy`);
     const price = searchParams.get(`price`);
-    console.log(`price`, price);
+    
 
     const sortedData = getSortedData(store?.store, "PRICE_LOW_TO_HIGH");
 
@@ -146,10 +146,10 @@ const Store = () => {
     };
 
     let flag = false;
-    console.log(`filters`, filters);
+    
     for (let key in filters) {
       if (filters[key].length > 0) {
-        console.log(`filters of key`, filters[key]);
+        
         flag = true;
         storeDispatch({
           type: key,
@@ -179,7 +179,7 @@ const Store = () => {
     // }
 
     if (!flag) {
-      console.log(`clearing all`, searchParams.getAll(`brand`));
+      
       storeDispatch({
         type: `CLEAR_ALL`,
       });
@@ -190,7 +190,7 @@ const Store = () => {
   useEffect(() => {
     document.querySelector(`.container-amplify`).scrollTo(0, 0);
   }, []);
-  console.log(`rendering stoire`, store);
+  
 
   return (
     <>

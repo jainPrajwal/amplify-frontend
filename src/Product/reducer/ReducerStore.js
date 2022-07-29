@@ -75,7 +75,7 @@ const initialStateOfSpecificSubCategories = [
   },
 ];
 const reducerCallbackFunction = (state, { type, payload }) => {
-  console.log(`reducer call back`, type, payload);
+  
   switch (type) {
     case "LOAD_PRODUCTS":
       const products = sanitizeProducts(payload.products);

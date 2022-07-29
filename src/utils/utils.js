@@ -1,5 +1,6 @@
 import axios from "axios";
 import { v4 } from "uuid";
+import { BASE_API } from "../constants/api";
 
 const getSellingPriceForSeventyPercentDiscount = (price) => {
   return parseInt(price - (price / 100) * 70);
@@ -201,7 +202,7 @@ const getQuantityOfItemInRespectiveColor = (itemInCart) => {
         : null
     )
     .filter((colorObj) => colorObj != null)[0];
-  console.log({ quantityOfItemInRespectiveColor });
+  
 };
 
 /* ADD TO CART */
@@ -221,7 +222,7 @@ const saveItemToServer = async ({
   try {
     setStatus("loading");
     const response = await axios.post(
-      `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}`,
+      `${BASE_API}/cart/${loggedInUser.userId}`,
       product
     );
     const savedProduct = response?.data?.cartItem;
@@ -247,7 +248,7 @@ const saveItemToServer = async ({
     }
   } catch (error) {
     setStatus("error");
-    console.log("error", error?.response?.data?.errorMessage);
+    
   }
 };
 
@@ -262,7 +263,7 @@ const updateItemOnServer = async ({
   try {
     setStatus(`loading`);
     const response = await axios.post(
-      `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}/${itemInCart._id}`,
+      `${BASE_API}/cart/${loggedInUser.userId}/${itemInCart._id}`,
       requiredUpdateInItem
     );
     setStatus(`idle`);
@@ -295,7 +296,7 @@ const removeFromCartFromServer = async ({
     const {
       data: { success },
     } = await axios.delete(
-      `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}/${_id}`
+      `${BASE_API}/cart/${loggedInUser.userId}/${_id}`
     );
    
     if (success) {
@@ -317,7 +318,7 @@ const removeFromCartFromServer = async ({
     }
   } catch (error) {
     setStatus(`error`);
-    console.log("error ", error?.response?.data?.errorMessage);
+    
   }
 };
 
@@ -347,8 +348,8 @@ const addItemToWishlist = async ({
   userId,
   wishlistDispatch,
 }) => {
-  console.log(`product`, product);
-  console.log(`userId`, userId);
+  
+  
 
   try {
     setStatus(`loading`);
@@ -358,7 +359,7 @@ const addItemToWishlist = async ({
     const {
       data: { success, wishlist },
     } = await axios.post(
-      `https://amplitude-backend.herokuapp.com/wishlist/${userId}`,
+      `${BASE_API}/wishlist/${userId}`,
       productToBeWishlisted
     );
 
@@ -371,7 +372,7 @@ const addItemToWishlist = async ({
     }
   } catch (error) {
     setStatus(`error`);
-    console.log("error", error?.response?.data?.errorMessage);
+    
   }
 };
 
@@ -386,7 +387,7 @@ const removeItemFromWishlist = async ({
     const {
       data: { success },
     } = await axios.delete(
-      `https://amplitude-backend.herokuapp.com/wishlist/${userId}/${product._id}`
+      `${BASE_API}/wishlist/${userId}/${product._id}`
     );
     if (success) {
       setStatus(`idle`);
@@ -397,7 +398,7 @@ const removeItemFromWishlist = async ({
     }
   } catch (error) {
     setStatus(`error`);
-    console.log("error", error?.response?.data?.errorMessage);
+    
   }
 };
 

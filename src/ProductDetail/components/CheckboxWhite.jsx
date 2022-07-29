@@ -7,7 +7,7 @@ const CheckboxWhite = ({ state: { itemColor, setItemColor } }) => {
         name="itemColor"
         checked={itemColor === "white"}
         onChange={() => {
-          console.log("setting itemColor to white");
+          
           setItemColor("white");
         }}
       />

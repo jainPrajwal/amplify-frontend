@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { v4 } from "uuid";
 import { useAuth } from "../../Auth/context/useAuth";
 import { useCart } from "../../Cart/context/useCart";
+import { BASE_API } from "../../constants/api";
 import { useNotifications } from "../../Home/components/notification/context/useNotifications";
 import { Badge } from "../../Product/components/Badge";
 import { useProducts } from "../../Product/context/useProducts";
@@ -87,7 +88,7 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
                 try {
                   // setStatus("loading");
                   const response = await axios.post(
-                    `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}`,
+                    `${BASE_API}/cart/${loggedInUser.userId}`,
                     product
                   );
 

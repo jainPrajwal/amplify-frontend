@@ -19,8 +19,8 @@ const ModalFilterBy = ({
 
   useEffect(() => {
     document.addEventListener(`click`, (event) => {
-      console.log(`class name from filter by`, event.target.className)
-      console.log(`closeset from filter by`, event.target.closest(`.modal`))
+      
+      
       if (
         !(
           event.target.closest(`.modal`) ||

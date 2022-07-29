@@ -29,8 +29,8 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log(`search params from navbar`, searchParams.getAll(`brand`));
-  console.log(`location.search`, location?.search);
+  
+  
 
   
 

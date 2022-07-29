@@ -20,6 +20,7 @@ import { useWishlist } from "./Wishlist/context/useWishlist";
 import { Wishlist } from "./Wishlist/Wishlist";
 import loadingImage from "../src/assets/images/loading.gif";
 import { useSearchParams } from "react-router-dom";
+import { BASE_API } from "./constants/api";
 
 function App() {
   const { state: store, dispatch: storeDispatch } = useProducts();
@@ -42,21 +43,21 @@ function App() {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        console.log(`sotre disptach get Products`);
+        
         storeDispatch({ type: "STATUS", payload: "loading" });
         const response = await axios.get(
-          "https://amplitude-backend.herokuapp.com/products"
+          `${BASE_API}/products`
         );
 
         storeDispatch({
           type: "LOAD_PRODUCTS",
           payload: { products: response.data.products },
         });
-        console.log(`products received`);
+        
         storeDispatch({ type: "STATUS", payload: "idle" });
         setWidth(undefined);
       } catch (error) {
-        console.log("error", error.response);
+        
         storeDispatch({ type: "STATUS", payload: "error" });
       }
     };
@@ -67,12 +68,12 @@ function App() {
   useEffect(() => {
     const loadCart = async (userId) => {
       try {
-        console.log(`load cart get Products`);
+        
         storeDispatch({ type: "STATUS", payload: "loading" });
         const {
           data: { success, message, cart },
         } = await axios.get(
-          `https://amplitude-backend.herokuapp.com/cart/${userId}`
+          `${BASE_API}/cart/${userId}`
         );
 
         if (success) {
@@ -85,7 +86,7 @@ function App() {
         }
       } catch (error) {
         storeDispatch({ type: "STATUS", payload: "error" });
-        console.log("error", error?.response?.data?.errorMessage);
+        
       }
     };
 
@@ -97,14 +98,14 @@ function App() {
   useEffect(() => {
     const loadWishlist = async (userId) => {
       try {
-        console.log(`load wishlist get Products`);
+        
         storeDispatch({ type: "STATUS", payload: "loading" });
         const {
           data: { success, message, wishlist },
         } = await axios.get(
-          `https://amplitude-backend.herokuapp.com/wishlist/${userId}`
+          `${BASE_API}/wishlist/${userId}`
         );
-        console.log("wishlist", wishlist);
+        
         if (success) {
           storeDispatch({ type: "STATUS", payload: "idle" });
           wishlistDispatch({
@@ -114,7 +115,7 @@ function App() {
         }
       } catch (error) {
         storeDispatch({ type: "STATUS", payload: "error" });
-        console.log("error", error?.response?.data?.errorMessage);
+        
       }
     };
 

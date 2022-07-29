@@ -18,7 +18,6 @@ const CardItemInCart = ({ itemInCart, cartDispatch }) => {
   let {
     _id,
     productId,
-    image,
     name,
     brand,
     offer,
@@ -32,6 +31,11 @@ const CardItemInCart = ({ itemInCart, cartDispatch }) => {
   const { loggedInUser } = useAuth();
   const [status, setStatus] = useState(`idle`);
   const navigate = useNavigate();
+
+
+  console.log(`AISAAA `, itemInCart.availableColors.find(
+    (color) => color.color === itemInCart.color
+  ))
   return (
     <>
       <div className="card-itemCart-container d-flex mt-lg">
@@ -57,7 +61,13 @@ const CardItemInCart = ({ itemInCart, cartDispatch }) => {
             navigate(`/products/${productId}`);
           }}
         >
-          <img src={image} alt={name} className="w-100 h-100" />
+          <img 
+            src={
+              itemInCart.availableColors.find(
+                (color) => color.color === itemInCart.color
+              )?.image || itemInCart.image
+            }
+          alt={name} className="w-100 h-100" />
         </div>
 
         <div className="card-itemCart-content ml-md w-100 p-md">

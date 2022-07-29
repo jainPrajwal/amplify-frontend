@@ -47,7 +47,7 @@ const PriceSlider = () => {
   const { dispatch: storeDispatch } = useProducts();
 
   const handlePriceChange = (event) => {
-    console.log(`price`, event.target.value);
+    
     searchParams.set(`price`, event.target.value);
     setSearchParams(searchParams);
     setPrice((prevState) => {

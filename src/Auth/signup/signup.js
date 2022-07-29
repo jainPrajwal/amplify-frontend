@@ -97,7 +97,7 @@ const SignUp = () => {
           className="signup-form"
           onSubmit={(e) => {
             e.preventDefault();
-            console.log(`Sign Up succesful!`);
+            
             SignUpHandler();
           }}
         >

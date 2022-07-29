@@ -13,7 +13,7 @@ const CheckboxBrand = ({ value: { store }, brand }) => {
       })
       .filter((item) => item !== null)[0];
     if (isChecked) {
-      // console.log(`appending brand`, brand);
+      // 
       // searchParams.append(`brand`, brand);
       // setSearchParams(searchParams);
     }
@@ -28,7 +28,7 @@ const CheckboxBrand = ({ value: { store }, brand }) => {
           checked={searchParams.getAll(`brand`).includes(brand)}
           onChange={(event) => {
             if (event.target.checked) {
-              console.log(`on change setParams`);
+              
               searchParams.append(`brand`, brand);
               setSearchParams(searchParams);
             } else {
@@ -40,7 +40,7 @@ const CheckboxBrand = ({ value: { store }, brand }) => {
                 }
               );
 
-              // console.log(`newParams`, newParams)
+              // 
               if(newParams.length === 0) {
                 navigate("/store");
               } else {

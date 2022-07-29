@@ -11,17 +11,15 @@ const ModalSortBy = ({
     state: { sortBy },
     dispatch: storeDispatch,
   } = useProducts();
-  console.log(
-    `sortBy && sortBy === "PRICE_LOW_TO_HIGH"`,
-    sortBy && sortBy === "PRICE_LOW_TO_HIGH"
-  );
+  
+   
   const closeModal = () => {
     modalDispatch({ type: "CLOSE_SORTBY_MODAL" });
   };
   useEffect(() => {
     document.addEventListener(`click`, (event) => {
-      console.log(`class name`, event.target.className);
-      console.log(`closese`, event.target.closest(`.modal`));
+      
+      
       if (
         !(
           event.target.closest(`.modal`) ||
@@ -80,7 +78,7 @@ const ModalSortBy = ({
                     checked={sortBy && sortBy === "PRICE_LOW_TO_HIGH"}
                     value={"PRICE_LOW_TO_HIGH"}
                     onChange={(e) => {
-                      console.log(`is checked`, e.target.checked);
+                      
                       storeDispatch({
                         type: "SORT",
                         payload: "PRICE_LOW_TO_HIGH",

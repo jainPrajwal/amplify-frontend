@@ -9,7 +9,6 @@ import { Header } from "./components/Header";
 const Home = () => {
   const { state, dispatch } = useProducts();
 
-
   const navigate = useNavigate();
 
   // Make the value of category as the key and the original object as its value
@@ -18,7 +17,6 @@ const Home = () => {
   const uniqueBrands = [
     ...new Map(state.store.map((item) => [item[`brand`], item])).values(),
   ];
-  console.log({ state }, `store.... from home`);
 
   return (
     <div className="">
@@ -29,38 +27,46 @@ const Home = () => {
         <div className="card">
           <div className="card-container">
             {uniqueBrands.map((item) => {
-              const { _id, image, brand } = item;
+              const { _id, brand } = item;
+              console.log(
+                `AUSA KIASE `,
+                item.availableColors.find((color) => color.color === item.color)
+              );
               return (
-               
-                  <div
-                    className="card-body"
-                    key={_id}
-                    onClick={() => {
-                      console.log(`clicked`, _id);
-                      dispatch({
-                        type: "CLEAR_ALL",
-                      });
-                      navigate({
-                        pathname: `/store`,
-                        search: `?${createSearchParams({
-                          brand
-                        })}`
-                      })
-                      
-                    }}
-                  >
-                    <div className="card-item">
-                      <div className="card-image-container">
-                        <img src={image} alt="card" className="card-image" />
-                      </div>
-                      <div className="p-md d-flex ai-center jc-center">
-                        <div className="text-bold text-upper text-center">
-                          {brand}
-                        </div>
+                <div
+                  className="card-body"
+                  key={_id}
+                  onClick={() => {
+                    dispatch({
+                      type: "CLEAR_ALL",
+                    });
+                    navigate({
+                      pathname: `/store`,
+                      search: `?${createSearchParams({
+                        brand,
+                      })}`,
+                    });
+                  }}
+                >
+                  <div className="card-item">
+                    <div className="card-image-container">
+                      <img
+                        src={
+                          item.availableColors.find(
+                            (color) => color.color === item.color
+                          )?.image || item.image
+                        }
+                        alt="card"
+                        className="card-image"
+                      />
+                    </div>
+                    <div className="p-md d-flex ai-center jc-center">
+                      <div className="text-bold text-upper text-center">
+                        {brand}
                       </div>
                     </div>
                   </div>
-                
+                </div>
               );
             })}
           </div>

@@ -3,7 +3,7 @@ import axios from "axios";
 import { v4 } from "uuid";
 import { useLocation, useNavigate } from "react-router";
 import { useNotifications } from "../../Home/components/notification/context/useNotifications";
-
+import { BASE_API } from "../../constants/api";
 export const AuthContext = createContext();
 
 export const setupAuthHeaderForServiceCalls = (token) => {
@@ -16,7 +16,6 @@ export const setupAuthExceptionHandler = (logout, navigate) => {
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
-      console.log("error auth context", error?.response);
       if (UNAUTHORIZED.includes(error?.response?.status)) {
         logout();
         navigate("/login");
@@ -59,14 +58,11 @@ const AuthProvider = ({ children }) => {
     try {
       const {
         data: { success, message, userId, token },
-      } = await axios.post(
-        "https://amplitude-backend.herokuapp.com/login",
-        userLoginDetails
-      );
+      } = await axios.post(`${BASE_API}/login`, userLoginDetails);
 
       if (token && success) {
         const bearerToken = `Bearer ${token}`;
-        console.log(`bearer Token line 70`, bearerToken);
+
         setupAuthHeaderForServiceCalls(bearerToken);
         localStorage.setItem("user", JSON.stringify({ userId, token }));
         setLoggedInUser(() => ({
@@ -99,10 +95,7 @@ const AuthProvider = ({ children }) => {
       // const users = await fakeSignUpAPI(userSignUpDetails);
       const {
         data: { success, user },
-      } = await axios.post(
-        "https://amplitude-backend.herokuapp.com/signup",
-        userSignUpDetails
-      );
+      } = await axios.post("`${BASE_API}`/signup", userSignUpDetails);
 
       if (success && user) {
         setStatus("idle");

@@ -85,6 +85,8 @@ const SortByDesktop = () => {
             <span></span>
           </span>
         </label>
+
+        
         <label className="checkbox-label  checkboxRoundRadio-label">
           <input
             ref={priceHighToLowRef}

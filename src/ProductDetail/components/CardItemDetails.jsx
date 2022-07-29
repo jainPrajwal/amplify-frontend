@@ -19,6 +19,7 @@ import { useNotifications } from "../../Home/components/notification/context/use
 import { useCart } from "../../Cart/context/useCart";
 import { CheckboxPanel } from "./CheckboxPanel";
 import { InlineLoader } from "../../Loader/InlineLoader";
+import { BASE_API } from "../../constants/api";
 
 const CardItemDetails = () => {
   let { productId } = useParams();
@@ -63,7 +64,7 @@ const CardItemDetails = () => {
           const {
             data: { success, product },
           } = await axios.get(
-            `https://amplitude-backend.herokuapp.com/products/${productId}`
+            `${BASE_API}/products/${productId}`
           );
           if (success) {
             setProduct(product);
@@ -82,21 +83,21 @@ const CardItemDetails = () => {
     <>
       <div className="card-image-wrapper">
         <img
-          src={product.image}
+          src={product.availableColors.find(color => color.color === itemColor)?.image || product.image}
           className="card-image-ecommerce"
           alt={product.name}
         />
       </div>
       <div className="card-content-ecommerce-product-details">
-        <div className="card-title header header-secondary text-black">
+        <div className="header-secondary text-black">
           <span>{product.brand}</span>
         </div>
         <div>
-          <span className="card-subtitle text-gray fs-3 ">
+          <span className="text-gray fs-2">
             {product.category}
           </span>
           <span className="card-subtitle text-gray fs-2 ml-sm">
-            ({product.subcategory})
+            {product.subcategory}
           </span>
         </div>
 
@@ -168,7 +169,7 @@ const CardItemDetails = () => {
 
                     try {
                       const response = await axios.post(
-                        `https://amplitude-backend.herokuapp.com/cart/${loggedInUser.userId}`,
+                        `${BASE_API}/cart/${loggedInUser.userId}`,
                         { ...productToBeSaved, color: itemColor }
                       );
 
@@ -196,7 +197,7 @@ const CardItemDetails = () => {
                         );
                       }
                     } catch (error) {
-                      console.log("error", error?.response?.data?.errorMessage);
+                      
                     }
                   };
                   !loggedInUser?.userId

@@ -22,7 +22,7 @@ const SearchBar = ({
   const dataWithSearchedResults = getSearchedData(store, localSearchQuery);
 
   let navigate = useNavigate();
-  console.log(`re-rendering SearchBar`, timerId);
+  
 
   return (
     <>
@@ -39,16 +39,16 @@ const SearchBar = ({
             }
           }}
           onChange={(event) => {
-            console.log(`onchange`);
+            
             setLocalSearchQuery(() => event.target.value);
             if (timerId) {
-              console.log(`clearing timeout`, timerId);
+              
               clearTimeout(timerId);
             }
 
             setTimerId(
               setTimeout(() => {
-                console.log(`dispatching...`, event.target.value);
+                
                 storeDispatch({ type: "SEARCH", payload: event.target.value });
               }, 1000)
             );

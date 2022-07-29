@@ -7,7 +7,7 @@ const CheckboxBlack = ({ state: { itemColor, setItemColor } }) => {
         name="itemColor"
         checked={itemColor === "black"}
         onChange={() => {
-          console.log("setting itemColor to black");
+          
           setItemColor("black");
         }}
       />

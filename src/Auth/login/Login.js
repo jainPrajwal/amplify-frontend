@@ -67,7 +67,7 @@ const Login = () => {
           className="signup-form"
           onSubmit={(e) => {
             e.preventDefault();
-          console.log(`submitting form.........`)
+          
             LoginHandler();
           }}
         >
@@ -267,6 +267,7 @@ const Login = () => {
       </div>
     </>
   );
+
 };
 
 export { Login };

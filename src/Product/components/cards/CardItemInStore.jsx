@@ -81,7 +81,11 @@ const CardItemInStore = ({ product, store }) => {
       >
         <div className="card-image-wrapper">
           <img
-            src={image}
+              src={
+                product.availableColors.find(
+                  (color) => color.color === product.color
+                )?.image || product.image
+              }
             className="card-image-ecommerce"
             alt={name}
             style={{ pointerEvents: "none" }}
