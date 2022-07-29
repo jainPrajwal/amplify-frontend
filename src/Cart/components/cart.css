@@ -25,7 +25,7 @@
   padding: 24px 0 0 16px;
   position: fixed;
 }
-.itemCart-buyNow {
+.itemCart-checkout {
   margin: 0;
   width: 100%;
   margin-top: 32px;
@@ -83,7 +83,7 @@
     margin-top: 1rem;
   }
 
-  .itemCart-buyNow {
+  .itemCart-checkout {
     position: absolute;
     bottom: 0;
     left: 0;

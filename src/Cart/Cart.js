@@ -1,9 +1,11 @@
 import { CardCart } from "./components/CardCart";
 import { useCart } from "./context/useCart";
 import "./components/cart.css";
+import { useNavigate } from "react-router";
 
 const Cart = () => {
-  let { state: cart } = useCart();
+  const { state: cart } = useCart();
+  const navigate = useNavigate();
 
   if (cart.length > 0)
     return (
@@ -52,7 +54,7 @@ const Cart = () => {
                   Total Discount
                 </div>
                 <div className="itemCart-discount-total-price green">
-                  ₹{" "}
+                  ₹
                   {parseInt(
                     cart.reduce((acc, current) => {
                       return (acc += current.price - current.sellingPrice);
@@ -60,25 +62,35 @@ const Cart = () => {
                   )}
                 </div>
               </div>
+              <div className="itemCart-priceDetails-wrapper">
+                <div className="itemCart-discount-total-text">
+                 Delivery Charges
+                </div>
+                <div className="itemCart-discount-total-price green">₹35</div>
+              </div>
               <hr className="my-1" />
               <div className="itemCart-priceDetails-wrapper text-primary">
                 <div className="itemCart-mrp-grand-total-text ">
                   Total Amount
                 </div>
                 <div className="itemCart-mrp-grand-total-price ">
-                  ₹
-                  {parseInt(
+                  ₹{parseInt(
                     cart.reduce((acc, current) => {
                       return (acc +=
                         current.sellingPrice * current.totalQuantity);
-                    }, 0)
+                    }, 0) + 35
                   )}
                 </div>
               </div>
             </div>
 
-            <button className="btn btn-danger text-upper itemCart-buyNow">
-              Buy now
+            <button
+              className="btn btn-danger text-upper itemCart-checkout"
+              onClick={() => {
+                navigate(`/checkout`);
+              }}
+            >
+              Checkout
             </button>
           </div>
         </div>

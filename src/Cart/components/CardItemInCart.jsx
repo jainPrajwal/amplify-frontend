@@ -74,8 +74,8 @@ const CardItemInCart = ({ itemInCart, cartDispatch }) => {
           <div className="card-itemCart-title text-primary fs-2 mb-small">
             {brand}
           </div>
-          <div className="card-itemCart-subtitle text-small">{name}</div>
-          <div className="card-itemCart-subtitle text-small mt-small">
+          <div className="card-itemCart-subtitle mt-md">{name}</div>
+          <div className="card-itemCart-subtitle mt-md">
             {color}
           </div>
 

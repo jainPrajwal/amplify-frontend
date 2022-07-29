@@ -7,6 +7,7 @@ import { BASE_API } from "../../constants/api";
 export const AuthContext = createContext();
 
 export const setupAuthHeaderForServiceCalls = (token) => {
+  console.log(`Auth header `, token)
   if (token) return (axios.defaults.headers.common["Authorization"] = token);
   return null;
 };
@@ -41,6 +42,7 @@ const AuthProvider = ({ children }) => {
     if (!user) return;
     if (user.token) {
       const bearerToken = `Bearer ${user.token}`;
+     
       setupAuthHeaderForServiceCalls(bearerToken);
       setLoggedInUser(() => ({
         userId: user.userId,

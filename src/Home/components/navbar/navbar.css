@@ -127,9 +127,9 @@
     transform: translateX(-50%);
   }
 }
-.modal-bg-active {
+/* .modal-bg-active {
   all: unset;
-}
+} */
 @media only screen and (max-width: 768px) {
   .wrapper-mobile-sort-by-modal .modal.modal-sort-by {
     all: unset;

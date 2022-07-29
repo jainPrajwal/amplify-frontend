@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Route, Routes, useLocation, useNavigate } from "react-router";
-import { v4 } from "uuid";
+import { Route, Routes } from "react-router";
+
 import "./App.css";
 import { useAuth } from "./Auth/context/useAuth";
 import { Login } from "./Auth/login/Login";
@@ -10,7 +10,7 @@ import { SignUp } from "./Auth/signup/signup";
 import { Cart } from "./Cart/Cart";
 import { useCart } from "./Cart/context/useCart";
 import { Navbar } from "./Home/components/navbar/Navbar";
-import { useNotifications } from "./Home/components/notification/context/useNotifications";
+
 import { Home } from "./Home/Home";
 import { PageNotFound } from "./PageNotFound/PageNotFound";
 import { useProducts } from "./Product/context/useProducts";
@@ -19,13 +19,14 @@ import { ProductDetail } from "./ProductDetail/ProductDetail";
 import { useWishlist } from "./Wishlist/context/useWishlist";
 import { Wishlist } from "./Wishlist/Wishlist";
 import loadingImage from "../src/assets/images/loading.gif";
-import { useSearchParams } from "react-router-dom";
+
 import { BASE_API } from "./constants/api";
+import { Checkout } from "./Checkout/Checkout";
 
 function App() {
   const { state: store, dispatch: storeDispatch } = useProducts();
   const { dispatch: cartDispatch } = useCart();
-  const { dispatch: notificationDispatch } = useNotifications();
+
   const { dispatch: wishlistDispatch } = useWishlist();
   const [width, setWidth] = useState(1);
   const { loggedInUser } = useAuth();
@@ -39,42 +40,34 @@ function App() {
     return () => clearInterval(intervalId);
   }, [width]);
 
-
   useEffect(() => {
     const getProducts = async () => {
       try {
-        
         storeDispatch({ type: "STATUS", payload: "loading" });
-        const response = await axios.get(
-          `${BASE_API}/products`
-        );
+        const response = await axios.get(`${BASE_API}/products`);
 
         storeDispatch({
           type: "LOAD_PRODUCTS",
           payload: { products: response.data.products },
         });
-        
+
         storeDispatch({ type: "STATUS", payload: "idle" });
         setWidth(undefined);
       } catch (error) {
-        
         storeDispatch({ type: "STATUS", payload: "error" });
       }
     };
 
     getProducts();
-  }, []);
+  }, [storeDispatch]);
 
   useEffect(() => {
     const loadCart = async (userId) => {
       try {
-        
         storeDispatch({ type: "STATUS", payload: "loading" });
         const {
-          data: { success, message, cart },
-        } = await axios.get(
-          `${BASE_API}/cart/${userId}`
-        );
+          data: { success, cart },
+        } = await axios.get(`${BASE_API}/cart/${userId}`);
 
         if (success) {
           cartDispatch({
@@ -86,26 +79,22 @@ function App() {
         }
       } catch (error) {
         storeDispatch({ type: "STATUS", payload: "error" });
-        
       }
     };
 
     if (loggedInUser.token) {
       loadCart(loggedInUser.userId);
     }
-  }, [loggedInUser]);
+  }, [loggedInUser, cartDispatch, storeDispatch]);
 
   useEffect(() => {
     const loadWishlist = async (userId) => {
       try {
-        
         storeDispatch({ type: "STATUS", payload: "loading" });
         const {
-          data: { success, message, wishlist },
-        } = await axios.get(
-          `${BASE_API}/wishlist/${userId}`
-        );
-        
+          data: { success, wishlist },
+        } = await axios.get(`${BASE_API}/wishlist/${userId}`);
+
         if (success) {
           storeDispatch({ type: "STATUS", payload: "idle" });
           wishlistDispatch({
@@ -115,14 +104,13 @@ function App() {
         }
       } catch (error) {
         storeDispatch({ type: "STATUS", payload: "error" });
-        
       }
     };
 
     if (loggedInUser.token) {
       loadWishlist(loggedInUser.userId);
     }
-  }, [loggedInUser]);
+  }, [loggedInUser, storeDispatch, wishlistDispatch]);
 
   return (
     <div className="App">
@@ -130,7 +118,7 @@ function App() {
         className="loader-top"
         style={{ width: width > 90 ? `${width}%` : `${0}%` }}
       ></div>
-    
+
       <Navbar />
       <div className="container-amplify">
         <Routes>
@@ -156,6 +144,7 @@ function App() {
           <Route path="/products/:productId" element={<ProductDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>

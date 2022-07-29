@@ -6,7 +6,9 @@ export function PrivateRoute({ path, ...props }) {
     loggedInUser: { token },
   } = useAuth();
 
-  return token ? (
+  const localToken = JSON.parse(localStorage.getItem(`user`))?.token;
+
+  return token || localToken ? (
     <Route path={path} {...props} />
   ) : (
     <Navigate replace to="/login" state={{ from: path }} />
