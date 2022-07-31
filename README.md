@@ -1,4 +1,4 @@
-![Amplify Lifestyle, where music meets heart](src\assets\images\amplify.png)
+![Amplify Lifestyle, where music meets heart](https://res.cloudinary.com/dmk11fqw8/image/upload/v1659269399/amplify_i8hw2j.png)
 
 <div style="text-align: center; font-size:2rem;font-weight: 600; ">Amplify Lifestyle, where music meets <span style="color: #FF527B">hea❤rt</span></div>
 
@@ -23,16 +23,10 @@ Brands like Boat, Apple, Bose have partnered with us.
 - Fully Responsive
 - Cloudinary for static images
 - Sqoosh for compressing images
-
-## Features I am working on
-
 - Address Management
-- Checkout Page
-- Payment Integration
-
-## Features I wish to add in future
-
-- Pagination
+- Checkout
+- Dynamic Coupons
+- Razorpay Payment Integration
 
 ## Tech Stack
 
@@ -46,6 +40,5 @@ Brands like Boat, Apple, Bose have partnered with us.
 ![Amplify Lifestyle, Lighthouse Report](https://res.cloudinary.com/dmk11fqw8/image/upload/v1653794994/LightHouse_Report_Amplify_Ecomm_hajeut.png)
 
 ## Demo
-
 
 <img src="https://media4.giphy.com/media/2gHLzNxfT1Apc5ghth/giphy.gif?cid=790b76115e92df973fbd8e60b00ba1df918834959c555bc5&rid=giphy.gif&ct=g" >
