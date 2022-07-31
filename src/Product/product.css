@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: 280px 1fr;
 }
+
 .sidebar {
   position: fixed;
   width: 280px;
@@ -12,6 +13,7 @@
   overflow-y: auto;
   z-index: 6;
 }
+
 .clear-all:hover {
   cursor: pointer;
 }
@@ -23,6 +25,7 @@
 /* Badge */
 .card-ecommerce .tag.tag-bestSeller {
   background-color: var(--kaali-danger);
+  padding: 0.1rem 1rem;
 }
 
 /* sortBy Desktop */
@@ -57,7 +60,8 @@
   display: block;
   transition: transform 200ms ease-in, display 200ms ease-in;
 }
-.checkbox-label.checkboxRoundRadio-label input:checked ~ .checkmark::after {
+
+.checkbox-label.checkboxRoundRadio-label input:checked~.checkmark::after {
   display: none;
 }
 
@@ -102,10 +106,12 @@
     left: 0;
   }
 }
+
 @media only screen and (max-width: 768px) {
   .container-main {
     padding: 0;
   }
+
   .grid-sidebar {
     display: block;
   }

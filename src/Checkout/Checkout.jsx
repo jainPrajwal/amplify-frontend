@@ -21,7 +21,7 @@ export const Checkout = () => {
   const { coupon, setCoupon } = useCoupon();
 
   const { state: cart, dispatch: cartDispatch } = useCart();
-  console.log(`COUPON`, coupon);
+
   const totalAfterCouponIsApplied = coupon?.isApplied
     ? getTotal(cart) - getDiscountFromCoupon(cart, coupon?.coupon)
     : getTotal(cart);

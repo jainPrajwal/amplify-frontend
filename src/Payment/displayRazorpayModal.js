@@ -57,7 +57,7 @@ export const displayRazorPayModal = async ({
           const result = await axios.post(`${BASE_API}/payment/verify`, data);
           if (result.status === 201) {
             if (`payment` in result.data) {
-              console.log(`setting orders meta`, result.data);
+             
               setOrdersMeta((prevState) => ({
                 ...prevState,
                 orders: prevState.orders.concat(result.data.payment),

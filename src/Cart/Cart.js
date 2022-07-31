@@ -21,9 +21,10 @@ const Cart = () => {
   const [couponApplied, setIsCouponApplied] = useState(false);
   const { loggedInUser } = useAuth();
 
-  const totalAfterCouponIsApplied = couponApplied || coupon?.isApplied
-    ? getTotal(cart) - getDiscountFromCoupon(cart, coupon?.coupon)
-    : getTotal(cart);
+  const totalAfterCouponIsApplied =
+    couponApplied || coupon?.isApplied
+      ? getTotal(cart) - getDiscountFromCoupon(cart, coupon?.coupon)
+      : getTotal(cart);
 
   useEffect(() => {
     (async () => {
@@ -116,11 +117,9 @@ const Cart = () => {
                 <div className="itemCart-priceDetails-wrapper">
                   <div className="itemCart-discount-total-text">
                     Coupon Discount
-                   
                   </div>
                   <div className="itemCart-discount-total-price green">
-                    ₹
-                    {getDiscountFromCoupon(cart, coupon.coupon)}
+                    ₹{getDiscountFromCoupon(cart, coupon.coupon)}
                   </div>
                 </div>
               )}
@@ -196,11 +195,34 @@ const Cart = () => {
     );
   else
     return (
-      <div
-        className="header header-secondary text-black text-center"
-        style={{ whiteSpace: "normal" }}
-      >
-        An empty cart doesn't look pretty!
+      <div className="d-flex f-direction-col jc-center ai-center">
+        <div
+          className="header header-secondary text-black text-center"
+          style={{ whiteSpace: "normal" }}
+        >
+          An empty cart doesn't look pretty!
+        </div>
+        <div className="d-flex gap-10">
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              navigate(`/store`);
+            }}
+          >
+            Explore
+          </button>
+          <button
+            className="btn btn-danger bg-transparent red"
+            style={{
+              border: `1px solid var(--kaali-danger)`,
+            }}
+            onClick={() => {
+              navigate(`/orders`);
+            }}
+          >
+            View Past Orders
+          </button>
+        </div>
       </div>
     );
 };

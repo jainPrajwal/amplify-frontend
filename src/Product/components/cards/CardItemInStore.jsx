@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Loader } from "kaali-ui";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { v4 } from "uuid";
@@ -17,7 +18,7 @@ import { useWishlist } from "../../../Wishlist/context/useWishlist";
 import { Badge } from "../Badge";
 import "./cardItems.css";
 
-const CardItemInStore = ({ product, store }) => {
+const CardItemInStore = ({ product, store, setItemColor }) => {
   const { state: cart, dispatch: cartDispatch } = useCart();
   const { loggedInUser } = useAuth();
   const [status, setStatus] = useState("idle");
@@ -76,16 +77,17 @@ const CardItemInStore = ({ product, store }) => {
       )}
       <div
         onClick={() => {
+          setItemColor && setItemColor(product.color);
           navigate(`/products/${_id}`);
         }}
       >
         <div className="card-image-wrapper">
           <img
-              src={
-                product.availableColors.find(
-                  (color) => color.color === product.color
-                )?.image || product.image
-              }
+            src={
+              product.availableColors.find(
+                (color) => color.color === product.color
+              )?.image || product.image
+            }
             className="card-image-ecommerce"
             alt={name}
             style={{ pointerEvents: "none" }}
@@ -99,8 +101,6 @@ const CardItemInStore = ({ product, store }) => {
               ({subcategory})
             </span>
           </div>
-
-          <div>{`Color : ${color}`} </div>
 
           <div className="product-price-details">
             <div className="product-price">
@@ -149,7 +149,14 @@ const CardItemInStore = ({ product, store }) => {
             }}
           >
             {status === "loading" ? (
-              <InlineLoader />
+              <div className="d-flex jc-center ai-center">
+                <Loader
+                  width={`24px`}
+                  height={`24px`}
+                  borderWidth={`2px`}
+                  borderTopColor={`var(--kaali-danger)`}
+                />
+              </div>
             ) : (
               `${"Add to Cart".toUpperCase()}`
             )}

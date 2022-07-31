@@ -1,9 +1,9 @@
+import { Loader } from "kaali-ui";
 import { useState } from "react";
 import { useEffect, useRef } from "react";
 import { v4 } from "uuid";
 import { useAuth } from "../../Auth/context/useAuth";
 import { useNotifications } from "../../Home/components/notification/context/useNotifications";
-import { InlineLoader } from "../../Loader/InlineLoader";
 import { addItemToWishlist, removeItemFromWishlist } from "../../utils";
 import { useWishlist } from "../context/useWishlist";
 import { HeartSvg } from "./HeartSvg";
@@ -16,12 +16,14 @@ const WishListIcon = ({ wishlistedItem, product }) => {
   const { loggedInUser } = useAuth();
   const countRef = useRef(0);
 
-  useEffect(() => {countRef.current++;})
+  useEffect(() => {
+    countRef.current++;
+  });
   const [status, setStatus] = useState(`idle`);
 
   return status === `idle` ? (
     <>
-      {countRef.current <=1 && <HeartSvg />}
+      {countRef.current <= 1 && <HeartSvg />}
 
       <i
         className={`fas fa-heart ${
@@ -75,8 +77,18 @@ const WishListIcon = ({ wishlistedItem, product }) => {
       </svg>
     </>
   ) : (
-    <span className="circular-loading" style={{ height: `34px`, width: `34px` }}>
-      <InlineLoader />
+    <span
+      className="circular-loading"
+      style={{ height: `34px`, width: `34px` }}
+    >
+      <div className="d-flex jc-center ai-center">
+        <Loader
+          width={`20px`}
+          height={`20px`}
+          borderWidth={`2px`}
+          borderTopColor={`var(--kaali-danger)`}
+        />
+      </div>
     </span>
   );
 };

@@ -17,12 +17,15 @@ Brands like Boat, Apple, Bose have partnered with us.
 - Single product page
 - Cart Managment
 - Wishlist Managment
-- Authentication:
+- Color variants in each product
+- Authentication using JWT:
   - User Signup
   - User Login
 - Address Management
 - Checkout
 - Dynamic Coupons
+- Single Order Page
+- View Past Orders
 - Cloudinary for static images
 - Sqoosh for compressing images
 - Razorpay Payment Integration

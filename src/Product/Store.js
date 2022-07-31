@@ -125,10 +125,9 @@ const Store = () => {
       CATEGORY: searchParams.getAll(`category`),
       SUBCATEGORY: searchParams.getAll(`subcategory`),
     };
-    
+
     const sortBy = searchParams.getAll(`sortBy`);
     const price = searchParams.get(`price`);
-    
 
     const sortedData = getSortedData(store?.store, "PRICE_LOW_TO_HIGH");
 
@@ -146,10 +145,9 @@ const Store = () => {
     };
 
     let flag = false;
-    
+
     for (let key in filters) {
       if (filters[key].length > 0) {
-        
         flag = true;
         storeDispatch({
           type: key,
@@ -179,7 +177,6 @@ const Store = () => {
     // }
 
     if (!flag) {
-      
       storeDispatch({
         type: `CLEAR_ALL`,
       });
@@ -190,7 +187,6 @@ const Store = () => {
   useEffect(() => {
     document.querySelector(`.container-amplify`).scrollTo(0, 0);
   }, []);
-  
 
   return (
     <>
@@ -200,7 +196,7 @@ const Store = () => {
       <div className="grid-sidebar">
         <div className="container-sidebar-desktop">
           <div className="sidebar">
-            <ul className="sidebar-list mt-lg px-1">
+            <ul className="sidebar-list px-1" style={{ marginTop: `2rem` }}>
               <li className="sidebar-list-items mt-lg">
                 <div className="header fs-1 text-black text-upper d-flex jc-space-between">
                   <span>filter by</span>

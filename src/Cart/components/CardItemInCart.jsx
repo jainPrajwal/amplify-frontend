@@ -12,6 +12,7 @@ import { removeFromCartFromServer } from "../../utils/utils";
 import { InlineLoader } from "../../Loader/InlineLoader";
 import "./cart.css";
 import { useNavigate } from "react-router";
+import { Loader } from "kaali-ui";
 
 const CardItemInCart = ({ itemInCart, cartDispatch }) => {
   
@@ -171,7 +172,14 @@ const CardItemInCart = ({ itemInCart, cartDispatch }) => {
                 </button>
               </div>
             ) : (
-              <InlineLoader />
+               <div className="d-flex jc-center ai-center">
+                <Loader
+                  width={`24px`}
+                  height={`24px`}
+                  borderWidth={`2px`}
+                  borderTopColor={`var(--kaali-danger)`}
+                />
+              </div>
             )}
           </div>
 
