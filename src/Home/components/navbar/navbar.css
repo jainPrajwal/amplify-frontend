@@ -1,11 +1,13 @@
 .navbar {
   justify-content: space-between;
-  background-color: whitesmoke;
+  background-color: transparent;
+
   width: 100%;
   position: fixed;
   z-index: 2;
   height: 4rem;
-  box-shadow: 0 3px 20px rgb(0 0 0 / 20%);
+  box-shadow: 0 3px 20px rgb(0 0 0 / 10%);
+  grid-gap: 10px;
   gap: 10px;
   /* see the classNames for if you feel some properties are missing */
 }

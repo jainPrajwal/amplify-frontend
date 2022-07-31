@@ -39,11 +39,8 @@ const CardItemDetails = () => {
 
   const { state: cart, dispatch: cartDispatch } = useCart();
   const { loggedInUser } = useAuth();
-const productColor = product.color;
+  const productColor = product.color;
   const [itemColor, setItemColor] = useState(product.color);
-
-
-
 
   const [wishlistStatus, setWishlistStatus] = useState(`idle`);
   const [cartStatus, setCartStatus] = useState(`idle`);
@@ -58,9 +55,6 @@ const productColor = product.color;
     product,
     itemColor
   );
-
-
-
 
   return (
     <>
@@ -126,7 +120,7 @@ const productColor = product.color;
 
           <div className="text-primary text-black mt-lg">
             {`${`select Color`.toUpperCase()}`}
-            <div className="d-flex mt-md color-palette">
+            <div className="d-flex mt-md color-palette gap-10">
               <CheckboxPanel
                 product={product}
                 key={product._id}
@@ -333,7 +327,7 @@ const productColor = product.color;
           </div>
         </div>
       </div>
-      <RelatedProducts product={product} setItemColor={setItemColor}/>
+      <RelatedProducts product={product} setItemColor={setItemColor} />
     </>
   );
 };

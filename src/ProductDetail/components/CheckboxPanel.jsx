@@ -9,7 +9,6 @@ const Checkbox = ({
         name="itemColor"
         checked={itemColor === color}
         onChange={() => {
-          
           setItemColor(color);
         }}
       />
@@ -24,15 +23,16 @@ const CheckboxPanel = ({
 }) => {
   return product.availableColors.map((colorObj) => {
     return (
-      <Checkbox
-        state={{
-          itemColor,
-          setItemColor,
-          color: colorObj.color,
-          productOriginalColor: product.color,
-        }}
-        key={colorObj.color}
-      />
+      <div key={colorObj.color} className="d-flex gap-10">
+        <Checkbox
+          state={{
+            itemColor,
+            setItemColor,
+            color: colorObj.color,
+            productOriginalColor: product.color,
+          }}
+        />
+      </div>
     );
   });
 };
