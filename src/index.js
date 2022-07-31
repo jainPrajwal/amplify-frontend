@@ -9,6 +9,8 @@ import { AuthProvider } from "./Auth/context/auth-context";
 import { WishlistProvider } from "./Wishlist/context/wishlist-context";
 import { CartProvider } from "./Cart/context/cart-context";
 import { ProductsProvider } from "./Product/context/products-context";
+import { OrdersProvider } from "./Payment/context/orders-context";
+import { CouponProvider } from "./Cart/context/coupon-context";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,7 +20,11 @@ ReactDOM.render(
           <WishlistProvider>
             <CartProvider>
               <ProductsProvider>
-                <App />
+                {/* <OrdersProvider> */}
+                <CouponProvider>
+                  <App />
+                </CouponProvider>
+                {/* </OrdersProvider> */}
               </ProductsProvider>
             </CartProvider>
           </WishlistProvider>

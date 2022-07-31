@@ -22,6 +22,11 @@ import loadingImage from "../src/assets/images/loading.gif";
 
 import { BASE_API } from "./constants/api";
 import { Checkout } from "./Checkout/Checkout";
+import { AddressProvider } from "./Address/context/address-context";
+import { SingleOrderPage } from "./SingleOrderPage/SingleOrderPage";
+import { Orders } from "./Orders/Orders";
+import { CouponProvider } from "./Cart/context/coupon-context";
+import { OrdersProvider } from "./Payment/context/orders-context";
 
 function App() {
   const { state: store, dispatch: storeDispatch } = useProducts();
@@ -139,12 +144,54 @@ function App() {
               )
             }
           />
-          <PrivateRoute path="/cart" element={<Cart />} />
+          <PrivateRoute
+            path="/cart"
+            element={
+             
+                <Cart />
+              
+            }
+          />
           <PrivateRoute path="/wishlist" element={<Wishlist />} />
+          <PrivateRoute
+            path={`/orders`}
+            element={
+              <OrdersProvider>
+                <AddressProvider>
+                 
+                    <Orders />
+                  
+                </AddressProvider>
+              </OrdersProvider>
+            }
+          />
+          <PrivateRoute
+            path={`/orders/:orderId`}
+            element={
+              <OrdersProvider>
+                <AddressProvider>
+                 
+                    <SingleOrderPage />
+                  
+                </AddressProvider>
+              </OrdersProvider>
+            }
+          />
           <Route path="/products/:productId" element={<ProductDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/checkout" element={<Checkout />} />
+          <PrivateRoute
+            path="/checkout"
+            element={
+              <OrdersProvider>
+                <AddressProvider>
+                 
+                    <Checkout />
+                  
+                </AddressProvider>
+              </OrdersProvider>
+            }
+          />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>

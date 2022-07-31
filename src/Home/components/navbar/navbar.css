@@ -3,7 +3,7 @@
   background-color: whitesmoke;
   width: 100%;
   position: fixed;
-  z-index: 5;
+  z-index: 2;
   height: 4rem;
   box-shadow: 0 3px 20px rgb(0 0 0 / 20%);
   gap: 10px;

@@ -28,10 +28,7 @@ const Home = () => {
           <div className="card-container">
             {uniqueBrands.map((item) => {
               const { _id, brand } = item;
-              console.log(
-                `AUSA KIASE `,
-                item.availableColors.find((color) => color.color === item.color)
-              );
+             
               return (
                 <div
                   className="card-body"

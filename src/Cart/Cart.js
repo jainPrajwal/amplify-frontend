@@ -2,14 +2,56 @@ import { CardCart } from "./components/CardCart";
 import { useCart } from "./context/useCart";
 import "./components/cart.css";
 import { useNavigate } from "react-router";
+import { IoMdPricetags } from "react-icons/io";
+import { useEffect, useState } from "react";
+import { CouponModal } from "./components/coupon/CouponModal";
+import { DELIVERY_CHARGES } from "./components/coupon/constants/constants";
+import axios from "axios";
+import { BASE_API } from "../constants/api";
+import { getTotal } from "./components/coupon/utils/getTotal";
+import { getDiscountFromCoupon } from "./components/coupon/utils/getDiscountFromCoupon";
+import { useCoupon } from "./context/useCoupon";
+import { useAuth } from "../Auth/context/useAuth";
 
 const Cart = () => {
   const { state: cart } = useCart();
   const navigate = useNavigate();
+  const [isCouponModalHidden, setisCouponModalHidden] = useState(true);
+  const { coupon, setCoupon } = useCoupon();
+  const [couponApplied, setIsCouponApplied] = useState(false);
+  const { loggedInUser } = useAuth();
+
+  const totalAfterCouponIsApplied = couponApplied || coupon?.isApplied
+    ? getTotal(cart) - getDiscountFromCoupon(cart, coupon?.coupon)
+    : getTotal(cart);
+
+  useEffect(() => {
+    (async () => {
+      if (loggedInUser?.token) {
+        try {
+          const { data, status } = await axios.get(`${BASE_API}/coupon`);
+          if (status === 200) {
+            if (`coupon` in data) {
+              setCoupon(data.coupon);
+            }
+          }
+        } catch (error) {
+          console.error(`error `, error);
+        }
+      }
+    })();
+  }, [loggedInUser]);
 
   if (cart.length > 0)
     return (
       <>
+        {!isCouponModalHidden && (
+          <CouponModal
+            isCouponModalHidden={isCouponModalHidden}
+            setisCouponModalHidden={setisCouponModalHidden}
+            setCoupon={setCoupon}
+          />
+        )}
         <div className="header header-secondary text-black text-center">
           Your Cart
         </div>
@@ -64,28 +106,84 @@ const Cart = () => {
               </div>
               <div className="itemCart-priceDetails-wrapper">
                 <div className="itemCart-discount-total-text">
-                 Delivery Charges
+                  Delivery Charges
                 </div>
-                <div className="itemCart-discount-total-price green">₹35</div>
+                <div className="itemCart-discount-total-price green">
+                  ₹{DELIVERY_CHARGES}
+                </div>
               </div>
+              {coupon && (couponApplied || coupon.isApplied) && (
+                <div className="itemCart-priceDetails-wrapper">
+                  <div className="itemCart-discount-total-text">
+                    Coupon Discount
+                   
+                  </div>
+                  <div className="itemCart-discount-total-price green">
+                    ₹
+                    {getDiscountFromCoupon(cart, coupon.coupon)}
+                  </div>
+                </div>
+              )}
               <hr className="my-1" />
               <div className="itemCart-priceDetails-wrapper text-primary">
                 <div className="itemCart-mrp-grand-total-text ">
                   Total Amount
                 </div>
                 <div className="itemCart-mrp-grand-total-price ">
-                  ₹{parseInt(
-                    cart.reduce((acc, current) => {
-                      return (acc +=
-                        current.sellingPrice * current.totalQuantity);
-                    }, 0) + 35
-                  )}
+                  ₹{totalAfterCouponIsApplied}
                 </div>
               </div>
             </div>
+            {!coupon ? (
+              <button
+                className="btn btn-danger bg-transparent red w-100  d-flex  jc-center"
+                style={{
+                  border: `1px solid var(--kaali-danger)`,
+                  marginBlock: `1rem`,
+                }}
+                onClick={() => setisCouponModalHidden(false)}
+              >
+                <div>
+                  <IoMdPricetags size={16} />
+                </div>
+                <div className="ml-md"> Get Coupons</div>
+              </button>
+            ) : (
+              !coupon?.isApplied && (
+                <div className="d-flex ai-center jc-space-between f-wrap my-lg">
+                  <div>{coupon.coupon}</div>
 
+                  <button
+                    className="btn btn-danger bg-transparent red d-flex  jc-center"
+                    style={{
+                      border: `1px solid var(--kaali-danger)`,
+                      marginBlock: `1rem`,
+                    }}
+                    onClick={async () => {
+                      try {
+                        const { data, status } = await axios.post(
+                          `${BASE_API}/coupon/${coupon._id}`
+                        );
+
+                        if (status === 201) {
+                          setIsCouponApplied(true);
+                          setCoupon(data.coupon);
+                        }
+                      } catch (error) {
+                        console.error(`error `, error);
+                      }
+                    }}
+                  >
+                    <div>
+                      <IoMdPricetags size={16} />
+                    </div>
+                    <div className="ml-md"> Apply Coupon</div>
+                  </button>
+                </div>
+              )
+            )}
             <button
-              className="btn btn-danger text-upper itemCart-checkout"
+              className="btn btn-danger text-upper w-100 mt-lg"
               onClick={() => {
                 navigate(`/checkout`);
               }}

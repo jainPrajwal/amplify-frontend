@@ -8,14 +8,17 @@ import {
   ModalContainer,
 } from "kaali-ui";
 import { MdClose } from "react-icons/md";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import axios from "axios";
 import { BASE_API } from "../constants/api";
+import { useNotifications } from "../Home/components/notification/context/useNotifications";
+import { v4 } from "uuid";
 
 export const AddressModal = ({
   ismodalHidden,
   setIsModalHidden,
   setAddressesMeta,
+  address,
 }) => {
   const ModalRef = useRef(null);
   const handleModalClose = useCallback(
@@ -23,15 +26,18 @@ export const AddressModal = ({
     [setIsModalHidden]
   );
 
+  const [editAddress, setEditAddress] = useState(false);
   const [addressForm, setAddressForm] = useState({
-    name: ``,
-    mobile: ``,
-    country: ``,
-    state: ``,
-    city: ``,
-    street: ``,
-    pinCode: ``,
+    name: address?.name || ``,
+    mobile: address?.mobile || ``,
+    country: address?.country || ``,
+    state: address?.state || ``,
+    city: address?.city || ``,
+    street: address?.street || ``,
+    pinCode: address?.pinCode || ``,
   });
+  const [loadingStatus, setLoadingStatus] = useState(`idle`);
+  const { dispatch: notificationDispatch } = useNotifications();
 
   return (
     <>
@@ -60,25 +66,82 @@ export const AddressModal = ({
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  // console.log(`address `, addressForm);
-                  (async () => {
-                    try {
-                      const { data, status } = await axios.post(
-                        `${BASE_API}/address`,
-                        {
-                          address: addressForm,
+
+                  
+                  if (editAddress) {
+                    (async () => {
+                      setLoadingStatus(`loading`);
+                    
+                      try {
+                        const { data, status } = await axios.post(
+                          `${BASE_API}/address/${address._id}`,
+                          {
+                            address: addressForm,
+                          }
+                        );
+                        if (status === 201) {
+                          setLoadingStatus(`success`);
+                          if (`address` in data) {
+                            setAddressesMeta((prevState) => ({
+                              ...prevState,
+                              addresses: prevState.addresses.map((address) => {
+                                if (address._id === data.address._id) {
+                                  return data.address;
+                                }
+                                return address;
+                              }),
+                            }));
+
+                            setIsModalHidden(true);
+                            notificationDispatch({
+                              type: "ADD_NOTIFICATION",
+                              payload: {
+                                id: v4(),
+                                type: "SUCCESS",
+                                message: data?.message,
+                              },
+                            });
+                          }
                         }
-                      );
-                      if (status === 201) {
-                        if (`address` in data) {
-                          setAddressesMeta((prevState) => ({
-                            ...prevState,
-                            addresses: prevState.addresses.concat(data.address),
-                          }));
-                        }
+                      } catch (error) {
+                        setLoadingStatus(`error`);
                       }
-                    } catch (error) {}
-                  })();
+                    })();
+                  } else {
+                    (async () => {
+                      setLoadingStatus(`loading`);
+                      try {
+                        const { data, status } = await axios.post(
+                          `${BASE_API}/address`,
+                          {
+                            address: addressForm,
+                          }
+                        );
+                        if (status === 201) {
+                          setLoadingStatus(`success`);
+                          if (`address` in data) {
+                            setAddressesMeta((prevState) => ({
+                              ...prevState,
+                              addresses: prevState.addresses.concat(
+                                data.address
+                              ),
+                            }));
+                          }
+                          setIsModalHidden(true);
+                          notificationDispatch({
+                            type: "ADD_NOTIFICATION",
+                            payload: {
+                              id: v4(),
+                              type: "SUCCESS",
+                              message: data?.message,
+                            },
+                          });
+                        }
+                      } catch (error) {
+                        setLoadingStatus(`error`);
+                      }
+                    })();
+                  }
                 }}
               >
                 <ModalBody>
@@ -88,7 +151,7 @@ export const AddressModal = ({
                     <input
                       type="text"
                       id="name"
-                      className="input input-text p-md w-100 fs-1"
+                      className="input input-text p-md w-100 fs-1 border-transparent"
                       value={addressForm.name}
                       onChange={(e) => {
                         setAddressForm((prevState) => ({
@@ -104,7 +167,7 @@ export const AddressModal = ({
                   >
                     <input
                       type="text"
-                      className="input input-text p-md w-100 fs-1"
+                      className="input input-text p-md w-100 fs-1 border-transparent"
                       value={addressForm.mobile}
                       onChange={(e) => {
                         setAddressForm((prevState) => ({
@@ -120,7 +183,7 @@ export const AddressModal = ({
                   >
                     <input
                       type="text"
-                      className="input input-text p-md w-100 fs-1"
+                      className="input input-text p-md w-100 fs-1 border-transparent"
                       value={addressForm.country}
                       onChange={(e) => {
                         setAddressForm((prevState) => ({
@@ -137,7 +200,7 @@ export const AddressModal = ({
                   >
                     <input
                       type="text"
-                      className="input input-text p-md w-100 fs-1"
+                      className="input input-text p-md w-100 fs-1 border-transparent"
                       value={addressForm.state}
                       onChange={(e) => {
                         setAddressForm((prevState) => ({
@@ -154,7 +217,7 @@ export const AddressModal = ({
                   >
                     <input
                       type="text"
-                      className="input input-text p-md w-100 fs-1"
+                      className="input input-text p-md w-100 fs-1 border-transparent"
                       value={addressForm.city}
                       onChange={(e) => {
                         setAddressForm((prevState) => ({
@@ -171,7 +234,7 @@ export const AddressModal = ({
                   >
                     <input
                       type="text"
-                      className="input input-text p-md w-100 fs-1"
+                      className="input input-text p-md w-100 fs-1 border-transparent"
                       value={addressForm.street}
                       onChange={(e) => {
                         setAddressForm((prevState) => ({
@@ -187,7 +250,7 @@ export const AddressModal = ({
                   >
                     <input
                       type="text"
-                      className="input input-text p-md w-100 fs-1"
+                      className="input input-text p-md w-100 fs-1 border-transparent"
                       value={addressForm.pinCode}
                       onChange={(e) => {
                         setAddressForm((prevState) => ({
@@ -212,33 +275,52 @@ export const AddressModal = ({
                     >
                       Discard
                     </button>
-                    <button className="btn btn-danger" type="submit">
-                      Save
-                    </button>
+                    {address ? (
+                      <button
+                        disabled={loadingStatus === `loading`}
+                        className="btn btn-danger"
+                        type="submit"
+                        name="editAddress"
+                        onClick={() => setEditAddress(true)}
+                      >
+                        Edit
+                      </button>
+                    ) : (
+                      <button
+                        disabled={loadingStatus === `loading`}
+                        className="btn btn-danger"
+                        type="submit"
+                        name="saveAddress"
+                      >
+                        Save
+                      </button>
+                    )}
                   </ModalRow>
                 </ModalBody>
               </form>
-              <ModalFooter>
-                <button
-                  className="btn btn-danger bg-transparent red w-100 my-lg"
-                  style={{
-                    border: `1px solid var(--kaali-danger)`,
-                  }}
-                  onClick={() => {
-                    setAddressForm({
-                      name: `Test`,
-                      mobile: `9998887776`,
-                      country: `India`,
-                      state: `Maharashtra`,
-                      city: `Pune`,
-                      pinCode: `422412`,
-                      street: `dalal street`,
-                    });
-                  }}
-                >
-                  Fill Dummy Details
-                </button>
-              </ModalFooter>
+              {!address && (
+                <ModalFooter>
+                  <button
+                    className="btn btn-danger bg-transparent red w-100 my-lg"
+                    style={{
+                      border: `1px solid var(--kaali-danger)`,
+                    }}
+                    onClick={() => {
+                      setAddressForm({
+                        name: `Test`,
+                        mobile: `9998887776`,
+                        country: `India`,
+                        state: `Maharashtra`,
+                        city: `Pune`,
+                        pinCode: `422412`,
+                        street: `dalal street`,
+                      });
+                    }}
+                  >
+                    Fill Dummy Details
+                  </button>
+                </ModalFooter>
+              )}
             </ModalContainer>
           </div>
         </ModalOverlay>

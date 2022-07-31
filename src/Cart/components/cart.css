@@ -12,12 +12,14 @@
   padding-right: 20px;
   border-right: 1px solid var(--kaali-danger);
   padding-top: 32px;
-  min-height: 250px;
+  min-height: 60vh;
   /* background: red; */
 }
+
 .offers-image-wrapper {
   width: 30px;
 }
+
 .wrapper-right-block {
   vertical-align: top;
   display: inline-block;
@@ -25,17 +27,21 @@
   padding: 24px 0 0 16px;
   position: fixed;
 }
+
 .itemCart-checkout {
   margin: 0;
   width: 100%;
   margin-top: 32px;
 }
+
 .itemCart-priceDetails-wrapper {
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
   font-size: 14px;
+  flex-grow: 1;
 }
+
 /*  */
 .card-itemCart-container {
   background: #fff;
@@ -45,11 +51,13 @@
   position: relative;
   box-shadow: 0 2px 10px rgb(0 0 0 / 20%);
 }
+
 .btn-remove-from-cart {
   position: absolute;
   right: 5px;
   top: 2px;
 }
+
 .card-itemCart-image-wrapper {
   width: 200px;
 }
@@ -71,6 +79,7 @@
 }
 
 @media only screen and (max-width: 768px) {
+
   .wrapper-left-block,
   .wrapper-right-block {
     width: 100%;

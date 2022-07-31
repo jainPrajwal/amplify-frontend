@@ -7,7 +7,7 @@ import { BASE_API } from "../../constants/api";
 export const AuthContext = createContext();
 
 export const setupAuthHeaderForServiceCalls = (token) => {
-  console.log(`Auth header `, token)
+ 
   if (token) return (axios.defaults.headers.common["Authorization"] = token);
   return null;
 };
@@ -30,6 +30,7 @@ const AuthProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState({
     userId: null,
     token: null,
+    email: null,
   });
   const [status, setStatus] = useState("idle");
   const { dispatch: notificationDispatch } = useNotifications();
@@ -42,11 +43,12 @@ const AuthProvider = ({ children }) => {
     if (!user) return;
     if (user.token) {
       const bearerToken = `Bearer ${user.token}`;
-     
+
       setupAuthHeaderForServiceCalls(bearerToken);
       setLoggedInUser(() => ({
         userId: user.userId,
         token: user.token,
+        email: user.email,
       }));
     }
   }, []);
@@ -56,20 +58,22 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const loginUserWithCredentials = async (userLoginDetails) => {
+    
     setStatus("loading");
     try {
       const {
-        data: { success, message, userId, token },
+        data: { success, message, userId, token, email },
       } = await axios.post(`${BASE_API}/login`, userLoginDetails);
-
+   
       if (token && success) {
         const bearerToken = `Bearer ${token}`;
 
         setupAuthHeaderForServiceCalls(bearerToken);
-        localStorage.setItem("user", JSON.stringify({ userId, token }));
+        localStorage.setItem("user", JSON.stringify({ userId, token, email }));
         setLoggedInUser(() => ({
           userId,
           token,
+          email
         }));
         setStatus("idle");
         notificationDispatch({
@@ -80,7 +84,7 @@ const AuthProvider = ({ children }) => {
             message,
           },
         });
-        // loadCart();
+
         state && state?.from ? navigate(`${state.from}`) : navigate("/store");
       } else {
         setStatus("error");
@@ -97,7 +101,7 @@ const AuthProvider = ({ children }) => {
       // const users = await fakeSignUpAPI(userSignUpDetails);
       const {
         data: { success, user },
-      } = await axios.post("`${BASE_API}`/signup", userSignUpDetails);
+      } = await axios.post(`${BASE_API}/signup`, userSignUpDetails);
 
       if (success && user) {
         setStatus("idle");

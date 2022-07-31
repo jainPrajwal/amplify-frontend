@@ -1,6 +1,6 @@
 .App {
 
-  font-family: 'Ubuntu', sans-serif;
+ 
   height: 100vh;
   overflow: hidden;
 }
@@ -90,12 +90,18 @@
   border-radius: 8px;
 }
 
-.input {
+.maxW-220 {
+  max-width: 220px;
+}
+
+/* .input {
   border-radius: 8px;
   border: 1px solid #e4e4e7;
   outline: 1px solid transparent;
+} */
+.border-transparent {
+  border: 1px solid transparent;
 }
-
 .pos-relative {
   position: relative;
 }

@@ -33,9 +33,7 @@ const CardItemInCart = ({ itemInCart, cartDispatch }) => {
   const navigate = useNavigate();
 
 
-  console.log(`AISAAA `, itemInCart.availableColors.find(
-    (color) => color.color === itemInCart.color
-  ))
+ 
   return (
     <>
       <div className="card-itemCart-container d-flex mt-lg">
