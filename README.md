@@ -1,6 +1,6 @@
 ![Amplify Lifestyle, where music meets heart](https://res.cloudinary.com/dmk11fqw8/image/upload/v1659269399/amplify_i8hw2j.png)
 
-<div style="text-align: center; font-size:2rem;font-weight: 600; ">Amplify Lifestyle, where music meets <span style="color: #FF527B">hea❤rt</span></div>
+<div align="center"`>Amplify Lifestyle, where music meets <span style="color: #FF527B">hea❤rt</span></div>
 
 ## What is it all about?
 
@@ -16,21 +16,21 @@ Brands like Boat, Apple, Bose have partnered with us.
 - Search product
 - Single product page
 - Cart Managment
-- Wishlist managment
+- Wishlist Managment
 - Authentication:
-- User Signup
-- User Login
-- Fully Responsive
-- Cloudinary for static images
-- Sqoosh for compressing images
+  - User Signup
+  - User Login
 - Address Management
 - Checkout
 - Dynamic Coupons
+- Cloudinary for static images
+- Sqoosh for compressing images
 - Razorpay Payment Integration
+- Fully Responsive
 
 ## Tech Stack
 
-- React 17.0.2
+- React JS
 - Context API + Reducer for state mangagement
 - React Router v6
 - My Own Component Library Kaali UI for styling
