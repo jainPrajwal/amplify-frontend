@@ -18,12 +18,13 @@ const WishListIcon = ({ wishlistedItem, product }) => {
 
   useEffect(() => {
     countRef.current++;
-  });
+  },[]);
+
   const [status, setStatus] = useState(`idle`);
 
   return status === `idle` ? (
     <>
-      {countRef.current <= 1 && <HeartSvg />}
+      {countRef.current === 0 && <HeartSvg />}
 
       <i
         className={`fas fa-heart ${

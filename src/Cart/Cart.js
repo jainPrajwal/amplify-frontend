@@ -22,7 +22,7 @@ const Cart = () => {
   const { loggedInUser } = useAuth();
 
   const [status, setCouponStatus] = useState();
-  
+
   const totalAfterCouponIsApplied =
     couponApplied || coupon?.isApplied
       ? getTotal(cart) - getDiscountFromCoupon(cart, coupon?.coupon)
@@ -208,29 +208,26 @@ const Cart = () => {
           className="header header-secondary text-black text-center"
           style={{ whiteSpace: "normal" }}
         >
-          An empty cart doesn't look pretty!
+          Your Cart
         </div>
-        <div className="d-flex gap-10">
-          <button
-            className="btn btn-danger"
-            onClick={() => {
-              navigate(`/store`);
-            }}
-          >
-            Explore
-          </button>
-          <button
-            className="btn btn-danger bg-transparent red"
-            style={{
-              border: `1px solid var(--kaali-danger)`,
-            }}
-            onClick={() => {
-              navigate(`/orders`);
-            }}
-          >
-            View Past Orders
-          </button>
+
+        <div className="d-flex f-direction-col gap-10">
+          <div style={{ maxWidth: `220px`, margin: `0 auto` }} className="">
+            <img
+              src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1659461512/undraw_no_data_re_kwbl_1_wlzwkm.svg"
+              className="w-100"
+              alt={`no data`}
+            />
+          </div>
+
+          <div className="header-tertiary text-bold text-center my-lg">
+            {" "}
+            An empty cart doesn't look pretty! Nothing in cart..!
+          </div>
         </div>
+        <button className="btn btn-danger my-lg" onClick={() => navigate(`/store`)}>
+          Explore Products
+        </button>
       </div>
     );
 };

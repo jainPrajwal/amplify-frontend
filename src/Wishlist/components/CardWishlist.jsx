@@ -1,11 +1,11 @@
+
 import { useWishlist } from "../context/useWishlist";
 import { CardItemInWishlist } from "./CardItemInWishlist";
 
 const CardWishlist = () => {
   const { state: wishlist } = useWishlist();
-
-  return (
-    wishlist.length > 0 &&
+  
+  return wishlist.length > 0 && (
     wishlist.map((wishlistedItem) => {
       return (
         <CardItemInWishlist
@@ -14,7 +14,7 @@ const CardWishlist = () => {
         />
       );
     })
-  );
+  ) 
 };
 
 export { CardWishlist };
