@@ -120,6 +120,8 @@ const Store = () => {
       }
     } */
 
+    console.log(`search params brand`, searchParams.getAll(`brand`));
+    console.log(`search params headphones `, searchParams.getAll(`category`));
     const filters = {
       BRAND: searchParams.getAll(`brand`),
       CATEGORY: searchParams.getAll(`category`),
@@ -147,13 +149,11 @@ const Store = () => {
     let flag = false;
 
     for (let key in filters) {
-      if (filters[key].length > 0) {
-        flag = true;
-        storeDispatch({
-          type: key,
-          payload: filters[key],
-        });
-      }
+      flag = true;
+      storeDispatch({
+        type: key,
+        payload: filters[key],
+      });
     }
 
     if (sortBy.length > 0) {
@@ -194,7 +194,7 @@ const Store = () => {
         <SortByDesktop />
       </div>
       <div className="grid-sidebar">
-        <div className="container-sidebar-desktop">
+        <aside className="container-sidebar-desktop">
           <div className="sidebar">
             <ul className="sidebar-list px-1" style={{ marginTop: `2rem` }}>
               <li className="sidebar-list-items mt-lg">
@@ -279,15 +279,12 @@ const Store = () => {
               <hr />
             </ul>
           </div>
-        </div>
-        <div className="container-main px-1">
-          {/* <div className="text-left text-black">
-            Total {store.store.length} items found..
-          </div> */}
+        </aside>
+        <main className="container-main px-1">
           <ContainerEcommerce>
             <CardProduct />
           </ContainerEcommerce>
-        </div>
+        </main>
       </div>
       <div className="container-sortBy-mobile">
         <div className="wrapper-sortBy-mobile">

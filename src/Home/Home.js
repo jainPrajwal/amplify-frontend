@@ -22,7 +22,7 @@ const Home = () => {
     <div className="">
       <MyCarousel />
       <Header />
-      <div className="featured-categories">
+      <section className="featured-categories">
         <div className="header header-secondary text-center">Categories</div>
         <div className="card">
           <div className="card-container">
@@ -30,7 +30,7 @@ const Home = () => {
               const { _id, brand } = item;
              
               return (
-                <div
+                <article
                   className="card-body"
                   key={_id}
                   onClick={() => {
@@ -63,12 +63,12 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

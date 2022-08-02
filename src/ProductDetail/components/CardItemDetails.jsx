@@ -29,7 +29,6 @@ const CardItemDetails = () => {
   const { state: wishlist, dispatch: wishlistDispatch } = useWishlist();
   const {
     state: { store },
-    dispatch: storeDispatch,
   } = useProducts();
 
   const product = { ...getProductById(store, productId) };
@@ -39,7 +38,6 @@ const CardItemDetails = () => {
 
   const { state: cart, dispatch: cartDispatch } = useCart();
   const { loggedInUser } = useAuth();
-  const productColor = product.color;
   const [itemColor, setItemColor] = useState(product.color);
 
   const [wishlistStatus, setWishlistStatus] = useState(`idle`);
@@ -134,7 +132,10 @@ const CardItemDetails = () => {
               {!IsAlreadyPresentInCart ? (
                 <button
                   className="btn btn-danger primary-add-to"
-                  disabled={isItemOutOfStockInRespectiveColor(product)}
+                  disabled={
+                    isItemOutOfStockInRespectiveColor(product) ||
+                    cartStatus === `loading`
+                  }
                   onClick={async () => {
                     const saveItemToServer = async () => {
                       setCartStatus(`loading`);
@@ -195,7 +196,7 @@ const CardItemDetails = () => {
                         width={`24px`}
                         height={`24px`}
                         borderWidth={`2px`}
-                        borderTopColor={`var(--kaali-danger)`}
+                        borderTopColor={`var(--kaali-primary)`}
                       />
                     </div>
                   ) : (
@@ -225,6 +226,7 @@ const CardItemDetails = () => {
               ) : (
                 <button
                   className="btn btn-secondary primary-add-to"
+                  disabled={wishlistStatus === `loading`}
                   onClick={async () => {
                     const toggleWishlistOnServer = async () => {
                       if (IsAlreadyPresentInWishlist?.productId) {

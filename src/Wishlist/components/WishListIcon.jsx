@@ -57,16 +57,18 @@ const WishListIcon = ({ wishlistedItem, product }) => {
               },
             });
           };
-          !loggedInUser.userId
-            ? notificationDispatch({
-                type: "ADD_NOTIFICATION",
-                payload: {
-                  id: v4(),
-                  type: "DANGER",
-                  message: `Please Login To Add Item To Wishlist`,
-                },
-              })
-            : await toggleWishlistOnServer();
+          if (status !== `loading`) {
+            !loggedInUser.userId
+              ? notificationDispatch({
+                  type: "ADD_NOTIFICATION",
+                  payload: {
+                    id: v4(),
+                    type: "DANGER",
+                    message: `Please Login To Add Item To Wishlist`,
+                  },
+                })
+              : await toggleWishlistOnServer();
+          }
         }}
       ></i>
 

@@ -6,17 +6,13 @@ import { useParams } from "react-router";
 import { useState } from "react";
 const ProductDetail = () => {
   const { state } = useProducts();
- 
 
   return state.store.length > 0 ? (
-    <div className="container-prod-details">
+    <main className="container-prod-details">
       <div>
-        <CardItemDetails
-          store={state.store}
-         
-        />
+        <CardItemDetails store={state.store} />
       </div>
-    </div>
+    </main>
   ) : (
     <div className="wrapper-loading">
       <img src={loadingImage} className="w-100 h-auto" alt="loading" />

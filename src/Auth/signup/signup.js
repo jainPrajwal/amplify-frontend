@@ -3,8 +3,12 @@ import { useNavigate } from "react-router";
 import { useAuth } from "../context/useAuth";
 import "../auth.css";
 import { Link } from "react-router-dom";
+import { useNotifications } from "../../Home/components/notification/context/useNotifications";
+import { v4 } from "uuid";
+import { Loader } from "kaali-ui";
 const SignUp = () => {
   const { signUpUserWithCredentials, status } = useAuth();
+  const { dispatch: notificationDispatch } = useNotifications();
 
   const [showPassword, setShowPassword] = useState({
     initial: false,
@@ -97,7 +101,18 @@ const SignUp = () => {
           className="signup-form"
           onSubmit={(e) => {
             e.preventDefault();
-            
+            console.log(`clicked`);
+            if (Object.values(form?.isFormValid).includes(false)) {
+              notificationDispatch({
+                type: "ADD_NOTIFICATION",
+                payload: {
+                  id: v4(),
+                  type: "DANGER",
+                  message: `Validation failed`,
+                },
+              });
+              return;
+            }
             SignUpHandler();
           }}
         >
@@ -422,23 +437,32 @@ const SignUp = () => {
             <div className="p-md">
               <button
                 type="submit"
-                disabled={Object.values(form?.isFormValid).includes(false)}
                 className="btn btn-danger w-100"
                 style={{ paddingInline: 0, margin: 0 }}
               >
                 <span className="text-upper text-bold">{`${`CONTINUE`}`}</span>
               </button>
             </div>
-            <div className="p-sm text-center">
+            <div className="text-center" style={{ paddingBlock: `1rem` }}>
               <Link to="/login">
-                <span className="red">
-                  Already have an Account? Click here to Log In
+                <span style={{ color: `var(--kaali-danger)` }}>
+                  Already have an Account?
+                </span>
+                <span
+                  className="red p-sm"
+                  style={{ borderBottom: `1px solid var(--kaali-danger)` }}
+                >
+                  Click here to Log In
                 </span>
               </Link>
             </div>
           </div>
         </form>
-
+        {status === `loading` && (
+          <div className="d-flex jc-center p-lg m-lg">
+            <Loader borderTopColor={`var(--kaali-danger)`} />
+          </div>
+        )}
         <div className="wrapper-svg-wave">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
             <path

@@ -6,7 +6,6 @@ import { v4 } from "uuid";
 import { useAuth } from "../../../Auth/context/useAuth";
 import { useCart } from "../../../Cart/context/useCart";
 import { useNotifications } from "../../../Home/components/notification/context/useNotifications";
-import { InlineLoader } from "../../../Loader/InlineLoader";
 import {
   checkIfItemIsAlreadyPresentInArray,
   checkIfItemIsAlreadyPresentInWishlist,
@@ -27,13 +26,11 @@ const CardItemInStore = ({ product, store, setItemColor }) => {
   const { dispatch: notificationDispatch } = useNotifications();
   const {
     _id,
-    image,
     name,
     brand,
     offer,
 
     fastDelivery,
-    color,
     category,
     subcategory,
     price,
@@ -43,6 +40,7 @@ const CardItemInStore = ({ product, store, setItemColor }) => {
   const getProductById = (id) => {
     return store.find((itemInCart) => itemInCart._id === id);
   };
+
   const IsAlreadyPresentInArray = checkIfItemIsAlreadyPresentInArray(
     cart,
     getProductById(_id)
@@ -112,7 +110,7 @@ const CardItemInStore = ({ product, store, setItemColor }) => {
         </div>
       </div>
       <div className="px-1">
-        {IsAlreadyPresentInArray ? (
+        {IsAlreadyPresentInArray && loggedInUser?.userId ? (
           <button
             className="btn btn-primary"
             onClick={() => {
@@ -126,7 +124,9 @@ const CardItemInStore = ({ product, store, setItemColor }) => {
             className={`btn btn-primary ${
               isItemOutOfStockInRespectiveColor(product) ? `btn-disabled` : ``
             }`}
-            disabled={isItemOutOfStockInRespectiveColor(product)}
+            disabled={
+              isItemOutOfStockInRespectiveColor(product) || status === `loading`
+            }
             onClick={async () => {
               !loggedInUser?.userId
                 ? notificationDispatch({
@@ -154,7 +154,7 @@ const CardItemInStore = ({ product, store, setItemColor }) => {
                   width={`24px`}
                   height={`24px`}
                   borderWidth={`2px`}
-                  borderTopColor={`var(--kaali-danger)`}
+                  borderTopColor={`var(--kaali-primary)`}
                 />
               </div>
             ) : (

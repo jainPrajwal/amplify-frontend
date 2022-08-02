@@ -25,7 +25,6 @@ import { Checkout } from "./Checkout/Checkout";
 import { AddressProvider } from "./Address/context/address-context";
 import { SingleOrderPage } from "./SingleOrderPage/SingleOrderPage";
 import { Orders } from "./Orders/Orders";
-import { CouponProvider } from "./Cart/context/coupon-context";
 import { OrdersProvider } from "./Payment/context/orders-context";
 
 function App() {
@@ -137,30 +136,21 @@ function App() {
                 <div className="wrapper-loading">
                   <img
                     src={loadingImage}
-                    alt="loading"
+                    alt="loader"
                     className="w-100 h-auto"
                   />
                 </div>
               )
             }
           />
-          <PrivateRoute
-            path="/cart"
-            element={
-             
-                <Cart />
-              
-            }
-          />
+          <PrivateRoute path="/cart" element={<Cart />} />
           <PrivateRoute path="/wishlist" element={<Wishlist />} />
           <PrivateRoute
             path={`/orders`}
             element={
               <OrdersProvider>
                 <AddressProvider>
-                 
-                    <Orders />
-                  
+                  <Orders />
                 </AddressProvider>
               </OrdersProvider>
             }
@@ -170,9 +160,7 @@ function App() {
             element={
               <OrdersProvider>
                 <AddressProvider>
-                 
-                    <SingleOrderPage />
-                  
+                  <SingleOrderPage />
                 </AddressProvider>
               </OrdersProvider>
             }
@@ -185,9 +173,7 @@ function App() {
             element={
               <OrdersProvider>
                 <AddressProvider>
-                 
-                    <Checkout />
-                  
+                  <Checkout />
                 </AddressProvider>
               </OrdersProvider>
             }

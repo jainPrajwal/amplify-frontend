@@ -15,7 +15,6 @@ import { useNavigate } from "react-router";
 import { Loader } from "kaali-ui";
 
 const CardItemInCart = ({ itemInCart, cartDispatch }) => {
-  
   let {
     _id,
     productId,
@@ -33,8 +32,6 @@ const CardItemInCart = ({ itemInCart, cartDispatch }) => {
   const [status, setStatus] = useState(`idle`);
   const navigate = useNavigate();
 
-
- 
   return (
     <>
       <div className="card-itemCart-container d-flex mt-lg">
@@ -60,13 +57,15 @@ const CardItemInCart = ({ itemInCart, cartDispatch }) => {
             navigate(`/products/${productId}`);
           }}
         >
-          <img 
+          <img
             src={
               itemInCart.availableColors.find(
                 (color) => color.color === itemInCart.color
               )?.image || itemInCart.image
             }
-          alt={name} className="w-100 h-100" />
+            alt={name}
+            className="w-100 h-100"
+          />
         </div>
 
         <div className="card-itemCart-content ml-md w-100 p-md">
@@ -74,15 +73,14 @@ const CardItemInCart = ({ itemInCart, cartDispatch }) => {
             {brand}
           </div>
           <div className="card-itemCart-subtitle mt-md">{name}</div>
-          <div className="card-itemCart-subtitle mt-md">
-            {color}
-          </div>
+          <div className="card-itemCart-subtitle mt-md">{color}</div>
 
           <div className="card-itemCart-quantity-details mt-md">
             {status === `idle` ? (
               <div className="card-itemCart-quantity d-flex ai-center fs-1">
                 Quantity :
                 <button
+                  disabled={status === `loading`}
                   className="btn-round"
                   onClick={async () => {
                     if (totalQuantity > 1) {
@@ -134,7 +132,8 @@ const CardItemInCart = ({ itemInCart, cartDispatch }) => {
                 <span className="text-primary mx-1">{totalQuantity}</span>
                 <button
                   className="btn-round"
-                  disabled={isItemOutOfStock(itemInCart)}
+                 
+                  disabled={isItemOutOfStock(itemInCart) ||  status === `loading`}
                   onClick={async () => {
                     if (!isItemOutOfStockInRespectiveColor(itemInCart)) {
                       const requiredUpdateInItem = {
@@ -172,7 +171,7 @@ const CardItemInCart = ({ itemInCart, cartDispatch }) => {
                 </button>
               </div>
             ) : (
-               <div className="d-flex jc-center ai-center">
+              <div className="d-flex jc-center ai-center">
                 <Loader
                   width={`24px`}
                   height={`24px`}

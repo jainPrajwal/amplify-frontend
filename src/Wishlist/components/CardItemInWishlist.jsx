@@ -1,4 +1,6 @@
 import axios from "axios";
+import { Loader } from "kaali-ui";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { v4 } from "uuid";
 import { useAuth } from "../../Auth/context/useAuth";
@@ -27,7 +29,7 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
   const { state: cart, dispatch: cartDispatch } = useCart();
   const { dispatch: notificationDispatch } = useNotifications();
   const { loggedInUser } = useAuth();
-
+  const [cartStatus, setCartStatus] = useState(`idle`);
   const { state: storeObj } = useProducts();
 
   const getProductById = (id) => {
@@ -55,9 +57,7 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
         <div className="card-content-ecommerce">
           <div className="card-title header header-tertiary">
             <strong>{brand}</strong>
-            <span className="card-subtitle text-black ml-md">
-              {category}
-            </span>
+            <span className="card-subtitle text-black ml-md">{category}</span>
             <span className="card-subtitle text-black ml-small">
               ({subcategory})
             </span>
@@ -79,6 +79,7 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
         ) : (
           <button
             className="btn btn-primary"
+            disabled={cartStatus === "loading"}
             onClick={async () => {
               const saveItemToServer = async () => {
                 let product = { ...getProductById(productId) };
@@ -86,7 +87,7 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
                 delete product._id;
 
                 try {
-                  // setStatus("loading");
+                  setCartStatus("loading");
                   const response = await axios.post(
                     `${BASE_API}/cart/${loggedInUser.userId}`,
                     product
@@ -94,7 +95,7 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
 
                   const savedProduct = response?.data?.cartItem;
                   if (savedProduct) {
-                    // setStatus("idle");
+                    setCartStatus("success");
                     cartDispatch({
                       type: "ADD_TO_CART",
                       payload: {
@@ -110,6 +111,7 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
                       },
                     });
                   } else {
+                    setCartStatus(`error`);
                     throw new Error(
                       "some error occured while saving item to server"
                     );
@@ -119,7 +121,18 @@ const CardItemInWishlist = ({ wishlistedItem }) => {
               await saveItemToServer();
             }}
           >
-            {`${"Add to Cart".toUpperCase()}`}
+            {cartStatus === "loading" ? (
+              <div className="d-flex jc-center ai-center">
+                <Loader
+                  width={`24px`}
+                  height={`24px`}
+                  borderWidth={`2px`}
+                  borderTopColor={`var(--kaali-primary)`}
+                />
+              </div>
+            ) : (
+              `${"add to cart".toUpperCase()}`
+            )}
           </button>
         )}
       </div>

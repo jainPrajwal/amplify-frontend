@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { v4 } from "uuid";
 import { Address } from "../Address/Address";
 import { useAddress } from "../Address/hooks/useAddress";
 import { SingleAddress } from "../Address/SingleAddress";
@@ -10,6 +11,7 @@ import { getTotal } from "../Cart/components/coupon/utils/getTotal";
 import { useCart } from "../Cart/context/useCart";
 import { useCoupon } from "../Cart/context/useCoupon";
 import { BASE_API } from "../constants/api";
+import { useNotifications } from "../Home/components/notification/context/useNotifications";
 
 import { useOrders } from "../Payment/context/useOrders";
 import { displayRazorPayModal } from "../Payment/displayRazorpayModal";
@@ -19,6 +21,7 @@ export const Checkout = () => {
   const { setOrdersMeta } = useOrders();
 
   const { coupon, setCoupon } = useCoupon();
+  const { dispatch: notificationDispatch } = useNotifications();
 
   const { state: cart, dispatch: cartDispatch } = useCart();
 
@@ -97,35 +100,46 @@ export const Checkout = () => {
               <button
                 className="btn btn-danger text-upper itemCart-checkout"
                 onClick={async () => {
-                  displayRazorPayModal({
-                    setOrdersMeta,
-                    totalAmount: totalAfterCouponIsApplied,
-                    navigate,
-                    cartDispatch,
-                    cart,
-                    coupon,
-                    setCoupon,
-                  });
+                  if (selectedAddress && selectedAddress?.address) {
+                    displayRazorPayModal({
+                      setOrdersMeta,
+                      totalAmount: totalAfterCouponIsApplied,
+                      navigate,
+                      cartDispatch,
+                      cart,
+                      coupon,
+                      setCoupon,
+                    });
+                  } else {
+                    notificationDispatch({
+                      type: "ADD_NOTIFICATION",
+                      payload: {
+                        id: v4(),
+                        type: "DANGER",
+                        message: `Please select address`,
+                      },
+                    });
+                  }
                 }}
               >
                 {`Place Order`.toUpperCase()}
               </button>
             </div>
             <div className="my-lg">
-              <div className="itemCart-price-details">
-                <div className="header-tertiary text-black ">
-                  Delivery Address
-                </div>
+              {selectedAddress.address && (
+                <div className="itemCart-price-details">
+                  <div className="header-tertiary text-black ">
+                    Delivery Address
+                  </div>
 
-                <div className="d-flex">
-                  {selectedAddress.address && (
+                  <div className="d-flex">
                     <SingleAddress
                       address={selectedAddress.address}
                       showIcons={false}
                     />
-                  )}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

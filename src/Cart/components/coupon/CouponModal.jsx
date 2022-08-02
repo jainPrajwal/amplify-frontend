@@ -15,10 +15,6 @@ import { BASE_API } from "../../../constants/api";
 import { useAuth } from "../../../Auth/context/useAuth";
 import { selectRandomCoupon } from "./utils/selectRandomCoupon";
 
-
-
-
-
 export const CouponModal = ({
   isCouponModalHidden,
   setisCouponModalHidden,
@@ -74,7 +70,7 @@ export const CouponModal = ({
                       />
                     </div>
                   </ModalRow>
-                
+
                   <ModalRow>
                     {
                       <div
@@ -91,15 +87,16 @@ export const CouponModal = ({
                     extendedClassNames={`row-saved-collection jc-end gap-10`}
                   >
                     <button
+                      disabled={loadingStatus === `loading`}
                       className="btn btn-danger bg-transparent red"
                       style={{
                         border: `1px solid var(--kaali-danger)`,
                       }}
                       onClick={async () => {
                         const randomCoupon = selectRandomCoupon();
-                      
 
                         try {
+                          setLoadingStatus(`loading`);
                           const { data, status } = await axios.post(
                             `${BASE_API}/coupon `,
                             {
@@ -111,10 +108,15 @@ export const CouponModal = ({
                           );
                           if (status === 201) {
                             if (`coupon` in data) {
+                              setLoadingStatus(`success`);
+                              handleModalClose();
                               setCoupon(data.coupon);
                             }
                           }
-                        } catch (error) {}
+                        } catch (error) {
+                          console.error(`error `, error);
+                          setLoadingStatus(`error`);
+                        }
                       }}
                     >
                       Pretend to be a winner

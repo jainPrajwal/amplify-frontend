@@ -50,35 +50,23 @@ export const Orders = () => {
         Order Details
       </div>
       <div className="container-cart-details">
+        <div className="p-lg">Showing latest first</div>
         {loadingStatus === `success`
           ? ordersMeta &&
             ordersMeta.orders &&
-            ordersMeta.orders.map((order) => {
+            ordersMeta.orders.reverse().map((order) => {
               const totalAfterCouponIsApplied = coupon?.isApplied
                 ? getTotal(order.items) -
                   getDiscountFromCoupon(order.items, coupon?.coupon)
                 : getTotal(order.items);
               return (
                 <div
-                  className="d-flex ai-center jc-center p-lg m-lg"
+                  className="d-flex ai-center jc-center p-lg m-lg "
                   key={order._id}
                   role={`button`}
-                  style={{border: `1px dotted`}}
+                  style={{ border: `1px dotted` }}
                   onClick={() => navigate(`/orders/${order.order_id}`)}
                 >
-                  <div className="order-text-details">
-                    <ul>
-                      <li className="p-lg">
-                        <span className="text-bold mr-sm">Order Id:</span>{" "}
-                        <span>{order.order_id}</span>
-                      </li>
-                      <li className="p-lg">
-                        <span className="text-bold mr-sm">Payment Id:</span>
-                        <span>{order.payment_id}</span>
-                      </li>
-                    </ul>
-                  </div>
-
                   <div>
                     {order.items.map((item) => {
                       return (
@@ -88,17 +76,41 @@ export const Orders = () => {
                         >
                           <div className="order-text-details">
                             <ul>
-                              <li className="p-lg">
+                              <li className="p-lg d-flex">
+                                <span className="text-bold mr-sm">
+                                  Order Id:
+                                </span>{" "}
+                                <span className="ml-auto">
+                                  {order.order_id.slice(0, 10)}
+                                </span>
+                              </li>
+                              <li className="p-lg d-flex">
+                                <span className="text-bold mr-sm">
+                                  Payment Id:
+                                </span>
+                                <span className="ml-auto">
+                                  {order.payment_id.slice(0, 10)}
+                                </span>
+                              </li>
+                            </ul>
+                          </div>
+                          <div className="order-text-details">
+                            <ul>
+                              <li className="p-lg d-flex">
                                 <span className="text-bold mr-sm">
                                   Total Quantity:
                                 </span>
-                                <span>{item.totalQuantity}</span>
+                                <span className="ml-auto">
+                                  {item.totalQuantity}
+                                </span>
                               </li>
-                              <li className="p-lg">
+                              <li className="p-lg d-flex">
                                 <span className="text-bold mr-sm">
                                   Total Amount Paid:
                                 </span>
-                                <span>₹{totalAfterCouponIsApplied}</span>
+                                <span className="ml-auto">
+                                  ₹{totalAfterCouponIsApplied}
+                                </span>
                               </li>
                             </ul>
                           </div>

@@ -29,14 +29,10 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  
-  
-
-  
 
   return (
     <>
-      <div className="navbar d-flex">
+      <header className="navbar d-flex">
         <div className="nav-actions d-flex ai-center pt-small pb-small">
           <HamburgerMenu status={{ mobileView, setMobileView }} />
           <Link to="/">
@@ -48,17 +44,19 @@ const Navbar = () => {
               mobileView.isSearchBarHidden ? "" : "wrapper-search-active"
             }`}
           >
-           { <i
-              className={`fas fa-arrow-left ${
-                mobileView.isSearchBarHidden ? "hide" : ""
-              }`}
-              onClick={() => {
-                setMobileView((prevState) => ({
-                  ...prevState,
-                  isSearchBarHidden: true,
-                }));
-              }}
-            ></i>}
+            {
+              <i
+                className={`fas fa-arrow-left ${
+                  mobileView.isSearchBarHidden ? "hide" : ""
+                }`}
+                onClick={() => {
+                  setMobileView((prevState) => ({
+                    ...prevState,
+                    isSearchBarHidden: true,
+                  }));
+                }}
+              ></i>
+            }
             {location?.pathname === "/store" && (
               <SearchBar status={{ mobileView, setMobileView }} />
             )}
@@ -86,7 +84,7 @@ const Navbar = () => {
                   </div>
                 </div>
               </li>
-            )} 
+            )}
             {/* <li className={`nav-menu-item `}>
               <NavLink
                 end
@@ -186,7 +184,7 @@ const Navbar = () => {
             </li>
           </ul>
         </nav>
-      </div>
+      </header>
       <NavMenu status={{ mobileView, setMobileView }} />
     </>
   );

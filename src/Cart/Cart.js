@@ -21,6 +21,7 @@ const Cart = () => {
   const [couponApplied, setIsCouponApplied] = useState(false);
   const { loggedInUser } = useAuth();
 
+  const [status, setCouponStatus] = useState();
   const totalAfterCouponIsApplied =
     couponApplied || coupon?.isApplied
       ? getTotal(cart) - getDiscountFromCoupon(cart, coupon?.coupon)
@@ -153,22 +154,26 @@ const Cart = () => {
                   <div>{coupon.coupon}</div>
 
                   <button
+                    disabled={status === `loading`}
                     className="btn btn-danger bg-transparent red d-flex  jc-center"
                     style={{
                       border: `1px solid var(--kaali-danger)`,
                       marginBlock: `1rem`,
                     }}
                     onClick={async () => {
+                      setCouponStatus(`loading`);
                       try {
                         const { data, status } = await axios.post(
                           `${BASE_API}/coupon/${coupon._id}`
                         );
 
                         if (status === 201) {
+                          setCouponStatus(`success`);
                           setIsCouponApplied(true);
                           setCoupon(data.coupon);
                         }
                       } catch (error) {
+                        setCouponStatus(`error`);
                         console.error(`error `, error);
                       }
                     }}

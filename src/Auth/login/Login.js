@@ -3,11 +3,13 @@ import { useState } from "react";
 import { useAuth } from "../context/useAuth";
 import "../auth.css";
 import { Link } from "react-router-dom";
-import { Tooltip } from "kaali-ui";
+import { Loader, Tooltip } from "kaali-ui";
+import { useNotifications } from "../../Home/components/notification/context/useNotifications";
+import { v4 } from "uuid";
 const Login = () => {
   const { loginUserWithCredentials, status } = useAuth();
 
-
+  const { dispatch: notificationDispatch } = useNotifications();
 
   const [showPassword, setShowPassword] = useState({
     initial: false,
@@ -43,7 +45,6 @@ const Login = () => {
     },
   });
   const LoginHandler = async () => {
-
     await loginUserWithCredentials({
       username: form.email,
       password: form.password,
@@ -62,12 +63,21 @@ const Login = () => {
           <p className="ml-md">Invalid Username or Password</p>
         </div>
       )}
-      <div>
+      <div className="signup-form">
         <form
-          className="signup-form"
           onSubmit={(e) => {
             e.preventDefault();
-          
+            if (Object.values(form?.isFormValid).includes(false)) {
+              notificationDispatch({
+                type: "ADD_NOTIFICATION",
+                payload: {
+                  id: v4(),
+                  type: "DANGER",
+                  message: `Validation failed`,
+                },
+              });
+              return;
+            }
             LoginHandler();
           }}
         >
@@ -79,7 +89,7 @@ const Login = () => {
               alt="free shopping"
             />
           </div>
-          <div className="p-1">
+          <div className="px-1">
             <div className="signup-form-header text-bold header-secondary red text-upper">
               login
             </div>
@@ -92,12 +102,12 @@ const Login = () => {
                 css={{ padding: `8px` }}
                 mode={`dark`}
               >
-                <div>
+                <div className="">
                   <input
                     type="email"
                     value={form?.email}
                     placeholder="Enter Email"
-                    className="input input-text p-md"
+                    className="input input-text p-md "
                     required
                     onChange={(e) => {
                       setForm((prevState) => ({
@@ -224,38 +234,51 @@ const Login = () => {
             <div className="p-md">
               <button
                 type="submit"
-                disabled={Object.values(form?.isFormValid).includes(false)}
                 className="btn btn-danger w-100"
                 style={{ paddingInline: 0, margin: 0 }}
               >
                 <span className="text-upper text-bold">{`${`CONTINUE`}`}</span>
               </button>
             </div>
-            <div className="p-md">
-              <button
-               onClick={async () => {
+          </div>
+        </form>
+        <div className="px-1">
+          <div className="p-md">
+            <button
+              disabled={status === `loading`}
+              onClick={async () => {
                 await loginUserWithCredentials({
                   username: `test@gmail.com`,
                   password: `test@123`,
                 });
-               }}
-                name="loginAsGest"
-                className="btn btn-danger w-100"
-                style={{ paddingInline: 0, margin: 0 }}
-              >
-                <span className="text-upper text-bold">{`${`log in as guest`}`}</span>
-              </button>
-            </div>
-            <div className="p-sm text-center">
-              <Link to="/signup">
-                <span className="red">
-                  Don't have an Account with us? Click here to Sign Up
-                </span>
-              </Link>
-            </div>
+              }}
+              name="loginAsGest"
+              className="btn btn-danger w-100"
+              style={{ paddingInline: 0, margin: 0 }}
+            >
+              <span className="text-upper text-bold">{`${`log in as guest`}`}</span>
+            </button>
           </div>
-        </form>
+          <div className="text-center" style={{ paddingBlock: `1rem` }}>
+            <Link to="/signup">
+              <span style={{ color: `var(--kaali-danger)` }}>
+                Don't have an Account with us?{" "}
+              </span>
+              <span
+                className="red p-sm"
+                style={{ borderBottom: `1px solid var(--kaali-danger)` }}
+              >
+                Click here to Sign Up
+              </span>
+            </Link>
+          </div>
+        </div>
       </div>
+      {status === `loading` && (
+        <div className="d-flex jc-center p-lg m-lg">
+          <Loader borderTopColor={`var(--kaali-danger)`} />
+        </div>
+      )}
       <div className="wrapper-svg-wave">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
           <path
@@ -267,7 +290,6 @@ const Login = () => {
       </div>
     </>
   );
-
 };
 
 export { Login };
