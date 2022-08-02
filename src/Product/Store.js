@@ -120,8 +120,8 @@ const Store = () => {
       }
     } */
 
-    console.log(`search params brand`, searchParams.getAll(`brand`));
-    console.log(`search params headphones `, searchParams.getAll(`category`));
+    
+    
     const filters = {
       BRAND: searchParams.getAll(`brand`),
       CATEGORY: searchParams.getAll(`category`),

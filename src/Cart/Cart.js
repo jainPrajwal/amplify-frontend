@@ -22,7 +22,7 @@ const Cart = () => {
   const { loggedInUser } = useAuth();
 
   const [status, setCouponStatus] = useState();
-  console.log(`total `, getTotal(cart));
+  
   const totalAfterCouponIsApplied =
     couponApplied || coupon?.isApplied
       ? getTotal(cart) - getDiscountFromCoupon(cart, coupon?.coupon)

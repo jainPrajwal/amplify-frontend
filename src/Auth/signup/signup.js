@@ -101,7 +101,7 @@ const SignUp = () => {
           className="signup-form"
           onSubmit={(e) => {
             e.preventDefault();
-            console.log(`clicked`);
+            
             if (Object.values(form?.isFormValid).includes(false)) {
               notificationDispatch({
                 type: "ADD_NOTIFICATION",

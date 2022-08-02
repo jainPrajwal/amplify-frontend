@@ -21,7 +21,7 @@ export const getDiscountFromCoupon = (cart, coupon) => {
       return parseInt(result * 0.7, 10);
 
     default:
-      console.log(`default case `, coupon);
+      
       return 0;
   }
 };
