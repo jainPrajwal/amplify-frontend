@@ -60,6 +60,7 @@ export const Address = () => {
                   address={address}
                   index={index}
                   setAddressesMeta={setAddressesMeta}
+                  key={address?._id}
                 />
               );
             })

@@ -22,6 +22,7 @@ const Cart = () => {
   const { loggedInUser } = useAuth();
 
   const [status, setCouponStatus] = useState();
+  console.log(`total `, getTotal(cart));
   const totalAfterCouponIsApplied =
     couponApplied || coupon?.isApplied
       ? getTotal(cart) - getDiscountFromCoupon(cart, coupon?.coupon)
@@ -101,7 +102,9 @@ const Cart = () => {
                   ₹
                   {parseInt(
                     cart.reduce((acc, current) => {
-                      return (acc += current.price - current.sellingPrice);
+                      return (acc +=
+                        (current.price - current.sellingPrice) *
+                        current.totalQuantity);
                     }, 0)
                   )}
                 </div>

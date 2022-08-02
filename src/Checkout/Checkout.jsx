@@ -29,6 +29,7 @@ export const Checkout = () => {
     ? getTotal(cart) - getDiscountFromCoupon(cart, coupon?.coupon)
     : getTotal(cart);
   const navigate = useNavigate();
+  
   if (cart && cart.length > 0) {
     return (
       <>
@@ -63,7 +64,9 @@ export const Checkout = () => {
                     ₹
                     {parseInt(
                       cart.reduce((acc, current) => {
-                        return (acc += current.price - current.sellingPrice);
+                        return (acc +=
+                          (current.price - current.sellingPrice) *
+                          current.totalQuantity);
                       }, 0)
                     )}
                   </div>
@@ -126,7 +129,7 @@ export const Checkout = () => {
               </button>
             </div>
             <div className="my-lg">
-              {selectedAddress.address && (
+              {selectedAddress&& selectedAddress.address && (
                 <div className="itemCart-price-details">
                   <div className="header-tertiary text-black ">
                     Delivery Address
@@ -136,6 +139,7 @@ export const Checkout = () => {
                     <SingleAddress
                       address={selectedAddress.address}
                       showIcons={false}
+                     
                     />
                   </div>
                 </div>

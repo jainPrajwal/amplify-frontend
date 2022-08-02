@@ -11,12 +11,14 @@ import { MdClose } from "react-icons/md";
 import { useCallback, useRef, useState } from "react";
 import axios from "axios";
 import { BASE_API } from "../constants/api";
+import { useAddress } from "./hooks/useAddress";
 
 const handleDeleteAddress = async ({
   address,
   setLoadingStatus,
   setAddressesMeta,
   setIsDeleteModalHidden,
+  setSelectedAddress
 }) => {
   try {
     setLoadingStatus(`idle`);
@@ -32,6 +34,7 @@ const handleDeleteAddress = async ({
             (address) => address._id !== data.address._id
           ),
         }));
+        setSelectedAddress(null)
         setIsDeleteModalHidden(true);
       }
     }
@@ -46,6 +49,7 @@ export const DeleteAddressModal = ({
   setIsDeleteModalHidden,
   address,
   setAddressesMeta,
+
 }) => {
   const ModalRef = useRef(null);
   const handleModalClose = useCallback(
@@ -54,6 +58,8 @@ export const DeleteAddressModal = ({
   );
 
   const [loadingStatus, setLoadingStatus] = useState(`idle`);
+
+  const { setSelectedAddress } = useAddress();
   return (
     <>
       <Modal>
@@ -101,6 +107,7 @@ export const DeleteAddressModal = ({
                           setLoadingStatus,
                           setAddressesMeta,
                           setIsDeleteModalHidden,
+                          setSelectedAddress
                         })
                       }
                     >
