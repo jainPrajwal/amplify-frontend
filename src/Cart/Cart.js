@@ -220,9 +220,9 @@ const Cart = () => {
             />
           </div>
 
-          <div className="header-tertiary text-bold text-center my-lg">
+          <div className="header-tertiary  text-center my-lg">
             {" "}
-            An empty cart doesn't look pretty! Nothing in cart..!
+            An empty cart doesn't look pretty!
           </div>
         </div>
         <button className="btn btn-danger my-lg" onClick={() => navigate(`/store`)}>

@@ -32,7 +32,7 @@ export const Orders = () => {
               setLoadingStatus(`success`);
               setOrdersMeta((prevState) => ({
                 ...prevState,
-                orders: data.payments,
+                orders: data.payments?.reverse(),
               }));
             }
           }
@@ -54,7 +54,7 @@ export const Orders = () => {
         {loadingStatus === `success`
           ? ordersMeta &&
             ordersMeta.orders &&
-            ordersMeta.orders.reverse().map((order) => {
+            ordersMeta.orders.map((order) => {
               const totalAfterCouponIsApplied = coupon?.isApplied
                 ? getTotal(order.items) -
                   getDiscountFromCoupon(order.items, coupon?.coupon)
@@ -71,7 +71,7 @@ export const Orders = () => {
                     {order.items.map((item) => {
                       return (
                         <div
-                          className="d-flex ai-center jc-center"
+                          className="d-flex ai-center jc-center f-wrap"
                           key={item._id}
                         >
                           <div className="order-text-details">

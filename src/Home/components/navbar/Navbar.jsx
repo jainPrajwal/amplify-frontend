@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { Link, NavLink, useSearchParams } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../../Auth/context/useAuth";
 import { useCart } from "../../../Cart/context/useCart";
 import { useWishlist } from "../../../Wishlist/context/useWishlist";
@@ -9,7 +9,6 @@ import { BrandLogo } from "./BrandLogo";
 import { HamburgerMenu } from "./HamburgerMenu";
 import { NavMenu } from "./NavMenu";
 import "./navbar.css";
-import { useEffect } from "react";
 
 const activeStyle = {
   color: `var(--kaali-danger)`,
@@ -27,8 +26,6 @@ const Navbar = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-
-  const [searchParams, setSearchParams] = useSearchParams();
 
   return (
     <>
@@ -57,14 +54,16 @@ const Navbar = () => {
                 }}
               ></i>
             }
-            {location?.pathname === "/store" && (
+            {(location?.pathname === "/store" ||
+              location?.pathname === "/") && (
               <SearchBar status={{ mobileView, setMobileView }} />
             )}
           </div>
         </div>
         <nav className="nav-menu">
           <ul className="nav-menu-items">
-            {location?.pathname === "/store" && (
+            {(location?.pathname === "/store" ||
+              location?.pathname === "/") && (
               <li
                 className={`nav-menu-item item-search ${
                   isPageActive === "search" ? activeStyle : ""
@@ -85,22 +84,6 @@ const Navbar = () => {
                 </div>
               </li>
             )}
-            {/* <li className={`nav-menu-item `}>
-              <NavLink
-                end
-                className="h-100"
-                activeStyle={activeStyle}
-                to="/store"
-               
-              >
-                <div className="nav-menu-link store">
-                  <div>
-                    <i className="fas fa-store fa-fw" aria-hidden="true"></i> 
-                    <div className="text-center">store</div>
-                  </div>
-                </div>
-              </NavLink>
-            </li> */}
 
             {!loggedInUser.token ? (
               <li className={`nav-menu-item`}>

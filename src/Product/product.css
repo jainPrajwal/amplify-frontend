@@ -16,6 +16,8 @@
 
 .clear-all:hover {
   cursor: pointer;
+  background-color: rgb(255, 63, 108, 10%);
+ 
 }
 
 .container-sortBy-mobile {

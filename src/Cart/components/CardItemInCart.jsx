@@ -195,8 +195,8 @@ const CardItemInCart = ({ itemInCart, cartDispatch }) => {
                 }`}
               </strong>
             </div>
-            <div className="product-selling-price mr-md">₹{price}</div>
-            <div className="product-discount">({offer})</div>
+            <div className="product-selling-price mx-md">₹{price}</div>
+            <div className="product-discount">{offer}</div>
           </div>
         </div>
       </div>

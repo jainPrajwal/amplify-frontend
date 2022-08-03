@@ -5,7 +5,6 @@ import { getSellingPrice } from "../../../utils/utils";
 import { useProducts } from "../../context/useProducts";
 import "./priceslider.css";
 
-
 const PriceSlider = () => {
   const slider = createRef();
 
@@ -43,11 +42,9 @@ const PriceSlider = () => {
     );
   }, [slider, price]);
 
-
   const { dispatch: storeDispatch } = useProducts();
 
   const handlePriceChange = (event) => {
-    
     searchParams.set(`price`, event.target.value);
     setSearchParams(searchParams);
     setPrice((prevState) => {
@@ -66,13 +63,10 @@ const PriceSlider = () => {
     setPrice((prevState) => {
       return {
         ...prevState,
-        priceInputValue: searchParams.get(`price`) || 3
+        priceInputValue: searchParams.get(`price`) || 3,
       };
     });
   }, [searchParams]);
-
-
-
 
   return (
     <>
@@ -84,7 +78,7 @@ const PriceSlider = () => {
         onChange={(event) => handlePriceChange(event)}
         className="slider"
       />
-      <div>Value = {getPricingData(price.priceInput)}</div>
+      <div className="my-lg">Upto ₹{getPricingData(price.priceInput)}</div>
     </>
   );
 };

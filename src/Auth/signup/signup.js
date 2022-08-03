@@ -101,7 +101,7 @@ const SignUp = () => {
           className="signup-form"
           onSubmit={(e) => {
             e.preventDefault();
-            
+
             if (Object.values(form?.isFormValid).includes(false)) {
               notificationDispatch({
                 type: "ADD_NOTIFICATION",
@@ -137,6 +137,7 @@ const SignUp = () => {
                   type="text"
                   placeholder="Enter Name"
                   className="input input-text p-md"
+                  required
                   value={form?.name}
                   onChange={(e) => {
                     setForm((prevState) => ({

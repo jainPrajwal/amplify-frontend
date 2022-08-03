@@ -41,7 +41,7 @@ const ModalFilterBy = ({
     <div className="wrapper-mobile-sort-by-modal">
       <span
         className="circle"
-        style={{ bottom: "500px", zIndex: `999` }}
+        style={{ bottom: "480px", zIndex: `999` }}
         onClick={() => {
           closeModal();
         }}

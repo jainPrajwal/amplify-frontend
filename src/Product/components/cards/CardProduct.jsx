@@ -8,7 +8,6 @@ import {
   getDataWithSpecificSubCategory,
   getSortedData,
 } from "../../../utils";
-import { getSearchedData } from "../../../utils/utils";
 
 const CardProduct = () => {
   const {
@@ -20,11 +19,8 @@ const CardProduct = () => {
       specificSubCategory,
       maxRange,
       status,
-      searchQuery,
     },
   } = useProducts();
-
-
 
   const sortedData = getSortedData(store, sortBy);
 
@@ -48,12 +44,10 @@ const CardProduct = () => {
     maxRange
   );
 
-  const dataWithSearchedResults = getSearchedData(dataWithinAPriceRange, searchQuery);
-
   switch (status) {
     case "idle":
-      return dataWithSearchedResults.length > 0
-        ? dataWithSearchedResults.map((product, index, store) => {
+      return dataWithinAPriceRange.length > 0
+        ? dataWithinAPriceRange.map((product, index, store) => {
             return (
               <CardItemInStore
                 product={product}
@@ -64,7 +58,6 @@ const CardProduct = () => {
           })
         : `No items found!`;
     case "loading":
-      
       return (
         <div className="wrapper-loading">
           <img src={loadingImage} className="w-100 h-auto" alt="loading" />

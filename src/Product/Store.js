@@ -120,8 +120,6 @@ const Store = () => {
       }
     } */
 
-    
-    
     const filters = {
       BRAND: searchParams.getAll(`brand`),
       CATEGORY: searchParams.getAll(`category`),
@@ -198,10 +196,10 @@ const Store = () => {
           <div className="sidebar">
             <ul className="sidebar-list px-1" style={{ marginTop: `2rem` }}>
               <li className="sidebar-list-items mt-lg">
-                <div className="header fs-1 text-black text-upper d-flex jc-space-between">
-                  <span>filter by</span>
+                <div className="fs-1 text-black text-upper d-flex jc-space-between ai-center">
+                  <span className="text-upper text-bold">filter by</span>
                   <span
-                    className="red fs-14 clear-all"
+                    className="red fs-14 clear-all p-lg "
                     onClick={() => {
                       navigate(`/${location.pathname}`);
                       storeDispatch({ type: "CLEAR_ALL" });
@@ -266,7 +264,7 @@ const Store = () => {
               </li>
               <hr />
               <li className="sidebar-list-items mt-lg">
-                <div className="header fs-1 text-black text-upper d-flex jc-space-between">
+                <div className="header fs-14 text-black text-upper d-flex jc-space-between">
                   <span>select price range</span>
                 </div>
 
@@ -276,7 +274,6 @@ const Store = () => {
                   `Loading..!`
                 )}
               </li>
-              <hr />
             </ul>
           </div>
         </aside>

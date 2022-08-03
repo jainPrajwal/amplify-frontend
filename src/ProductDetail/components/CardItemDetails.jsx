@@ -78,7 +78,7 @@ const CardItemDetails = () => {
             </span>
           </div>
 
-          <div className="ratings-cart mt-md">
+          <div className="ratings-cart" style={{marginBlock: `1rem`}}>
             <div className="badge-rating ">
               4.7
               <i
