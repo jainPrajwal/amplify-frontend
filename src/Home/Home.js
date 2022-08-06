@@ -24,14 +24,15 @@ const Home = () => {
       <Header />
       <section className="featured-categories">
         <div className="header header-secondary text-center">Categories</div>
-        <div className="card">
-          <div className="card-container">
+        <div className="card p-lg m-lg" style={{ marginBlock: `2rem` }}>
+          <div className="d-flex f-wrap jc-center gap-10" s>
             {uniqueBrands.map((item) => {
               const { _id, brand } = item;
-             
+
               return (
                 <article
                   className="card-body"
+                  style={{ width: `210px`}}
                   key={_id}
                   onClick={() => {
                     dispatch({
@@ -45,8 +46,8 @@ const Home = () => {
                     });
                   }}
                 >
-                  <div className="card-item">
-                    <div className="card-image-container">
+                  <div className="card-item" style={{ margin: `0 auto` }}>
+                    <div>
                       <img
                         src={
                           item.availableColors.find(
@@ -54,7 +55,7 @@ const Home = () => {
                           )?.image || item.image
                         }
                         alt="card"
-                        className="card-image"
+                        className="w-100"
                       />
                     </div>
                     <div className="p-md d-flex ai-center jc-center">

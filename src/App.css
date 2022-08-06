@@ -1,6 +1,6 @@
 .App {
 
- 
+
   height: 100vh;
   overflow: hidden;
 }
@@ -15,6 +15,7 @@
 .text-black {
   color: black;
 }
+
 .text-underline {
   text-decoration: underline;
 }
@@ -106,6 +107,7 @@
 .border-transparent {
   border: 1px solid transparent;
 }
+
 .pos-relative {
   position: relative;
 }
@@ -263,6 +265,7 @@
   background: transparent;
   border: 1px solid #cffafe;
   cursor: pointer;
+  flex-grow: 1;
 }
 
 .card .card-body:hover {
@@ -359,6 +362,11 @@
 
   .container-amplify {
     height: calc(100vh - 8rem);
+  }
+
+  .card .card-body {
+    flex-basis: calc(50% - 1rem);
+    flex-grow: 0;
   }
 }
 

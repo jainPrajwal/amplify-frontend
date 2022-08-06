@@ -18,9 +18,10 @@ const Header = ({ title, subtitle }) => {
           </div>
           <button
             className="btn btn-danger text-primary"
+            style={{width: `40%`, marginBlock: `2rem`}}
             onClick={() => navigate("/store")}
           >
-            <span className=" text-upper"> Shop now! </span>
+            <span className=" text-upper header-tertiary"> Shop now! </span>
           </button>
         </div>
         <div className="wrapper-image">

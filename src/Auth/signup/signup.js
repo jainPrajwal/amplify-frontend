@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+
 import { useAuth } from "../context/useAuth";
 import "../auth.css";
 import { Link } from "react-router-dom";
@@ -81,7 +81,7 @@ const SignUp = () => {
   const SignUpHandler = () => {
     signupUser();
   };
-  const navigate = useNavigate();
+
   /*  {status === "error" && (
               <div className="red d-flex jc-center ai-center">
                 <img
