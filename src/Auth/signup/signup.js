@@ -50,8 +50,8 @@ const SignUp = () => {
       validateIndividualPassword: function (password) {
         if (password.length <= 0) {
           return `Password cannot be blank`;
-        } else if (password.length < 5) {
-          return `At least 5 characters required`;
+        } else if (!/^(?=.*[A-Z])(?=.*\d).{8,}$/g.test(password)) {
+          return `Password should contain atleast 8 characters (atleast one number & one upper case letter)`;
         }
 
         return ``;
@@ -102,7 +102,7 @@ const SignUp = () => {
           onSubmit={(e) => {
             e.preventDefault();
 
-            if (Object.values(form?.isFormValid).includes(false)) {
+            if (Object.values(form.isFormValid).includes(false)) {
               notificationDispatch({
                 type: "ADD_NOTIFICATION",
                 payload: {
@@ -138,14 +138,14 @@ const SignUp = () => {
                   placeholder="Enter Name"
                   className="input input-text p-md"
                   required
-                  value={form?.name}
+                  value={form.name}
                   onChange={(e) => {
                     setForm((prevState) => ({
                       ...prevState,
                       name: e.target.value,
                       isFormValid:
-                        form?.validations?.validateName(e.target.value)
-                          ?.length > 0
+                        form.validations?.validateName(e.target.value)?.length >
+                        0
                           ? { ...prevState.isFormValid, isNameValid: false }
                           : { ...prevState.isFormValid, isNameValid: true },
                     }));
@@ -164,14 +164,14 @@ const SignUp = () => {
               {
                 <span
                   className={`d-block ${
-                    !form?.isFormValid?.isNameValid && form?.touched["name"]
+                    !form.isFormValid?.isNameValid && form.touched["name"]
                       ? ``
                       : `vis-hidden`
                   }`}
                   style={{ color: "red" }}
                 >
                   {" "}
-                  {form?.validations?.validateName(form?.name)}
+                  {form.validations?.validateName(form.name)}
                 </span>
               }
             </div>
@@ -179,7 +179,7 @@ const SignUp = () => {
               <label className="d-block pos-relative">
                 <input
                   type="email"
-                  value={form?.email}
+                  value={form.email}
                   placeholder="Enter Email"
                   className="input input-text p-md "
                   required
@@ -188,7 +188,7 @@ const SignUp = () => {
                       ...prevState,
                       email: e.target.value,
                       isFormValid:
-                        form?.validations?.validateEmail(e.target.value)
+                        form.validations?.validateEmail(e.target.value)
                           ?.length > 0
                           ? { ...prevState.isFormValid, isEmailValid: false }
                           : { ...prevState.isFormValid, isEmailValid: true },
@@ -208,14 +208,14 @@ const SignUp = () => {
               {
                 <span
                   className={`d-block ${
-                    !form?.isFormValid?.isEmailValid && form?.touched["email"]
+                    !form.isFormValid?.isEmailValid && form.touched["email"]
                       ? ``
                       : `vis-hidden`
                   }`}
                   style={{ color: "red" }}
                 >
                   {" "}
-                  {form?.validations?.validateEmail(form?.email)}
+                  {form.validations?.validateEmail(form.email)}
                 </span>
               }
             </div>
@@ -223,7 +223,7 @@ const SignUp = () => {
               <div className="input-password-wrapper">
                 <label className="d-block pos-relative">
                   <input
-                    value={form?.initialPassword}
+                    value={form.initialPassword}
                     type={`${showPassword.initial ? `text` : `password`}`}
                     placeholder="Enter Password"
                     className="input input-password p-md"
@@ -233,16 +233,16 @@ const SignUp = () => {
                         ...prevState,
                         initialPassword: e.target.value,
                         isFormValid:
-                          form?.validations?.validateIndividualPassword(
+                          form.validations?.validateIndividualPassword(
                             e.target.value
                           )?.length > 0
                             ? {
                                 ...prevState.isFormValid,
                                 isInitialPasswordValid: false,
                               }
-                            : form?.validations?.validateBothPasswords(
+                            : form.validations?.validateBothPasswords(
                                 e.target.value,
-                                form?.confirmPassword
+                                form.confirmPassword
                               ).length > 0
                             ? {
                                 ...prevState.isFormValid,
@@ -267,7 +267,9 @@ const SignUp = () => {
                     }}
                   />
                   <span class="tooltip tooltip-top tooltip-dark p-md ">
-                    Password should have atleast 5 characters
+                    {form.validations?.validateIndividualPassword(
+                      form.initialPassword
+                    )}
                   </span>
                 </label>
                 {showPassword?.initial ? (
@@ -303,16 +305,16 @@ const SignUp = () => {
               {
                 <span
                   className={`d-block ${
-                    !form?.isFormValid?.isInitialPasswordValid &&
-                    form?.touched["initialPassword"]
+                    !form.isFormValid?.isInitialPasswordValid &&
+                    form.touched["initialPassword"]
                       ? ``
                       : `vis-hidden`
                   }`}
                   style={{ color: "red" }}
                 >
                   {" "}
-                  {form?.validations?.validateIndividualPassword(
-                    form?.initialPassword
+                  {form.validations?.validateIndividualPassword(
+                    form.initialPassword
                   )}
                 </span>
               }
@@ -321,7 +323,7 @@ const SignUp = () => {
               <div className="input-password-wrapper">
                 <label className="d-block pos-relative">
                   <input
-                    value={form?.confirmPassword}
+                    value={form.confirmPassword}
                     type={`${showPassword?.confirm ? `text` : `password`}`}
                     placeholder="Confirm Password"
                     className="input input-text p-md"
@@ -331,15 +333,15 @@ const SignUp = () => {
                         ...prevState,
                         confirmPassword: e.target.value,
                         isFormValid:
-                          form?.validations?.validateIndividualPassword(
+                          form.validations?.validateIndividualPassword(
                             e.target.value
                           )?.length > 0
                             ? {
                                 ...prevState.isFormValid,
                                 isConfirmPasswordValid: false,
                               }
-                            : form?.validations?.validateBothPasswords(
-                                form?.initialPassword,
+                            : form.validations?.validateBothPasswords(
+                                form.initialPassword,
                                 e.target.value
                               ).length > 0
                             ? {
@@ -365,7 +367,9 @@ const SignUp = () => {
                     }}
                   />
                   <span class="tooltip tooltip-top tooltip-dark p-md ">
-                    Password should have atleast 5 characters
+                    {form.validations?.validateIndividualPassword(
+                      form.confirmPassword
+                    )}
                   </span>
                 </label>
 
@@ -403,34 +407,36 @@ const SignUp = () => {
               {
                 <span
                   className={`d-block ${
-                    !form?.isFormValid?.isConfirmPasswordValid &&
-                    form?.touched["confirmPassword"]
+                    !form.isFormValid?.isConfirmPasswordValid &&
+                    form.touched["confirmPassword"]
                       ? ``
                       : `vis-hidden`
                   }`}
                   style={{ color: "red" }}
                 >
                   {" "}
-                  {form?.validations?.validateIndividualPassword(
-                    form?.confirmPassword
+                  {form.validations?.validateIndividualPassword(
+                    form.confirmPassword
                   )}
                 </span>
               }
               {
                 <span
                   className={`d-block ${
-                    !form?.isFormValid?.isPasswordsEqual &&
-                    form?.touched["initialPassword"] &&
-                    form?.touched["confirmPassword"]
+                    !form.isFormValid?.isPasswordsEqual &&
+                    form.validations.validateIndividualPassword(
+                      form.confirmPassword
+                    ).length <= 0 &&
+                    form.touched["confirmPassword"] &&
+                    form.confirmPassword.length > 0
                       ? ``
                       : `vis-hidden`
                   }`}
                   style={{ color: "red" }}
                 >
-                  {" "}
-                  {form?.validations?.validateBothPasswords(
-                    form?.initialPassword,
-                    form?.confirmPassword
+                  {form.validations.validateBothPasswords(
+                    form.initialPassword,
+                    form.confirmPassword
                   )}
                 </span>
               }
