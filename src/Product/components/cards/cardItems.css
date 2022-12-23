@@ -1,0 +1,24 @@
+.card.card-ecommerce .card-image-wrapper {
+  width: 80%;
+  height: 240px;
+  margin: 0 auto;
+}
+
+.product-price-details {
+  height: 52px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media only screen and (max-width: 768px) {
+  .card.card-ecommerce .card-image-wrapper {
+    height: auto;
+  }
+}
+
+/* @media only screen and (max-width: 480px) {
+  .card.card-ecommerce .card-image-wrapper {
+    height: 220px;
+  }
+} */

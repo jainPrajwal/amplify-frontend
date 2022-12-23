@@ -1,0 +1,7 @@
+.checkbox-lable.checkboxRegular-label {
+  width: 16px;
+  height: 16px;
+}
+.checkbox-label.checkboxRegular-label input:checked ~ .checkmark {
+  background-color: var(--kaali-danger);
+}

@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+![Amplify Lifestyle, where music meets heart](https://res.cloudinary.com/dmk11fqw8/image/upload/v1659269399/amplify_i8hw2j.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div align="center"`>Amplify Lifestyle, where music meets <span style="color: #FF527B">hea❤rt</span></div>
 
-## Available Scripts
+## What is it all about?
 
-In the project directory, you can run:
+Amplify Lifestyle is an ecommerce platform where we sell the best quality audio devices in the market.
+Brands like Boat, Apple, Bose have partnered with us.
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Home page
+- Product listing page
+- Filter and sort products
+- Persist Filters and share applied filters
+- Search product
+- Single product page
+- Cart Managment
+- Wishlist Managment
+- Color variants in each product
+- Authentication using JWT:
+  - User Signup
+  - User Login
+- Address Management
+- Checkout
+- Dynamic Coupons
+- Single Order Page
+- View Past Orders
+- Cloudinary for static images
+- Sqoosh for compressing images
+- Razorpay Payment Integration
+- Fully Responsive
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Tech Stack
 
-### `npm test`
+- React JS
+- Context API + Reducer for state mangagement
+- React Router v6
+- My Own Component Library Kaali UI for styling
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## This is the Lighthouse Report of the App on Desktop
 
-### `npm run build`
+![Amplify Lifestyle, Lighthouse Report](https://res.cloudinary.com/dmk11fqw8/image/upload/v1653794994/LightHouse_Report_Amplify_Ecomm_hajeut.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Demo
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<img src="https://media4.giphy.com/media/2gHLzNxfT1Apc5ghth/giphy.gif?cid=790b76115e92df973fbd8e60b00ba1df918834959c555bc5&rid=giphy.gif&ct=g" >

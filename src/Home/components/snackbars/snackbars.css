@@ -1,0 +1,9 @@
+.alert-content {
+  animation: SlideLeft 0.4s;
+  animation-fill-mode: forwards;
+}
+
+.alert-content.exit {
+  animation: SlideRight 0.4s;
+  animation-fill-mode: forwards;
+}
